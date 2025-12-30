@@ -209,18 +209,8 @@ class DetailedAPITester:
                 name = product.get('name', '')
                 if 'SunPower' in name and '450' in name:
                     sunpower_450 = product
-                elif 'Deye' in name and '6kW' in name:
+                elif 'Deye' in name and 'SUN-6K' in name:  # More specific match for 6kW inverter
                     deye_6kw = product
-                    print(f"DEBUG: Found Deye 6kW: {name}, sale={product.get('sale_price')}, regular={product.get('regular_price')}")
-            
-            if not deye_6kw:
-                # Try alternative matching
-                for product in products:
-                    name = product.get('name', '')
-                    if 'Deye' in name and 'SUN-6K' in name:
-                        deye_6kw = product
-                        print(f"DEBUG: Found via SUN-6K: {name}, sale={product.get('sale_price')}, regular={product.get('regular_price')}")
-                        break
             
             errors = []
             
