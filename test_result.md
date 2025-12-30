@@ -264,10 +264,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Product catalog display with dual pricing"
-    - "SOLD OUT status display"
-    - "BACKORDER AVAILABLE status display"
-    - "Category filter buttons"
     - "Snipcart cart integration"
   stuck_tasks:
     - "Snipcart cart integration"
