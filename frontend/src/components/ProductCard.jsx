@@ -15,6 +15,9 @@ export const ProductCard = ({ product, index = 0 }) => {
     ((product.regular_price - product.sale_price) / product.regular_price) * 100
   );
 
+  const isOutOfStock = !product.in_stock && !product.backorder;
+  const isBackorder = product.backorder;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,9 +38,14 @@ export const ProductCard = ({ product, index = 0 }) => {
             SAVE {discount}%
           </div>
         )}
-        {!product.in_stock && (
+        {isBackorder && (
+          <div className="absolute top-3 right-3 bg-purple-600 text-white px-3 py-1 text-xs font-bold">
+            BACKORDER AVAILABLE
+          </div>
+        )}
+        {isOutOfStock && (
           <div className="absolute inset-0 bg-royal-950/70 flex items-center justify-center">
-            <span className="text-white font-bold">Out of Stock</span>
+            <span className="text-white font-bold text-lg">SOLD OUT</span>
           </div>
         )}
       </div>
@@ -73,17 +81,17 @@ export const ProductCard = ({ product, index = 0 }) => {
             View Details
           </Link>
           <button
-            className="snipcart-add-item flex-1 btn-gold py-2 text-sm rounded-none disabled:opacity-50"
+            className="snipcart-add-item flex-1 btn-gold py-2 text-sm rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
             data-item-id={product.id}
             data-item-price={product.sale_price}
-            data-item-url={`/products/${product.id}`}
-            data-item-description={product.description}
+            data-item-url={`/api/products/${product.id}`}
+            data-item-description={product.description?.substring(0, 100) || ""}
             data-item-image={product.image_url}
             data-item-name={product.name}
-            disabled={!product.in_stock}
+            disabled={isOutOfStock}
             data-testid={`add-to-cart-${product.id}`}
           >
-            Add to Cart
+            {isOutOfStock ? "Sold Out" : isBackorder ? "Pre-Order" : "Add to Cart"}
           </button>
         </div>
       </div>
