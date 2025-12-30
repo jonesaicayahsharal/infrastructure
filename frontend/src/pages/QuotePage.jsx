@@ -28,8 +28,7 @@ export default function QuotePage() {
     district: "",
     interest: "",
     products: [],
-    service_description: "",
-    message: "",
+    specific_needs: "",
   });
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -83,7 +82,7 @@ export default function QuotePage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass p-12 rounded-xl text-center max-w-lg mx-4"
+          className="glass-card p-12 rounded-none text-center max-w-lg mx-4 border border-gold-500/30"
         >
           <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="text-green-400" size={40} />
@@ -91,11 +90,11 @@ export default function QuotePage() {
           <h2 className="font-heading font-bold text-3xl text-white mb-4">
             Quote Request Submitted!
           </h2>
-          <p className="text-slate-400 mb-8">
+          <p className="text-royal-400 mb-8">
             Thank you for your interest. Our team will review your request and 
             contact you within 24-48 hours with a detailed quote.
           </p>
-          <a href="/" className="btn-primary px-8 py-4 inline-block">
+          <a href="/" className="btn-gold px-8 py-4 inline-block rounded-none">
             Back to Home
           </a>
         </motion.div>
@@ -116,10 +115,10 @@ export default function QuotePage() {
             <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
               Free Quote
             </span>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mt-4 mb-6">
-              Request a Quote
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mt-4 mb-6">
+              REQUEST A QUOTE
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-royal-400 text-lg max-w-2xl mx-auto">
               Tell us about your project and we'll provide a detailed, no-obligation quote.
               Our team responds within 24-48 hours.
             </p>
@@ -134,7 +133,7 @@ export default function QuotePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             onSubmit={handleSubmit}
-            className="glass p-8 md:p-12 rounded-xl space-y-8"
+            className="glass-card p-8 md:p-12 rounded-none space-y-8 border border-royal-700/50"
             data-testid="quote-form"
           >
             {/* Contact Information */}
@@ -144,7 +143,7 @@ export default function QuotePage() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -153,14 +152,14 @@ export default function QuotePage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+                    className="w-full h-12 px-4 input-dark rounded-none"
                     placeholder="Your full name"
                     data-testid="quote-name-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     Email *
                   </label>
                   <input
@@ -169,14 +168,14 @@ export default function QuotePage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+                    className="w-full h-12 px-4 input-dark rounded-none"
                     placeholder="your@email.com"
                     data-testid="quote-email-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     Phone *
                   </label>
                   <input
@@ -185,14 +184,14 @@ export default function QuotePage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+                    className="w-full h-12 px-4 input-dark rounded-none"
                     placeholder="(876) 000-0000"
                     data-testid="quote-phone-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     Service Type *
                   </label>
                   <select
@@ -200,7 +199,7 @@ export default function QuotePage() {
                     required
                     value={formData.interest}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white appearance-none parish-select"
+                    className="w-full h-12 px-4 input-dark rounded-none appearance-none parish-select"
                     data-testid="quote-interest-select"
                   >
                     <option value="" className="bg-royal-900">Select service</option>
@@ -213,7 +212,7 @@ export default function QuotePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     Parish *
                   </label>
                   <select
@@ -221,7 +220,7 @@ export default function QuotePage() {
                     required
                     value={formData.parish}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white appearance-none parish-select"
+                    className="w-full h-12 px-4 input-dark rounded-none appearance-none parish-select"
                     data-testid="quote-parish-select"
                   >
                     <option value="" className="bg-royal-900">Select parish</option>
@@ -234,7 +233,7 @@ export default function QuotePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                  <label className="block text-sm font-medium text-royal-300 mb-2">
                     District *
                   </label>
                   <input
@@ -243,7 +242,7 @@ export default function QuotePage() {
                     required
                     value={formData.district}
                     onChange={handleChange}
-                    className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+                    className="w-full h-12 px-4 input-dark rounded-none"
                     placeholder="Your district"
                     data-testid="quote-district-input"
                   />
@@ -251,23 +250,23 @@ export default function QuotePage() {
               </div>
             </div>
 
-            {/* Product Selection (for solar) */}
+            {/* Product Selection */}
             {(formData.interest === "solar" || formData.interest === "") && products.length > 0 && (
               <div>
                 <h3 className="font-heading font-semibold text-xl text-white mb-4">
                   Interested in Specific Products? (Optional)
                 </h3>
-                <p className="text-slate-400 text-sm mb-4">
+                <p className="text-royal-400 text-sm mb-4">
                   Select any products you're interested in for your quote
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto p-1">
                   {products.map((product) => (
                     <label
                       key={product.id}
-                      className={`flex items-center gap-3 p-3 rounded cursor-pointer transition-colors ${
+                      className={`flex items-center gap-3 p-3 cursor-pointer transition-colors border ${
                         formData.products.includes(product.id)
-                          ? "bg-gold-400/20 border border-gold-400/50"
-                          : "bg-white/5 border border-transparent hover:bg-white/10"
+                          ? "bg-gold-500/20 border-gold-500/50"
+                          : "bg-royal-800/30 border-royal-700 hover:bg-royal-800/50"
                       }`}
                     >
                       <input
@@ -277,17 +276,17 @@ export default function QuotePage() {
                         className="hidden"
                       />
                       <div
-                        className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
+                        className={`w-5 h-5 rounded-none flex items-center justify-center flex-shrink-0 ${
                           formData.products.includes(product.id)
-                            ? "bg-gold-400"
-                            : "bg-white/10"
+                            ? "bg-gold-500"
+                            : "bg-royal-700"
                         }`}
                       >
                         {formData.products.includes(product.id) && (
-                          <CheckCircle className="text-black" size={14} />
+                          <CheckCircle className="text-royal-950" size={14} />
                         )}
                       </div>
-                      <span className="text-sm text-slate-300 line-clamp-1">
+                      <span className="text-sm text-royal-300 line-clamp-1">
                         {product.name}
                       </span>
                     </label>
@@ -296,35 +295,20 @@ export default function QuotePage() {
               </div>
             )}
 
-            {/* Service Description */}
+            {/* Specific Needs */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Describe Your Project
+              <label className="block text-sm font-medium text-royal-300 mb-2">
+                Describe Your Specific Needs *
               </label>
               <textarea
-                name="service_description"
+                name="specific_needs"
                 rows={4}
-                value={formData.service_description}
+                required
+                value={formData.specific_needs}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30 resize-none"
+                className="w-full px-4 py-3 input-dark rounded-none resize-none"
                 placeholder="Tell us about your project: property type, size, current setup, specific requirements..."
                 data-testid="quote-description-input"
-              />
-            </div>
-
-            {/* Additional Notes */}
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Additional Notes
-              </label>
-              <textarea
-                name="message"
-                rows={3}
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30 resize-none"
-                placeholder="Any other information you'd like us to know..."
-                data-testid="quote-message-input"
               />
             </div>
 
@@ -332,13 +316,13 @@ export default function QuotePage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-gold py-4 text-lg rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
               data-testid="quote-submit-btn"
             >
               {loading ? "Submitting..." : "Submit Quote Request"}
             </button>
 
-            <p className="text-slate-500 text-sm text-center">
+            <p className="text-royal-500 text-sm text-center">
               We'll review your request and respond within 24-48 hours with a detailed quote.
             </p>
           </motion.form>

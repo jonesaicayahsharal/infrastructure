@@ -34,11 +34,11 @@ export default function AboutPage() {
             <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
               About Us
             </span>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mt-4 mb-6">
-              Jonesaica Infrastructure Solutions
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mt-4 mb-6">
+              JONESAICA INFRASTRUCTURE
             </h1>
-            <p className="text-slate-400 text-lg max-w-3xl mx-auto">
-              Powering Jamaica, Building the Future. We're your trusted partner for 
+            <p className="text-royal-400 text-lg max-w-3xl mx-auto">
+              Building Jamaica's Future. Your trusted partner for 
               solar energy, electrical, plumbing, and carpentry services across the island.
             </p>
           </motion.div>
@@ -56,7 +56,7 @@ export default function AboutPage() {
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-6">
                 Our Story
               </h2>
-              <div className="space-y-4 text-slate-400">
+              <div className="space-y-4 text-royal-400">
                 <p>
                   Jonesaica Infrastructure Solutions was founded with a simple mission: 
                   to bring quality infrastructure services to Jamaican homes and businesses 
@@ -82,9 +82,9 @@ export default function AboutPage() {
               className="relative"
             >
               <img
-                src="https://images.pexels.com/photos/7605954/pexels-photo-7605954.jpeg"
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
                 alt="Jonesaica team at work"
-                className="rounded-xl"
+                className="rounded-none border border-royal-700"
               />
             </motion.div>
           </div>
@@ -107,15 +107,15 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="glass p-8 rounded-xl text-center"
+                className="glass-card p-8 rounded-none text-center border border-royal-700/50"
               >
-                <div className="inline-flex p-4 bg-gold-400/10 rounded-xl mb-6">
+                <div className="inline-flex p-4 bg-gold-500/10 rounded-none border border-gold-500/30 mb-6">
                   <value.icon className="text-gold-400" size={32} />
                 </div>
                 <h3 className="font-heading font-semibold text-xl text-white mb-4">
                   {value.title}
                 </h3>
-                <p className="text-slate-400">{value.description}</p>
+                <p className="text-royal-400">{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -129,13 +129,13 @@ export default function AboutPage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               What We Offer
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
+            <p className="text-royal-400 max-w-2xl mx-auto">
               Comprehensive infrastructure solutions for residential and commercial properties
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="glass p-8 rounded-xl">
+            <div className="glass-card p-8 rounded-none border border-royal-700/50">
               <h3 className="font-heading font-semibold text-xl text-white mb-4">
                 Solar Energy Solutions
               </h3>
@@ -147,15 +147,15 @@ export default function AboutPage() {
                   "Complete System Installation",
                   "Maintenance & Support",
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-slate-400">
-                    <CheckCircle className="text-gold-400 flex-shrink-0" size={18} />
+                  <li key={item} className="flex items-center gap-3 text-royal-400">
+                    <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="glass p-8 rounded-xl">
+            <div className="glass-card p-8 rounded-none border border-royal-700/50">
               <h3 className="font-heading font-semibold text-xl text-white mb-4">
                 Building Services
               </h3>
@@ -163,12 +163,12 @@ export default function AboutPage() {
                 {[
                   "Electrical Installations & Repairs",
                   "Plumbing - Installations & Maintenance",
-                  "Carpentry - Decking & Structures",
-                  "Animal Shelters & Pens",
-                  "Door Installation & Repairs",
+                  "Carpentry - Roof Prep, Ceiling Beams, Slab Work",
+                  "Animal Pens & Shelters",
+                  "Door Jams & Door Installation",
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-slate-400">
-                    <CheckCircle className="text-gold-400 flex-shrink-0" size={18} />
+                  <li key={item} className="flex items-center gap-3 text-royal-400">
+                    <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
                     {item}
                   </li>
                 ))}
@@ -184,21 +184,21 @@ export default function AboutPage() {
           <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-6">
             Ready to Get Started?
           </h2>
-          <p className="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-royal-400 text-lg mb-8 max-w-2xl mx-auto">
             Whether you need solar installation, electrical work, or building services,
             we're here to help. Contact us today for a free consultation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/quote"
-              className="btn-primary px-8 py-4 text-center"
+              className="btn-gold px-8 py-4 text-center rounded-none"
               data-testid="about-quote-btn"
             >
               Get Free Quote
             </Link>
             <Link
               to="/contact"
-              className="btn-secondary px-8 py-4 text-center"
+              className="btn-outline px-8 py-4 text-center rounded-none"
               data-testid="about-contact-btn"
             >
               Contact Us

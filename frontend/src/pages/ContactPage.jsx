@@ -16,10 +16,10 @@ export default function ContactPage() {
             <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
               Get In Touch
             </span>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mt-4 mb-6">
-              Contact Us
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mt-4 mb-6">
+              CONTACT US
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-royal-400 text-lg max-w-2xl mx-auto">
               Have questions about our services or products? Ready to start your project?
               Reach out and let's discuss how we can help.
             </p>
@@ -36,16 +36,16 @@ export default function ContactPage() {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold-400/10 rounded-lg">
+                  <div className="p-3 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <Phone className="text-gold-400" size={24} />
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-white mb-2">Phone</h3>
-                    <p className="text-slate-400">+1 (876) 842-2916</p>
-                    <p className="text-slate-500 text-sm mt-1">Call or WhatsApp</p>
+                    <p className="text-royal-400">+1-876-842-2916</p>
+                    <p className="text-royal-500 text-sm mt-1">Call or WhatsApp</p>
                   </div>
                 </div>
               </motion.div>
@@ -54,18 +54,18 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold-400/10 rounded-lg">
+                  <div className="p-3 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <MapPin className="text-gold-400" size={24} />
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-white mb-2">Location</h3>
-                    <p className="text-slate-400">Greenwood/Lilliput District</p>
-                    <p className="text-slate-400">St. James, Jamaica</p>
-                    <p className="text-slate-500 text-sm mt-1">
-                      Serving Trelawny, St. James & Island-Wide
+                    <p className="text-royal-400">Greenwood/Lilliput District</p>
+                    <p className="text-royal-400">St. James, Jamaica</p>
+                    <p className="text-royal-500 text-sm mt-1">
+                      Serving Trelawny–St. James & Island-Wide
                     </p>
                   </div>
                 </div>
@@ -75,16 +75,16 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold-400/10 rounded-lg">
+                  <div className="p-3 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <Clock className="text-gold-400" size={24} />
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-white mb-2">Hours</h3>
-                    <p className="text-slate-400">Monday - Saturday</p>
-                    <p className="text-slate-400">8:00 AM - 6:00 PM</p>
+                    <p className="text-royal-400">Monday - Saturday</p>
+                    <p className="text-royal-400">8:00 AM - 6:00 PM</p>
                   </div>
                 </div>
               </motion.div>
@@ -94,20 +94,20 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <h3 className="font-heading font-semibold text-white mb-4">
                   Service Areas
                 </h3>
-                <p className="text-slate-400 text-sm mb-4">
-                  Based in St. James, we provide services across Jamaica including:
+                <p className="text-royal-400 text-sm mb-4">
+                  Based in St. James, we provide services across Jamaica:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {["St. James", "Trelawny", "Hanover", "Westmoreland", "St. Ann", "All Parishes"].map(
                     (area) => (
                       <span
                         key={area}
-                        className="px-3 py-1 text-xs bg-white/5 text-slate-300 rounded"
+                        className="px-3 py-1 text-xs bg-royal-800/50 text-royal-300 border border-royal-700"
                       >
                         {area}
                       </span>
@@ -121,7 +121,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="lg:col-span-2 glass p-8 rounded-xl"
+              className="lg:col-span-2 glass-card p-8 rounded-none border border-royal-700/50"
             >
               <h2 className="font-heading font-bold text-2xl text-white mb-6">
                 Send Us a Message
