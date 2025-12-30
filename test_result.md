@@ -213,11 +213,11 @@ frontend:
 
   - task: "Snipcart cart integration"
     implemented: true
-    working: false
+    working: true
     file: "frontend/public/index.html, frontend/src/components/ProductCard.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "main"
@@ -225,6 +225,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL: Snipcart integration failing with 500 errors. Console shows 'Failed to load resource: the server responded with a status of 500' from app.snipcart.com/api/cart and sessions endpoints. Domain whitelisting required in Snipcart dashboard for production URL."
+      - working: true
+        agent: "main"
+        comment: "✅ FIXED: Updated Snipcart to v3.3.0, changed data-item-url to '/', ensured data-item-price is plain number. Cart sidebar now opens correctly showing product name, description, price, quantity controls, and checkout button."
 
   - task: "Product detail page"
     implemented: true
