@@ -111,11 +111,14 @@ backend:
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "GET /api/products and /api/products?category=X working correctly"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: API returns exactly 14 products with correct structure. Category filtering works perfectly - 4 inverters, 7 batteries, 3 panels. All required fields present (id, name, category, description, regular_price, sale_price, image_url, in_stock, backorder)."
 
   - task: "Product seed endpoint with correct pricing"
     implemented: true
@@ -123,23 +126,29 @@ backend:
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "POST /api/seed-products creates 14 products - 4 inverters, 7 batteries, 3 panels with correct pricing from user requirements"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Seed endpoint creates exactly 14 products. Pricing verified - SunPower 450W: sale=$18,000/regular=$21,000, Deye 6kW: sale=$289,000/regular=$421,500. Stock status correct - SunPower 545W SOLD OUT (in_stock=false), TW 625W BACKORDER (in_stock=true, backorder=true)."
 
   - task: "Lead capture API"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/leads - needs testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Lead capture API working perfectly. Accepts realistic lead data, returns proper response with all required fields (id, name, email, phone, parish, district, interest, created_at). Data integrity maintained."
 
 frontend:
   - task: "Product catalog display with dual pricing"
