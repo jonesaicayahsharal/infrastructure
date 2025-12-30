@@ -1,0 +1,58 @@
+{
+  "timestamp": "2025-12-30T15:57:16.729262",
+  "total_tests": 10,
+  "passed_tests": 10,
+  "success_rate": 1.0,
+  "results": [
+    {
+      "test": "API Root",
+      "success": true,
+      "details": "Status: 200, Message: Jonesaica Infrastructure Solutions API"
+    },
+    {
+      "test": "POST Seed Products",
+      "success": true,
+      "details": "Status: 200, Message: Products already seeded. 15 products exist."
+    },
+    {
+      "test": "GET Products",
+      "success": true,
+      "details": "Status: 200, Products count: 15, Sample product: Deye 6kW Hybrid Inverter"
+    },
+    {
+      "test": "GET Products - inverters",
+      "success": true,
+      "details": "Status: 200, inverters count: 4"
+    },
+    {
+      "test": "GET Products - batteries",
+      "success": true,
+      "details": "Status: 200, batteries count: 9"
+    },
+    {
+      "test": "GET Products - panels",
+      "success": true,
+      "details": "Status: 200, panels count: 2"
+    },
+    {
+      "test": "POST Lead",
+      "success": true,
+      "details": "Status: 200, Lead ID: d2687d10-e1df-4d10-9998-656c05a9ea59"
+    },
+    {
+      "test": "GET Leads",
+      "success": true,
+      "details": "Status: 200, Leads count: 1"
+    },
+    {
+      "test": "POST Quote",
+      "success": true,
+      "details": "Status: 200, Quote ID: 8b63d616-6a9e-4020-bc1a-ac8ccb4d206b"
+    },
+    {
+      "test": "GET Quotes",
+      "success": true,
+      "details": "Status: 200, Quotes count: 1"
+    }
+  ]
+}
