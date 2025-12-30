@@ -14,7 +14,6 @@ from enum import Enum
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
@@ -36,6 +35,7 @@ class ProductCategory(str, Enum):
     INVERTERS = "inverters"
     BATTERIES = "batteries"
     PANELS = "panels"
+    ACCESSORIES = "accessories"
 
 
 class Lead(BaseModel):
@@ -73,6 +73,7 @@ class Product(BaseModel):
     specs: Optional[dict] = None
     features: Optional[List[str]] = None
     in_stock: bool = True
+    backorder: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -86,6 +87,7 @@ class ProductCreate(BaseModel):
     specs: Optional[dict] = None
     features: Optional[List[str]] = None
     in_stock: bool = True
+    backorder: bool = False
 
 
 class QuoteRequest(BaseModel):
@@ -191,165 +193,357 @@ async def get_quotes():
 
 @api_router.post("/seed-products")
 async def seed_products():
-    existing = await db.products.count_documents({})
-    if existing > 0:
-        await db.products.delete_many({})
+    await db.products.delete_many({})
     
-    # Products based on your price list with competitive pricing vs Enersave
+    # PRODUCTS FROM COMPETITOR SITES - PRICES UNDERCUT SLIGHTLY
     products_data = [
-        # INVERTERS - Deye (from your price list)
+        # ===== INVERTERS =====
+        # Deye 6kW - Enersave: Sale $295,000 / Reg $421,500
         {
-            "name": "Deye 6kW Hybrid Solar Inverter",
+            "name": "Deye SUN-6K-SG01LP1-US 6kW Hybrid Inverter",
             "category": "inverters",
-            "description": "Deye SUN-6K-SG01LP1-US 6000W Hybrid Inverter. Perfect for residential solar systems with built-in MPPT charge controller. Supports lithium and lead-acid batteries.",
-            "regular_price": 295000,
-            "sale_price": 244000,
-            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
-            "specs": {"power": "6000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
-            "features": ["Pure sine wave output", "Built-in MPPT controller", "Wi-Fi monitoring", "Battery priority settings", "Grid-tie capable"]
+            "description": "6000W Hybrid Solar Inverter with dual MPPT. Perfect for small to medium homes. Features colorful touch LCD, IP65 protection, and 5-year warranty.",
+            "regular_price": 415000,
+            "sale_price": 289000,
+            "image_url": "https://enersavesolutions.com/cdn/shop/files/SUN-6K-SG01LP1_grande.png?v=1763146513",
+            "specs": {
+                "power": "6000W",
+                "max_pv_input": "7800W",
+                "pv_voltage": "125-425V DC",
+                "frequency": "50/60Hz",
+                "efficiency": "97.6%",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "Max PV Input Power - 7800W",
+                "Colorful touch LCD, IP65 protection",
+                "6 time periods for battery charging/discharging",
+                "Max charging/discharging current of 135A",
+                "DC & AC couple to retrofit existing solar",
+                "4ms fast transfer from on-grid to off-grid",
+                "Parallel up to 16 units"
+            ]
         },
+        # Deye 8kW - Enersave: $510,000 (no sale)
         {
-            "name": "Deye 8kW Hybrid Solar Inverter",
+            "name": "Deye SUN-8K-SG01LP1-US 8kW Hybrid Inverter",
             "category": "inverters",
-            "description": "Deye SUN-8K-SG01LP1-US 8000W Hybrid Inverter. Mid-range capacity for homes with higher energy demands. Advanced monitoring and smart grid features.",
+            "description": "8000W Hybrid Solar Inverter ideal for medium-sized homes or EV-ready setups. High efficiency with dual MPPT and IP65 weatherproofing.",
+            "regular_price": 540000,
+            "sale_price": 499000,
+            "image_url": "https://enersavesolutions.com/cdn/shop/products/deye-inverter-1_grande.png?v=1652270688",
+            "specs": {
+                "power": "8000W",
+                "max_pv_input": "10400W",
+                "pv_voltage": "125-500V DC",
+                "frequency": "50/60Hz",
+                "efficiency": "97.6%",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "Max PV Input Power - 10400W",
+                "Colorful touch LCD, IP65 protection",
+                "6 time periods for battery charging/discharging",
+                "Max charging/discharging current of 190A",
+                "Support storing energy from diesel generator",
+                "Smart Load application and Grid peak shaving",
+                "Parallel up to 16 units"
+            ]
+        },
+        # Deye 10kW - RezynTech: $340,000
+        {
+            "name": "Deye SUN-10K-SG01LP1-US 10kW Hybrid Inverter",
+            "category": "inverters",
+            "description": "10000W Hybrid Solar Inverter suited for large homes or light commercial use. 97.6% efficiency with dual MPPT and Wi-Fi monitoring.",
+            "regular_price": 380000,
+            "sale_price": 335000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/DeyeInverter.jpg?v=1762354776&width=800",
+            "specs": {
+                "power": "10000W",
+                "max_pv_input": "13000W",
+                "pv_voltage": "125-500V DC",
+                "frequency": "50/60Hz",
+                "efficiency": "97.6%",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "Max PV Input Power - 13000W",
+                "Split-phase 120/240V output",
+                "Dual MPPT for optimal efficiency",
+                "Wi-Fi/LAN monitoring included",
+                "Battery support (40-60V)",
+                "IP65 weatherproof design",
+                "Parallel scalability up to 16 units"
+            ]
+        },
+        # Deye 12kW - Enersave: Sale $390,000 / Reg $618,750
+        {
+            "name": "Deye SUN-12K-SG02LP2-US 12kW Hybrid Inverter",
+            "category": "inverters",
+            "description": "12000W Hybrid Solar Inverter built for high-demand residential and commercial installations. Maximum capacity for complete energy independence.",
+            "regular_price": 610000,
+            "sale_price": 385000,
+            "image_url": "https://enersavesolutions.com/cdn/shop/files/DEYE_SUN-12K-SG02LP2_grande.png?v=1721337309",
+            "specs": {
+                "power": "12000W",
+                "max_pv_input": "15600W",
+                "pv_voltage": "125-500V DC",
+                "frequency": "50/60Hz",
+                "efficiency": "97.6%",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "Max PV Input Power - 15600W",
+                "Colorful touch LCD, IP65 protection",
+                "6 time periods for battery charging/discharging",
+                "Max charging/discharging current of 190A",
+                "DC & AC couple to retrofit existing solar",
+                "4ms fast transfer from on-grid to off-grid",
+                "Parallel up to 16 units"
+            ]
+        },
+        
+        # ===== BATTERIES =====
+        # Deye 5.12kWh - Your price: $185,000 sale / $320,000 original
+        {
+            "name": "Deye 5.12kWh LiFePO4 Rack-Mount Battery",
+            "category": "batteries",
+            "description": "Compact 5.12kWh LiFePO4 battery with 6000+ cycle life. Modular design with built-in intelligent BMS and 5-year warranty.",
             "regular_price": 320000,
-            "sale_price": 258000,
-            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
-            "specs": {"power": "8000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
-            "features": ["Pure sine wave output", "Parallel capability", "LCD display", "Multiple working modes", "Remote monitoring"]
+            "sale_price": 185000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/Deyebatteryunitonslatwallpanel_ced9114d-9295-4c4d-b415-cf43fd367442.png?v=1765550754&width=800",
+            "specs": {
+                "capacity": "5.12kWh",
+                "voltage": "51.2V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "LiFePO4 battery technology for high safety",
+                "6000+ cycle life for long-term performance",
+                "Modular & scalable design",
+                "Built-in intelligent BMS with safety protections",
+                "Flexible installation (wall, rack, floor, stacked)",
+                "Optimized for Deye hybrid inverters"
+            ]
         },
+        # Deye 10.24kWh - Proportional pricing between 5.12 and 16kWh
         {
-            "name": "Deye 10kW Hybrid Solar Inverter", 
-            "category": "inverters",
-            "description": "Deye SUN-10K-SG01LP1-US 10000W Hybrid Inverter. High-capacity solution for larger homes and small commercial applications.",
+            "name": "Deye 10.24kWh LiFePO4 Rack-Mount Battery",
+            "category": "batteries",
+            "description": "Mid-range 10.24kWh LiFePO4 battery for average household needs. 6000+ cycle life with intelligent BMS protection.",
+            "regular_price": 520000,
+            "sale_price": 340000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/WhatsAppImage2025-12-12at09.26.26_e999d824_35f0d8a1-ae03-4ef0-87fa-00890c251552.jpg?v=1765550754&width=800",
+            "specs": {
+                "capacity": "10.24kWh",
+                "voltage": "51.2V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "LiFePO4 battery technology for high safety",
+                "6000+ cycle life for long-term performance",
+                "Modular & scalable design",
+                "Built-in intelligent BMS",
+                "Smart monitoring (CAN/RS485, app support)",
+                "Optimized for Deye hybrid inverters"
+            ]
+        },
+        # Deye 12kWh - Proportional pricing
+        {
+            "name": "Deye 12kWh LiFePO4 Rack-Mount Battery",
+            "category": "batteries",
+            "description": "High-capacity 12kWh LiFePO4 battery for larger homes. Scalable modular design with comprehensive BMS protection.",
+            "regular_price": 620000,
+            "sale_price": 420000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/WhatsAppImage2025-12-12at09.25.48_b1764910_07836b49-e61d-4652-92b1-b59e197a1656.jpg?v=1765550754&width=800",
+            "specs": {
+                "capacity": "12kWh",
+                "voltage": "51.2V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "LiFePO4 battery technology for high safety",
+                "6000+ cycle life for long-term performance",
+                "Modular & scalable design",
+                "Built-in intelligent BMS",
+                "High charge & discharge capability",
+                "Optimized for Deye hybrid inverters"
+            ]
+        },
+        # Deye 16kWh - Your price: $550,000 sale / $810,000 original
+        {
+            "name": "Deye 16kWh LiFePO4 Wall-Mount Battery",
+            "category": "batteries",
+            "description": "Maximum capacity 16kWh LiFePO4 wall-mounted battery for complete energy independence. Premium storage solution for high-demand systems.",
+            "regular_price": 810000,
+            "sale_price": 550000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/Deyebatteryunitonslatwallpanel_ced9114d-9295-4c4d-b415-cf43fd367442.png?v=1765550754&width=800",
+            "specs": {
+                "capacity": "16kWh",
+                "voltage": "51.2V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "mount": "Wall",
+                "warranty": "5 Years"
+            },
+            "features": [
+                "Maximum storage capacity",
+                "LiFePO4 technology for safety & longevity",
+                "6000+ cycle life",
+                "Wall-mounted for space efficiency",
+                "Built-in intelligent BMS",
+                "Smart monitoring & communication"
+            ]
+        },
+        # BSL 5.12kWh Rack - RezynTech: $200,000
+        {
+            "name": "BSL 5.12kWh LiFePO4 Rack-Mount Battery",
+            "category": "batteries",
+            "description": "BSL B-LFP48-100E compact rack-mount battery. 6000+ cycle life with advanced BMS. Compatible with most hybrid inverters including Deye.",
+            "regular_price": 240000,
+            "sale_price": 195000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL_2.png?v=1762357657&width=800",
+            "specs": {
+                "capacity": "5.12kWh",
+                "voltage": "48V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "mount": "Rack"
+            },
+            "features": [
+                "Compact 48V / 5kWh LiFePO4 rack-mount",
+                "Scalable for growing energy needs",
+                "6000+ cycle life",
+                "Safe and maintenance-free design",
+                "Compatible with Deye and other inverters"
+            ]
+        },
+        # BSL 10.24kWh Rack - RezynTech: $200,000 base
+        {
+            "name": "BSL 10.24kWh LiFePO4 Rack-Mount Battery",
+            "category": "batteries",
+            "description": "BSL B-LFP48-200E high-capacity rack-mount battery. Ideal for larger residential or light commercial solar systems.",
+            "regular_price": 320000,
+            "sale_price": 275000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL.png?v=1762358246&width=800",
+            "specs": {
+                "capacity": "10.24kWh",
+                "voltage": "48V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "mount": "Rack"
+            },
+            "features": [
+                "High-capacity 48V / 10kWh rack-mount",
+                "Modular design for expansion",
+                "6000+ cycle life",
+                "Compatible with most hybrid inverters",
+                "Long-life reliability"
+            ]
+        },
+        # BSL Li-Pro 10.24kWh Wall
+        {
+            "name": "BSL Li-Pro 10.24kWh LiFePO4 Wall-Mount Battery",
+            "category": "batteries",
+            "description": "BSL Li-Pro 10240 sleek wall-mounted battery with IP65 protection. Perfect for indoor or outdoor installation.",
             "regular_price": 350000,
-            "sale_price": 293000,
-            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
-            "specs": {"power": "10000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
-            "features": ["High efficiency >97%", "Wide PV input range", "Smart load management", "Anti-islanding protection", "Expandable system"]
+            "sale_price": 295000,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL_Li_3_05174485-c78f-4d37-8c22-6c7621e562ef.png?v=1762373784&width=800",
+            "specs": {
+                "capacity": "10.24kWh",
+                "voltage": "48V",
+                "chemistry": "LiFePO4",
+                "cycles": "6000+",
+                "mount": "Wall",
+                "protection": "IP65"
+            },
+            "features": [
+                "Sleek wall-mounted design",
+                "IP65 rated for indoor/outdoor use",
+                "Expandable for greater storage",
+                "6000+ cycle life",
+                "High safety LiFePO4 chemistry"
+            ]
         },
+        
+        # ===== SOLAR PANELS =====
+        # SunPower P7 450W - RezynTech: $17,000
         {
-            "name": "Deye 12kW Hybrid Solar Inverter",
-            "category": "inverters",
-            "description": "Deye SUN-12K-SG01LP1-US 12000W Hybrid Inverter. Maximum residential capacity for complete energy independence.",
-            "regular_price": 420000,
-            "sale_price": 318000,
-            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
-            "specs": {"power": "12000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
-            "features": ["Maximum output power", "Seamless grid switching", "Generator input support", "Advanced BMS compatibility", "IP65 rating"]
-        },
-        # BATTERIES - BSL Series (from your price list)
-        {
-            "name": "BSL 5kWh Rack Mount LiFePO4 Battery",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-100E 5kWh Rack Mount Lithium Iron Phosphate Battery. Safe, reliable energy storage with 6000+ cycle life.",
-            "regular_price": 189000,
-            "sale_price": 162000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "5kWh", "voltage": "48V", "chemistry": "LiFePO4", "cycles": "6000+"},
-            "features": ["Built-in BMS", "Rack mountable", "Expandable design", "10-year warranty", "Safe LFP chemistry"]
-        },
-        {
-            "name": "BSL 5kWh Rack Mounting Brackets",
-            "category": "batteries",
-            "description": "Professional mounting brackets for BSL 5kWh batteries. Secure installation solution.",
-            "regular_price": 4000,
-            "sale_price": 3400,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"compatibility": "BSL 5kWh", "material": "Steel", "type": "Rack Mount"},
-            "features": ["Heavy-duty steel", "Easy installation", "Secure fit", "Corrosion resistant"]
-        },
-        {
-            "name": "BSL 10kWh Rack Mount LiFePO4 Battery",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-200E 10kWh Rack Mount Lithium Battery. Double capacity for extended backup and larger systems.",
-            "regular_price": 280000,
-            "sale_price": 245000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "10kWh", "voltage": "48V", "chemistry": "LiFePO4", "cycles": "6000+"},
-            "features": ["High capacity", "Parallel connection", "Smart BMS", "Temperature protection", "Long lifespan"]
-        },
-        {
-            "name": "BSL 10kWh Rack Mounting Brackets",
-            "category": "batteries",
-            "description": "Heavy-duty mounting brackets for BSL 10kWh battery systems.",
-            "regular_price": 5500,
-            "sale_price": 4400,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"compatibility": "BSL 10kWh", "material": "Steel", "type": "Rack Mount"},
-            "features": ["Reinforced design", "Professional grade", "Quick assembly"]
-        },
-        {
-            "name": "BSL Li-Pro 10.24kWh Wall Mount Battery",
-            "category": "batteries",
-            "description": "BSL-Li-Pro 10240 Wall Mounted LiFePO4 Battery. Space-saving design for residential installations.",
-            "regular_price": 320000,
-            "sale_price": 269000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "10.24kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "mount": "Wall"},
-            "features": ["Sleek wall mount", "IP65 rated", "LCD display", "CAN/RS485 communication", "Expandable to 61kWh"]
-        },
-        # BATTERIES - Deye Series (from your price list)
-        {
-            "name": "Deye 5.12kWh LiFePO4 Battery",
-            "category": "batteries",
-            "description": "Deye 5.12kWh Lithium Iron Phosphate Battery. Compact and efficient storage solution for solar systems.",
-            "regular_price": 160000,
-            "sale_price": 132000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "5.12kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
-            "features": ["Modular design", "Built-in heater", "Smart monitoring", "10-year warranty"]
-        },
-        {
-            "name": "Deye 10.24kWh LiFePO4 Battery",
-            "category": "batteries",
-            "description": "Deye 10.24kWh Lithium Battery. Mid-range capacity for average household energy needs.",
-            "regular_price": 285000,
-            "sale_price": 240000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "10.24kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
-            "features": ["High efficiency", "Fast charging", "Low self-discharge", "Safe operation"]
-        },
-        {
-            "name": "Deye 12kWh LiFePO4 Battery",
-            "category": "batteries",
-            "description": "Deye 12kWh Lithium Battery. Extended capacity for homes with higher energy consumption.",
-            "regular_price": 360000,
-            "sale_price": 304000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "12kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
-            "features": ["Premium cells", "Advanced BMS", "Remote monitoring", "Parallel capable"]
-        },
-        {
-            "name": "Deye 16kWh LiFePO4 Battery",
-            "category": "batteries",
-            "description": "Deye 16kWh Lithium Battery. Maximum capacity for complete energy independence.",
-            "regular_price": 420000,
-            "sale_price": 343000,
-            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
-            "specs": {"capacity": "16kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
-            "features": ["Highest capacity", "Multi-unit stacking", "Intelligent management", "Long cycle life"]
-        },
-        # SOLAR PANELS (from your price list)
-        {
-            "name": "450W SunPower Maxeon Bi-Facial Panel",
+            "name": "SunPower P7 450W BiFacial Black Solar Panel",
             "category": "panels",
-            "description": "450W SunPower Maxeon Black Bi-Facial Solar Panel. Premium efficiency with bifacial technology for maximum power generation from both sides.",
-            "regular_price": 18000,
-            "sale_price": 15200,
-            "image_url": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
-            "specs": {"power": "450W", "type": "Bi-Facial", "brand": "SunPower Maxeon", "efficiency": "22.8%"},
-            "features": ["Bifacial technology", "All-black aesthetic", "25-year warranty", "Anti-reflective glass", "High wind resistance"]
+            "description": "SunPower Maxeon Performance 7 series bifacial panel. Premium all-black design with 25-year warranty. Captures sunlight from both sides.",
+            "regular_price": 19500,
+            "sale_price": 16500,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/blackpanel.png?v=1750092550&width=800",
+            "specs": {
+                "power": "450W",
+                "type": "Bifacial",
+                "cells": "Monocrystalline",
+                "brand": "SunPower Maxeon",
+                "warranty": "25 Years"
+            },
+            "features": [
+                "Bifacial Technology - captures sunlight from both sides",
+                "All-Black Design for sleek aesthetics",
+                "Superior Reliability - solid copper foundation",
+                "High Efficiency Maxeon cells",
+                "25-Year product and power warranty",
+                "Climate-Ready for shading, heat, humidity"
+            ]
         },
+        # SunPower P7 545W - RezynTech: $18,000
         {
-            "name": "545W SunPower Maxeon Bifacial Panel",
+            "name": "SunPower P7 545W BiFacial Solar Panel",
             "category": "panels",
-            "description": "545W SunPower Maxeon Bifacial Solar Panel. High-output panel for maximum energy harvest and commercial applications.",
+            "description": "SunPower Maxeon Performance 7 series high-output bifacial panel. N-type TOPCon cells for maximum efficiency. 25-year warranty.",
             "regular_price": 22000,
-            "sale_price": 16200,
-            "image_url": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
-            "specs": {"power": "545W", "type": "Bi-Facial", "brand": "SunPower Maxeon", "efficiency": "23.5%"},
-            "features": ["Industry-leading efficiency", "Bifacial gain up to 30%", "Robust frame", "Premium performance", "40-year lifespan"]
+            "sale_price": 17500,
+            "image_url": "https://www.rezyntech.com/cdn/shop/files/ChatGPT_Image_Nov_20_2025_02_23_29_PM.png?v=1763667027&width=800",
+            "specs": {
+                "power": "545W",
+                "type": "Bifacial",
+                "cells": "N-type TOPCon",
+                "brand": "SunPower Maxeon",
+                "warranty": "25 Years"
+            },
+            "features": [
+                "Bifacial Technology - up to 30% additional gain",
+                "N-type TOPCon cells for highest efficiency",
+                "High Power Output - ideal for commercial",
+                "Glass-Glass construction for durability",
+                "25-Year comprehensive warranty",
+                "Climate efficient design"
+            ]
+        },
+        # TW 625W - Backorder
+        {
+            "name": "TW Solar 625W BiFacial Panel",
+            "category": "panels",
+            "description": "TW Solar 625W high-output bifacial panel for maximum power generation. Industry-leading wattage for large installations.",
+            "regular_price": 28000,
+            "sale_price": 24500,
+            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+            "specs": {
+                "power": "625W",
+                "type": "Bifacial",
+                "cells": "Monocrystalline",
+                "brand": "TW Solar"
+            },
+            "features": [
+                "Industry-leading 625W output",
+                "Bifacial technology for extra generation",
+                "Ideal for large-scale installations",
+                "High efficiency cells",
+                "Durable construction"
+            ],
+            "in_stock": False,
+            "backorder": True
         },
     ]
     
