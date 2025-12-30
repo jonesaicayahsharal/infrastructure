@@ -84,7 +84,7 @@ export const ProductCard = ({ product, index = 0 }) => {
             className="snipcart-add-item flex-1 btn-gold py-2 text-sm rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
             data-item-id={product.id}
             data-item-price={product.sale_price}
-            data-item-url={`/products/${product.id}`}
+            data-item-url={`${window.location.origin}/products/${product.id}`}
             data-item-description={product.description?.substring(0, 100) || ""}
             data-item-image={product.image_url}
             data-item-name={product.name}
