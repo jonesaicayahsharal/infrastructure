@@ -473,13 +473,13 @@ async def seed_products():
         },
         
         # ===== SOLAR PANELS =====
-        # SunPower P7 450W - RezynTech: $17,000
+        # SunPower P7 450W - User price: $18,000 sale / $21,000 original
         {
             "name": "SunPower P7 450W BiFacial Black Solar Panel",
             "category": "panels",
             "description": "SunPower Maxeon Performance 7 series bifacial panel. Premium all-black design with 25-year warranty. Captures sunlight from both sides.",
-            "regular_price": 19500,
-            "sale_price": 16500,
+            "regular_price": 21000,
+            "sale_price": 18000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/blackpanel.png?v=1750092550&width=800",
             "specs": {
                 "power": "450W",
@@ -497,13 +497,13 @@ async def seed_products():
                 "Climate-Ready for shading, heat, humidity"
             ]
         },
-        # SunPower P7 545W - RezynTech: $18,000
+        # SunPower P7 545W - SOLD OUT per user
         {
             "name": "SunPower P7 545W BiFacial Solar Panel",
             "category": "panels",
             "description": "SunPower Maxeon Performance 7 series high-output bifacial panel. N-type TOPCon cells for maximum efficiency. 25-year warranty.",
             "regular_price": 22000,
-            "sale_price": 17500,
+            "sale_price": 18000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/ChatGPT_Image_Nov_20_2025_02_23_29_PM.png?v=1763667027&width=800",
             "specs": {
                 "power": "545W",
@@ -519,13 +519,14 @@ async def seed_products():
                 "Glass-Glass construction for durability",
                 "25-Year comprehensive warranty",
                 "Climate efficient design"
-            ]
+            ],
+            "in_stock": False
         },
-        # TW 625W - Backorder
+        # TW 625W - Backorder Available per user
         {
             "name": "TW Solar 625W BiFacial Panel",
             "category": "panels",
-            "description": "TW Solar 625W high-output bifacial panel for maximum power generation. Industry-leading wattage for large installations.",
+            "description": "TW Solar 625W high-output bifacial panel for maximum power generation. Industry-leading wattage for large installations. Available on backorder.",
             "regular_price": 28000,
             "sale_price": 24500,
             "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
@@ -542,7 +543,7 @@ async def seed_products():
                 "High efficiency cells",
                 "Durable construction"
             ],
-            "in_stock": False,
+            "in_stock": True,
             "backorder": True
         },
     ]
