@@ -18,6 +18,9 @@ export const ProductCard = ({ product, index = 0 }) => {
   const isOutOfStock = !product.in_stock && !product.backorder;
   const isBackorder = product.backorder;
 
+  // Generate a simple slug-like ID for Snipcart
+  const snipcartId = product.id || product.name?.toLowerCase().replace(/\s+/g, '-').substring(0, 30);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -82,10 +85,10 @@ export const ProductCard = ({ product, index = 0 }) => {
           </Link>
           <button
             className="snipcart-add-item flex-1 btn-gold py-2 text-sm rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
-            data-item-id={product.id}
-            data-item-price={product.sale_price}
-            data-item-url={`${window.location.origin}/products/${product.id}`}
-            data-item-description={product.description?.substring(0, 100) || ""}
+            data-item-id={snipcartId}
+            data-item-price={Number(product.sale_price)}
+            data-item-url="/"
+            data-item-description={product.description?.substring(0, 100) || product.name}
             data-item-image={product.image_url}
             data-item-name={product.name}
             disabled={isOutOfStock}
