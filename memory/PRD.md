@@ -1,74 +1,70 @@
 # Jonesaica Infrastructure Solutions - PRD
 
 ## Original Problem Statement
-Build a functional website like enersavesolutions.com and rezyntech.com for Jonesaica Infrastructure Solutions - a solar energy and building services company in Jamaica. Company located in Greenwood/Lilliput District, St. James, serving Trelawny, St. James borders, and island-wide.
+Build a functional e-commerce and service website for Jonesaica Infrastructure Solutions (solar/infrastructure company in Jamaica). Key requirements:
+- Royal blue, purple, gold color scheme only
+- Popup shows IMMEDIATELY on site open
+- NO "licensed/insured/certified" language
+- NO images of white people
+- Carpentry = roof prep, slab work, ceiling beams, animal pens, door jams (NOT patios/gazebos)
+- Snipcart e-commerce with JMD currency
+- GitHub/Netlify compatible
 
 ## User Personas
-1. **Homeowners** - Looking for solar installation to reduce electricity costs
-2. **Business Owners** - Seeking commercial solar and electrical solutions
-3. **Property Developers** - Need comprehensive building services (electrical, plumbing, carpentry)
-4. **Farmers/Rural Residents** - Looking for animal shelters, pens, and solar solutions
+1. **Homeowners** - Looking for solar installation, electrical, plumbing, carpentry
+2. **Farmers/Rural Residents** - Animal pens, shelters, solar solutions
+3. **Business Owners** - Commercial solar and electrical solutions
 
 ## Core Requirements (Static)
-- Solar products e-commerce (Snipcart integration)
-- Customer lead capture popup on first visit
-- Contact form with Jamaica parish/district selection
-- Quote request system for products and services
+- Lead capture popup on first visit (immediate)
+- Product catalog with Snipcart integration
+- Contact/Quote forms with parish/district selection
 - Service pages: Solar, Electrical, Carpentry, Plumbing
-- Competitive pricing (slightly under Enersave)
-- Colors: Royal blues, purples, gold
+- Phone: +1-876-842-2916
+- Location: Greenwood/Lilliput, St. James
 
 ## What's Been Implemented (December 30, 2025)
 
 ### Backend (FastAPI)
-- ✅ Products API with categories (inverters, batteries, panels)
-- ✅ Leads collection API
+- ✅ Products API with 15 products (4 inverters, 9 batteries, 2 panels)
+- ✅ Leads collection API (popup + contact forms)
 - ✅ Quote requests API
-- ✅ Product seeding with 15 products
+- ✅ Product seeding with competitive JMD pricing
 
 ### Frontend (React)
-- ✅ Homepage with hero, services overview, featured products
-- ✅ Products page with category filtering
-- ✅ Product detail page with Snipcart integration
-- ✅ Contact page with form
-- ✅ Quote request page
-- ✅ About page
-- ✅ Service pages (Solar, Electrical, Carpentry, Plumbing)
-- ✅ Customer capture modal (5-second delay on first visit)
-- ✅ Responsive design with royal blue/gold color scheme
+- ✅ Immediate lead capture popup on first visit
+- ✅ Royal blue/gold color scheme
+- ✅ Products page with category filters
 - ✅ Snipcart e-commerce integration (JMD currency)
+- ✅ All service pages with corrected content
+- ✅ Carpentry page: roof prep, ceiling beams, animal pens, door jams
+- ✅ NO "licensed/insured/certified" language
+- ✅ GitHub/Netlify compatible structure
 
-### Products Seeded (15 items)
-- 4 Inverters (Deye 6kW, 8kW, 10kW, 12kW)
-- 9 Batteries (BSL and Deye variants, 5kWh - 16kWh)
-- 2 Solar Panels (450W and 545W SunPower Maxeon)
+### Products (15 items)
+- 4 Inverters: Deye 6kW, 8kW, 10kW, 12kW
+- 9 Batteries: BSL 5kWh, 10kWh, Li-Pro 10.24kWh; Deye 5.12kWh, 10.24kWh, 12kWh, 16kWh
+- 2 Panels: SunPower Maxeon 450W, 545W Bifacial
 
 ## Prioritized Backlog
 
-### P0 (Critical - Not Yet Done)
-- None - MVP is complete
+### P0 (Critical - Complete)
+- ✅ All MVP features implemented
 
-### P1 (High Priority - Next Phase)
-- Email notifications for leads/quotes (requires Proton email setup)
-- Admin dashboard for managing products, leads, quotes
-- Product images - currently using Pexels placeholders
+### P1 (Next Phase)
+- Email notifications for leads/quotes (requires email setup)
+- Admin dashboard
+- Custom product images (currently using stock photos)
 
 ### P2 (Medium Priority)
-- Logo design and integration
+- Logo design
 - WhatsApp chat integration
-- Customer testimonials/reviews system
-- Google Maps integration for service area
-- SEO optimization
+- Google Maps integration
 
-### P3 (Nice to Have)
-- Blog/news section
-- Solar calculator tool
-- Customer portal for order tracking
-- Email marketing integration
+## File Structure for Editing
 
-## Next Tasks
-1. Set up Proton email and configure email notifications
-2. Upload actual product images
-3. Create company logo
-4. Add admin authentication and dashboard
-5. Configure custom domain (solar.yasharal)
+See /app/README.md for complete editing guide including:
+- How to change colors
+- How to change products/prices
+- How to change contact info
+- How to deploy to GitHub/Netlify
