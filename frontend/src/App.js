@@ -6,7 +6,7 @@ import axios from "axios";
 // Layout Components
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
-import { CustomerCaptureModal } from "./components/CustomerCaptureModal";
+import { LeadCaptureModal } from "./components/LeadCaptureModal";
 import { Toaster } from "./components/ui/sonner";
 
 // Pages
@@ -25,8 +25,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export const API = `${BACKEND_URL}/api`;
 
 function App() {
-  const [showCaptureModal, setShowCaptureModal] = useState(false);
-  const [hasSeenModal, setHasSeenModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Seed products on first load
@@ -34,31 +33,27 @@ function App() {
       try {
         await axios.post(`${API}/seed-products`);
       } catch (e) {
-        console.log("Products may already be seeded");
+        console.log("Products initialized");
       }
     };
     seedProducts();
 
-    // Check if user has seen modal before
-    const seenModal = localStorage.getItem("jonesaica_modal_seen");
-    if (!seenModal) {
-      const timer = setTimeout(() => {
-        setShowCaptureModal(true);
-      }, 5000);
-      return () => clearTimeout(timer);
-    } else {
-      setHasSeenModal(true);
+    // Show popup IMMEDIATELY on site open (if not seen before)
+    const hasSeenPopup = localStorage.getItem("jonesaica_popup_seen");
+    if (!hasSeenPopup) {
+      setShowModal(true);
     }
   }, []);
 
-  const handleModalClose = () => {
-    setShowCaptureModal(false);
-    localStorage.setItem("jonesaica_modal_seen", "true");
-    setHasSeenModal(true);
+  const handleModalClose = (submitted = false) => {
+    setShowModal(false);
+    if (submitted) {
+      localStorage.setItem("jonesaica_popup_seen", "true");
+    }
   };
 
   return (
-    <div className="noise-overlay min-h-screen">
+    <div className="min-h-screen bg-royal-950">
       <BrowserRouter>
         <Header />
         <main>
@@ -77,8 +72,8 @@ function App() {
         </main>
         <Footer />
         
-        {showCaptureModal && (
-          <CustomerCaptureModal onClose={handleModalClose} />
+        {showModal && (
+          <LeadCaptureModal onClose={handleModalClose} />
         )}
         
         <Toaster position="top-right" richColors />
