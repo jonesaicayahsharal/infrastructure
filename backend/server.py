@@ -198,12 +198,12 @@ async def seed_products():
     # PRODUCTS FROM COMPETITOR SITES - PRICES UNDERCUT SLIGHTLY
     products_data = [
         # ===== INVERTERS =====
-        # Deye 6kW - Enersave: Sale $295,000 / Reg $421,500
+        # Deye 6kW - Enersave: Sale $295,000 / Reg $421,500 - We undercut
         {
             "name": "Deye SUN-6K-SG01LP1-US 6kW Hybrid Inverter",
             "category": "inverters",
             "description": "6000W Hybrid Solar Inverter with dual MPPT. Perfect for small to medium homes. Features colorful touch LCD, IP65 protection, and 5-year warranty.",
-            "regular_price": 415000,
+            "regular_price": 421500,
             "sale_price": 289000,
             "image_url": "https://enersavesolutions.com/cdn/shop/files/SUN-6K-SG01LP1_grande.png?v=1763146513",
             "specs": {
@@ -224,7 +224,7 @@ async def seed_products():
                 "Parallel up to 16 units"
             ]
         },
-        # Deye 8kW - Enersave: $510,000 (no sale)
+        # Deye 8kW - Enersave: $510,000 (no sale) - We undercut
         {
             "name": "Deye SUN-8K-SG01LP1-US 8kW Hybrid Inverter",
             "category": "inverters",
@@ -250,7 +250,7 @@ async def seed_products():
                 "Parallel up to 16 units"
             ]
         },
-        # Deye 10kW - RezynTech: $340,000
+        # Deye 10kW - RezynTech: $340,000 - We undercut
         {
             "name": "Deye SUN-10K-SG01LP1-US 10kW Hybrid Inverter",
             "category": "inverters",
@@ -276,12 +276,12 @@ async def seed_products():
                 "Parallel scalability up to 16 units"
             ]
         },
-        # Deye 12kW - Enersave: Sale $390,000 / Reg $618,750
+        # Deye 12kW - Enersave: Sale $390,000 / Reg $618,750 - We undercut
         {
             "name": "Deye SUN-12K-SG02LP2-US 12kW Hybrid Inverter",
             "category": "inverters",
             "description": "12000W Hybrid Solar Inverter built for high-demand residential and commercial installations. Maximum capacity for complete energy independence.",
-            "regular_price": 610000,
+            "regular_price": 618750,
             "sale_price": 385000,
             "image_url": "https://enersavesolutions.com/cdn/shop/files/DEYE_SUN-12K-SG02LP2_grande.png?v=1721337309",
             "specs": {
