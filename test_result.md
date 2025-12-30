@@ -157,11 +157,14 @@ frontend:
     file: "frontend/src/components/ProductCard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Shows sale price and crossed-out original price, discount percentage badge"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Product catalog displays perfectly. Found 12 products with sale prices in gold color, crossed-out original prices, and discount badges (SAVE X%). All pricing displays correctly with proper formatting."
 
   - task: "SOLD OUT status display"
     implemented: true
