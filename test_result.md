@@ -101,3 +101,149 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Jonesaica Infrastructure Solutions e-commerce website with Snipcart cart integration. Fix broken add-to-cart functionality, update product catalog with correct pricing from competitor sites (Enersave, RezynTech), implement SOLD OUT and BACKORDER status displays."
+
+backend:
+  - task: "Product API with category filtering"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "GET /api/products and /api/products?category=X working correctly"
+
+  - task: "Product seed endpoint with correct pricing"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "POST /api/seed-products creates 14 products - 4 inverters, 7 batteries, 3 panels with correct pricing from user requirements"
+
+  - task: "Lead capture API"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/leads - needs testing"
+
+frontend:
+  - task: "Product catalog display with dual pricing"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ProductCard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Shows sale price and crossed-out original price, discount percentage badge"
+
+  - task: "SOLD OUT status display"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ProductCard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "SunPower 545W panel shows SOLD OUT overlay and disabled Sold Out button"
+
+  - task: "BACKORDER AVAILABLE status display"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ProductCard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "TW 625W panel shows BACKORDER AVAILABLE badge and Pre-Order button"
+
+  - task: "Category filter buttons"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/ProductsPage.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "All Products, Inverters, Batteries, Solar Panels filters working"
+
+  - task: "Snipcart cart integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/public/index.html, frontend/src/components/ProductCard.jsx"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Snipcart configured with user's live API key. Getting 500 errors from Snipcart API - likely needs domain whitelisting in Snipcart dashboard. data-item-url updated to use absolute URLs."
+
+  - task: "Product detail page"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/ProductDetailPage.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated with backorder status display and proper add-to-cart button states"
+
+  - task: "Lead capture modal"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/LeadCaptureModal.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Shows on first page load, needs form submission testing"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Product catalog display with dual pricing"
+    - "SOLD OUT status display"
+    - "BACKORDER AVAILABLE status display"
+    - "Category filter buttons"
+    - "Snipcart cart integration"
+  stuck_tasks:
+    - "Snipcart cart integration"
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Implemented product catalog with correct pricing from user's product links. Products seeded: 4 Deye inverters (6kW, 8kW, 10kW, 12kW), 7 batteries (4 Deye + 3 BSL), 3 solar panels (SunPower 450W in stock, SunPower 545W SOLD OUT, TW 625W BACKORDER). Snipcart integration configured but getting 500 errors - user needs to whitelist domain in Snipcart dashboard. Please test product display, filtering, and status indicators. Preview URL: https://solar-solutions-ja.preview.emergentagent.com"
