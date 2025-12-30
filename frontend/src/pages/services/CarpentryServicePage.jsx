@@ -1,29 +1,31 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { CheckCircle, Hammer, TreeDeciduous, Home } from "lucide-react";
+import { CheckCircle, Hammer, Home, Building2 } from "lucide-react";
 import { ContactForm } from "../../components/ContactForm";
 
+// CORRECTED: Decking = roof prep, slab work, ceiling beams - NOT patios/gazebos
 const services = [
-  "Custom decking & patios",
-  "Animal shelters & pens",
-  "Door jam repairs & installations",
-  "Door installation & hanging",
-  "Wooden structures & gazebos",
-  "Fence building",
-  "Repair & restoration",
-  "Custom woodwork projects",
+  "Roof prep & decking (slab work)",
+  "Ceiling beam installation",
+  "Roof framing & trusses",
+  "Animal pens & shelters",
+  "Door jams & door installation",
+  "Board housing construction",
+  "Basic housing structures",
+  "Fence building & repairs",
 ];
 
 const projects = [
   {
-    title: "Decking & Outdoor",
-    icon: TreeDeciduous,
-    description: "Beautiful, durable outdoor living spaces",
+    title: "Structural Carpentry",
+    icon: Building2,
+    description: "Foundation & roof work for buildings",
     items: [
-      "Wooden deck construction",
-      "Patio covers",
-      "Pergolas & gazebos",
-      "Outdoor furniture",
+      "Roof decking (slab preparation)",
+      "Ceiling beam installation",
+      "Roof framing & trusses",
+      "Floor joist systems",
+      "Structural supports",
     ],
   },
   {
@@ -32,20 +34,22 @@ const projects = [
     description: "Safe, sturdy shelters for your animals",
     items: [
       "Chicken coops",
-      "Dog kennels",
       "Goat pens",
+      "Dog kennels",
       "Livestock shelters",
+      "Feed storage structures",
     ],
   },
   {
-    title: "Doors & Frames",
+    title: "Housing & Doors",
     icon: Hammer,
-    description: "Professional door services",
+    description: "Residential carpentry work",
     items: [
-      "Door jam repair",
-      "New door installation",
-      "Frame reconstruction",
-      "Hardware fitting",
+      "Door jam repair/installation",
+      "New door hanging",
+      "Board house construction",
+      "Board shop structures",
+      "Basic housing frames",
     ],
   },
 ];
@@ -57,7 +61,7 @@ export default function CarpentryServicePage() {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.pexels.com/photos/1249611/pexels-photo-1249611.jpeg"
+            src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200"
             alt="Carpentry work"
             className="w-full h-full object-cover"
           />
@@ -70,24 +74,24 @@ export default function CarpentryServicePage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 bg-gold-400/20 text-gold-400 px-4 py-2 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 bg-gold-500/20 text-gold-400 px-4 py-2 border border-gold-500/30 mb-6">
               <Hammer size={20} />
               <span className="font-medium">Carpentry Services</span>
             </div>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mb-6">
-              Quality<br />
-              <span className="text-gold-gradient">Woodwork</span>
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mb-6">
+              QUALITY<br />
+              <span className="text-gold-400">CARPENTRY WORK</span>
             </h1>
-            <p className="text-slate-300 text-lg mb-8">
-              Expert carpentry services for all your building needs. From beautiful 
-              decks to functional animal shelters, we craft structures built to last
-              in Jamaica's climate.
+            <p className="text-royal-300 text-lg mb-8">
+              Expert carpentry services for all your building needs. Roof decking, 
+              ceiling beams, animal pens, door installations, and board housing. 
+              Built to last in Jamaica's climate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/quote" className="btn-primary px-8 py-4 text-center">
+              <Link to="/quote" className="btn-gold px-8 py-4 text-center rounded-none">
                 Get Free Quote
               </Link>
-              <Link to="/contact" className="btn-secondary px-8 py-4 text-center">
+              <Link to="/contact" className="btn-outline px-8 py-4 text-center rounded-none">
                 Contact Us
               </Link>
             </div>
@@ -102,9 +106,9 @@ export default function CarpentryServicePage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               Our Carpentry Services
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              From small repairs to major construction projects, our skilled 
-              carpenters deliver quality craftsmanship every time.
+            <p className="text-royal-400 max-w-2xl mx-auto">
+              From roof preparation to animal shelters, we deliver quality 
+              craftsmanship for all your carpentry needs.
             </p>
           </div>
           
@@ -116,10 +120,10 @@ export default function CarpentryServicePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-3 glass p-4 rounded-lg"
+                className="flex items-center gap-3 glass-card p-4 rounded-none border border-royal-700/50"
               >
-                <CheckCircle className="text-gold-400 flex-shrink-0" size={18} />
-                <span className="text-slate-300 text-sm">{service}</span>
+                <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
+                <span className="text-royal-300 text-sm">{service}</span>
               </motion.div>
             ))}
           </div>
@@ -133,19 +137,19 @@ export default function CarpentryServicePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass p-8 rounded-xl"
+                className="glass-card p-8 rounded-none border border-royal-700/50"
               >
-                <div className="p-3 bg-gold-400/10 rounded-lg inline-block mb-4">
+                <div className="p-3 bg-gold-500/10 rounded-none border border-gold-500/30 inline-block mb-4">
                   <project.icon className="text-gold-400" size={32} />
                 </div>
                 <h3 className="font-heading font-semibold text-xl text-white mb-2">
                   {project.title}
                 </h3>
-                <p className="text-slate-400 text-sm mb-4">{project.description}</p>
+                <p className="text-royal-400 text-sm mb-4">{project.description}</p>
                 <ul className="space-y-2">
                   {project.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-slate-300 text-sm">
-                      <span className="w-1.5 h-1.5 bg-gold-400 rounded-full" />
+                    <li key={item} className="flex items-center gap-2 text-royal-300 text-sm">
+                      <span className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
                       {item}
                     </li>
                   ))}
@@ -164,7 +168,7 @@ export default function CarpentryServicePage() {
               <h2 className="font-heading font-bold text-3xl text-white mb-6">
                 Built to Last
               </h2>
-              <p className="text-slate-400 mb-6">
+              <p className="text-royal-400 mb-6">
                 We understand Jamaica's climate presents unique challenges. That's why 
                 we use treated lumber and proven construction techniques to ensure 
                 your structures withstand the elements year after year.
@@ -176,29 +180,33 @@ export default function CarpentryServicePage() {
                   "Treated wood for longevity",
                   "Quality hardware & fasteners",
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-slate-300">
-                    <CheckCircle className="text-gold-400" size={18} />
+                  <li key={item} className="flex items-center gap-3 text-royal-300">
+                    <CheckCircle className="text-gold-500" size={18} />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="glass p-8 rounded-xl">
+            <div className="glass-card p-8 rounded-none border border-royal-700/50">
               <h3 className="font-heading font-semibold text-xl text-white mb-4">
                 Popular Projects
               </h3>
               <div className="space-y-4">
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <p className="text-white font-medium">Wooden Deck (200 sq ft)</p>
-                  <p className="text-slate-400 text-sm">Perfect for outdoor entertaining</p>
+                <div className="p-4 bg-royal-800/30 border border-royal-700">
+                  <p className="text-white font-medium">Roof Decking & Slab Prep</p>
+                  <p className="text-royal-400 text-sm">Foundation for concrete roof work</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg">
+                <div className="p-4 bg-royal-800/30 border border-royal-700">
                   <p className="text-white font-medium">Chicken Coop (8-12 birds)</p>
-                  <p className="text-slate-400 text-sm">Secure, easy-to-clean design</p>
+                  <p className="text-royal-400 text-sm">Secure, easy-to-clean design</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg">
-                  <p className="text-white font-medium">Door Installation</p>
-                  <p className="text-slate-400 text-sm">Interior or exterior doors</p>
+                <div className="p-4 bg-royal-800/30 border border-royal-700">
+                  <p className="text-white font-medium">Door Jam & Installation</p>
+                  <p className="text-royal-400 text-sm">Interior or exterior doors</p>
+                </div>
+                <div className="p-4 bg-royal-800/30 border border-royal-700">
+                  <p className="text-white font-medium">Board House/Shop Structure</p>
+                  <p className="text-royal-400 text-sm">Basic housing frame construction</p>
                 </div>
               </div>
             </div>
@@ -213,11 +221,11 @@ export default function CarpentryServicePage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               Start Your Project
             </h2>
-            <p className="text-slate-400">
+            <p className="text-royal-400">
               Contact us for a free consultation and quote
             </p>
           </div>
-          <div className="glass p-8 rounded-xl">
+          <div className="glass-card p-8 rounded-none border border-royal-700/50">
             <ContactForm />
           </div>
         </div>

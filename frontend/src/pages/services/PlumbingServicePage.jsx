@@ -29,7 +29,7 @@ export default function PlumbingServicePage() {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.pexels.com/photos/7220892/pexels-photo-7220892.jpeg"
+            src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=1200"
             alt="Plumbing work"
             className="w-full h-full object-cover"
           />
@@ -42,23 +42,23 @@ export default function PlumbingServicePage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 bg-gold-400/20 text-gold-400 px-4 py-2 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 bg-gold-500/20 text-gold-400 px-4 py-2 border border-gold-500/30 mb-6">
               <Wrench size={20} />
               <span className="font-medium">Plumbing Services</span>
             </div>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mb-6">
-              Expert<br />
-              <span className="text-gold-gradient">Plumbing Solutions</span>
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mb-6">
+              EXPERT<br />
+              <span className="text-gold-400">PLUMBING SOLUTIONS</span>
             </h1>
-            <p className="text-slate-300 text-lg mb-8">
+            <p className="text-royal-300 text-lg mb-8">
               Professional plumbing services for installations, repairs, and maintenance.
               From fixing leaks to complete bathroom renovations, we've got you covered.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/quote" className="btn-primary px-8 py-4 text-center">
+              <Link to="/quote" className="btn-gold px-8 py-4 text-center rounded-none">
                 Get Free Quote
               </Link>
-              <a href="tel:+18768422916" className="btn-secondary px-8 py-4 text-center">
+              <a href="tel:+18768422916" className="btn-outline px-8 py-4 text-center rounded-none">
                 Call: (876) 842-2916
               </a>
             </div>
@@ -74,10 +74,10 @@ export default function PlumbingServicePage() {
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-6">
                 Our Plumbing Services
               </h2>
-              <p className="text-slate-400 mb-8">
+              <p className="text-royal-400 mb-8">
                 Whether it's a dripping faucet or a complete plumbing system installation, 
-                our experienced plumbers deliver reliable, lasting solutions. We work on 
-                residential and commercial properties across Jamaica.
+                we deliver reliable, lasting solutions. We work on residential and 
+                commercial properties across Jamaica.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -90,8 +90,8 @@ export default function PlumbingServicePage() {
                     viewport={{ once: true }}
                     className="flex items-center gap-3"
                   >
-                    <CheckCircle className="text-gold-400 flex-shrink-0" size={18} />
-                    <span className="text-slate-300 text-sm">{service}</span>
+                    <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
+                    <span className="text-royal-300 text-sm">{service}</span>
                   </motion.div>
                 ))}
               </div>
@@ -102,10 +102,10 @@ export default function PlumbingServicePage() {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-gold-400/10 rounded-lg">
+                  <div className="p-2 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <ShowerHead className="text-gold-400" size={24} />
                   </div>
                   <h3 className="font-heading font-semibold text-xl text-white">
@@ -114,8 +114,8 @@ export default function PlumbingServicePage() {
                 </div>
                 <ul className="space-y-2">
                   {["Sink installations", "Toilet repairs & replacement", "Shower installations", "Faucet repairs"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-slate-400 text-sm">
-                      <span className="w-1.5 h-1.5 bg-gold-400 rounded-full" />
+                    <li key={item} className="flex items-center gap-2 text-royal-400 text-sm">
+                      <span className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
                       {item}
                     </li>
                   ))}
@@ -127,10 +127,10 @@ export default function PlumbingServicePage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
                 viewport={{ once: true }}
-                className="glass p-6 rounded-xl"
+                className="glass-card p-6 rounded-none border border-royal-700/50"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-gold-400/10 rounded-lg">
+                  <div className="p-2 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <Droplets className="text-gold-400" size={24} />
                   </div>
                   <h3 className="font-heading font-semibold text-xl text-white">
@@ -139,8 +139,8 @@ export default function PlumbingServicePage() {
                 </div>
                 <ul className="space-y-2">
                   {["Water tank installation", "Pump systems", "Pressure issues", "Main line repairs"].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-slate-400 text-sm">
-                      <span className="w-1.5 h-1.5 bg-gold-400 rounded-full" />
+                    <li key={item} className="flex items-center gap-2 text-royal-400 text-sm">
+                      <span className="w-1.5 h-1.5 bg-gold-500 rounded-full" />
                       {item}
                     </li>
                   ))}
@@ -154,20 +154,20 @@ export default function PlumbingServicePage() {
       {/* Emergency Services */}
       <section className="py-16 bg-royal-900/30">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="glass p-8 md:p-12 rounded-xl">
+          <div className="glass-card p-8 md:p-12 rounded-none border border-gold-500/30">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h2 className="font-heading font-bold text-2xl md:text-3xl text-white mb-4">
                   Plumbing Emergency?
                 </h2>
-                <p className="text-slate-400 mb-6">
+                <p className="text-royal-400 mb-6">
                   Water damage doesn't wait. If you have a plumbing emergency, 
                   call us immediately. We respond quickly to minimize damage 
                   and get your plumbing back in working order.
                 </p>
                 <a
                   href="tel:+18768422916"
-                  className="inline-block btn-primary px-8 py-4"
+                  className="inline-block btn-gold px-8 py-4 rounded-none"
                 >
                   Call Now: (876) 842-2916
                 </a>
@@ -176,8 +176,8 @@ export default function PlumbingServicePage() {
                 <h3 className="font-semibold text-white mb-4">Common Emergencies:</h3>
                 <ul className="space-y-3">
                   {emergencyServices.map((service) => (
-                    <li key={service} className="flex items-center gap-3 text-slate-300">
-                      <Wrench className="text-gold-400" size={18} />
+                    <li key={service} className="flex items-center gap-3 text-royal-300">
+                      <Wrench className="text-gold-500" size={18} />
                       {service}
                     </li>
                   ))}
@@ -195,11 +195,11 @@ export default function PlumbingServicePage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               Need Plumbing Help?
             </h2>
-            <p className="text-slate-400">
+            <p className="text-royal-400">
               Contact us for a free quote on your plumbing project
             </p>
           </div>
-          <div className="glass p-8 rounded-xl">
+          <div className="glass-card p-8 rounded-none border border-royal-700/50">
             <ContactForm />
           </div>
         </div>

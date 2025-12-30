@@ -42,7 +42,7 @@ export default function SolarServicePage() {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.pexels.com/photos/9875423/pexels-photo-9875423.jpeg"
+            src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200"
             alt="Solar installation"
             className="w-full h-full object-cover"
           />
@@ -55,24 +55,24 @@ export default function SolarServicePage() {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 bg-gold-400/20 text-gold-400 px-4 py-2 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 bg-gold-500/20 text-gold-400 px-4 py-2 border border-gold-500/30 mb-6">
               <Sun size={20} />
               <span className="font-medium">Solar Energy Solutions</span>
             </div>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mb-6">
-              Power Your Home with<br />
-              <span className="text-gold-gradient">Clean Energy</span>
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mb-6">
+              POWER YOUR HOME WITH<br />
+              <span className="text-gold-400">CLEAN ENERGY</span>
             </h1>
-            <p className="text-slate-300 text-lg mb-8">
+            <p className="text-royal-300 text-lg mb-8">
               Professional solar installation services across Jamaica. Save money, 
               reduce your carbon footprint, and achieve energy independence with 
               premium equipment at competitive prices.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/quote" className="btn-primary px-8 py-4 text-center">
+              <Link to="/quote" className="btn-gold px-8 py-4 text-center rounded-none">
                 Get Free Solar Quote
               </Link>
-              <Link to="/products" className="btn-secondary px-8 py-4 text-center">
+              <Link to="/products" className="btn-outline px-8 py-4 text-center rounded-none">
                 View Products
               </Link>
             </div>
@@ -88,7 +88,7 @@ export default function SolarServicePage() {
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-6">
                 Complete Solar Solutions
               </h2>
-              <p className="text-slate-400 mb-8">
+              <p className="text-royal-400 mb-8">
                 From initial consultation to final installation and ongoing support, 
                 we handle every aspect of your solar project. Our team ensures you 
                 get the right system for your needs and budget.
@@ -104,28 +104,28 @@ export default function SolarServicePage() {
                     viewport={{ once: true }}
                     className="flex items-center gap-3"
                   >
-                    <CheckCircle className="text-gold-400 flex-shrink-0" size={18} />
-                    <span className="text-slate-300 text-sm">{feature}</span>
+                    <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
+                    <span className="text-royal-300 text-sm">{feature}</span>
                   </motion.div>
                 ))}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="glass p-6 rounded-xl text-center">
+              <div className="glass-card p-6 rounded-none text-center border border-royal-700/50">
                 <Zap className="text-gold-400 mx-auto mb-4" size={40} />
                 <p className="text-3xl font-bold text-white mb-2">6-12kW</p>
-                <p className="text-slate-400 text-sm">Inverter Options</p>
+                <p className="text-royal-400 text-sm">Inverter Options</p>
               </div>
-              <div className="glass p-6 rounded-xl text-center">
+              <div className="glass-card p-6 rounded-none text-center border border-royal-700/50">
                 <Battery className="text-gold-400 mx-auto mb-4" size={40} />
                 <p className="text-3xl font-bold text-white mb-2">5-16kWh</p>
-                <p className="text-slate-400 text-sm">Battery Storage</p>
+                <p className="text-royal-400 text-sm">Battery Storage</p>
               </div>
-              <div className="glass p-6 rounded-xl text-center col-span-2">
+              <div className="glass-card p-6 rounded-none text-center col-span-2 border border-royal-700/50">
                 <Sun className="text-gold-400 mx-auto mb-4" size={40} />
                 <p className="text-3xl font-bold text-white mb-2">450-545W</p>
-                <p className="text-slate-400 text-sm">High-Efficiency Panels</p>
+                <p className="text-royal-400 text-sm">High-Efficiency Panels</p>
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function SolarServicePage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               Solar Packages
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
+            <p className="text-royal-400 max-w-2xl mx-auto">
               Pre-designed packages to suit different needs. Custom configurations also available.
             </p>
           </div>
@@ -152,17 +152,17 @@ export default function SolarServicePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="glass p-8 rounded-xl"
+                className="glass-card p-8 rounded-none border border-royal-700/50"
               >
                 <h3 className="font-heading font-bold text-xl text-white mb-2">
                   {pkg.name}
                 </h3>
-                <p className="text-slate-400 text-sm mb-6">{pkg.description}</p>
+                <p className="text-royal-400 text-sm mb-6">{pkg.description}</p>
                 
                 <div className="space-y-3 mb-6">
                   {pkg.components.map((component) => (
-                    <div key={component} className="flex items-center gap-2 text-slate-300">
-                      <CheckCircle className="text-gold-400" size={16} />
+                    <div key={component} className="flex items-center gap-2 text-royal-300">
+                      <CheckCircle className="text-gold-500" size={16} />
                       <span className="text-sm">{component}</span>
                     </div>
                   ))}
@@ -174,7 +174,7 @@ export default function SolarServicePage() {
 
                 <Link
                   to="/quote"
-                  className="flex items-center justify-center gap-2 w-full btn-secondary py-3"
+                  className="flex items-center justify-center gap-2 w-full btn-outline py-3 rounded-none"
                 >
                   Get Quote <ArrowRight size={18} />
                 </Link>
@@ -191,11 +191,11 @@ export default function SolarServicePage() {
             <h2 className="font-heading font-bold text-3xl md:text-4xl text-white mb-4">
               Ready to Go Solar?
             </h2>
-            <p className="text-slate-400">
+            <p className="text-royal-400">
               Contact us for a free consultation and quote
             </p>
           </div>
-          <div className="glass p-8 rounded-xl">
+          <div className="glass-card p-8 rounded-none border border-royal-700/50">
             <ContactForm />
           </div>
         </div>
