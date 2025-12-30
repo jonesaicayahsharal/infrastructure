@@ -12,43 +12,43 @@ const services = [
   {
     title: "Solar Installation",
     slug: "solar",
-    description: "Complete solar energy solutions including panel installation, inverters, batteries, and maintenance. Power your home with clean, renewable energy.",
+    description: "Complete solar energy solutions. Inverters, batteries, panels, and professional installation across Jamaica.",
     icon: Sun,
-    image: "https://images.pexels.com/photos/9875423/pexels-photo-9875423.jpeg",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
     path: "/services/solar",
   },
   {
     title: "Electrical Services",
     slug: "electrical",
-    description: "Professional electrical work for residential and commercial properties. Wiring, installations, repairs, and upgrades.",
+    description: "Full electrical work for residential and commercial properties. Wiring, installations, repairs, and upgrades.",
     icon: Zap,
-    image: "https://images.pexels.com/photos/27928761/pexels-photo-27928761.jpeg",
+    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800",
     path: "/services/electrical",
   },
   {
     title: "Carpentry",
     slug: "carpentry",
-    description: "Quality woodwork including decking, animal shelters, pens, door jams, and door installations. Built to last.",
+    description: "Roof prep, ceiling beams, slab work, animal pens, door jams, board housing, and structural carpentry.",
     icon: Hammer,
-    image: "https://images.pexels.com/photos/1249611/pexels-photo-1249611.jpeg",
+    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800",
     path: "/services/carpentry",
   },
   {
     title: "Plumbing",
     slug: "plumbing",
-    description: "Comprehensive plumbing services from installations to repairs. Water systems, drainage, and fixtures.",
+    description: "Comprehensive plumbing from installations to repairs. Water systems, drainage, fixtures, and tanks.",
     icon: Wrench,
-    image: "https://images.pexels.com/photos/7220892/pexels-photo-7220892.jpeg",
+    image: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=800",
     path: "/services/plumbing",
   },
 ];
 
 const benefits = [
-  "Licensed & Insured Professionals",
   "Island-Wide Service Coverage",
   "Competitive Pricing",
   "Quality Products & Materials",
-  "Expert Installation & Support",
+  "Experienced Team",
+  "Reliable Support",
   "Satisfaction Guaranteed",
 ];
 
@@ -60,7 +60,7 @@ export default function HomePage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API}/products`);
-        setProducts(response.data.slice(0, 6)); // Show only 6 featured products
+        setProducts(response.data.slice(0, 6));
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -73,83 +73,85 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       {/* Hero Section */}
-      <section className="hero-gradient min-h-screen flex items-center pt-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
+      <section className="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600 rounded-full filter blur-[150px]" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-royal-500 rounded-full filter blur-[150px]" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Content */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block text-gold-400 text-sm font-bold uppercase tracking-widest mb-6">
-                Powering Jamaica's Future
+              <span className="inline-block text-gold-400 text-sm font-bold uppercase tracking-widest mb-6 border border-gold-500/30 px-4 py-2">
+                Solar & Building Solutions
               </span>
-              <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6">
-                Solar Energy &<br />
-                <span className="text-gold-gradient">Building Solutions</span>
+              <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6">
+                POWERING<br />
+                <span className="text-gold-400">JAMAICA'S</span><br />
+                FUTURE
               </h1>
-              <p className="text-slate-400 text-lg mb-8 max-w-lg">
-                Jonesaica Infrastructure Solutions provides premium solar installations, 
-                electrical, plumbing, and carpentry services across Jamaica. 
-                Quality workmanship, competitive prices.
+              <p className="text-royal-300 text-lg mb-8 max-w-lg">
+                Premium solar installations, electrical work, plumbing, and carpentry 
+                services. Quality equipment at competitive prices, serving all of Jamaica.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Link
                   to="/products"
-                  className="btn-primary px-8 py-4 text-center font-bold"
+                  className="btn-gold px-8 py-4 text-center font-bold rounded-none"
                   data-testid="hero-shop-btn"
                 >
                   Shop Products
                 </Link>
                 <Link
                   to="/quote"
-                  className="btn-secondary px-8 py-4 text-center font-bold"
+                  className="btn-outline px-8 py-4 text-center font-bold rounded-none"
                   data-testid="hero-quote-btn"
                 >
                   Get Free Quote
                 </Link>
               </div>
 
-              {/* Trust Badges */}
-              <div className="flex items-center gap-6 text-slate-400">
+              <div className="flex items-center gap-6 text-royal-400">
                 <div className="flex items-center gap-2">
-                  <CheckCircle className="text-gold-400" size={20} />
+                  <CheckCircle className="text-gold-500" size={20} />
                   <span className="text-sm">Island-Wide Service</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle className="text-gold-400" size={20} />
+                  <CheckCircle className="text-gold-500" size={20} />
                   <span className="text-sm">Best Prices</span>
                 </div>
               </div>
             </motion.div>
 
-            {/* Hero Image */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-none overflow-hidden border border-royal-700">
                 <img
-                  src="https://images.pexels.com/photos/9875423/pexels-photo-9875423.jpeg"
+                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800"
                   alt="Solar panel installation"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-royal-950/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-royal-950/60 to-transparent" />
               </div>
               
-              {/* Floating Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="absolute -bottom-6 -left-6 glass p-6 rounded-lg max-w-xs"
+                className="absolute -bottom-6 -left-6 glass-card p-6 rounded-none border border-gold-500/30"
               >
                 <p className="text-gold-400 font-bold text-2xl mb-1">J$132,000</p>
-                <p className="text-white text-sm">Starting from - Deye 5.12kWh Battery</p>
+                <p className="text-white text-sm">Starting - Deye 5.12kWh Battery</p>
               </motion.div>
             </motion.div>
           </div>
@@ -163,11 +165,11 @@ export default function HomePage() {
             <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
               What We Do
             </span>
-            <h2 className="font-heading font-bold text-3xl md:text-5xl text-white mt-4 mb-6">
-              Our Services
+            <h2 className="font-heading font-black text-3xl md:text-5xl text-white mt-4 mb-6">
+              OUR SERVICES
             </h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              From solar energy to building services, we provide comprehensive solutions 
+            <p className="text-royal-400 text-lg max-w-2xl mx-auto">
+              From solar energy to building services, comprehensive solutions 
               for your home and business across Jamaica.
             </p>
           </div>
@@ -193,8 +195,8 @@ export default function HomePage() {
               <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
                 Featured Products
               </span>
-              <h2 className="font-heading font-bold text-3xl md:text-5xl text-white mt-4">
-                Solar Equipment
+              <h2 className="font-heading font-black text-3xl md:text-5xl text-white mt-4">
+                SOLAR EQUIPMENT
               </h2>
             </div>
             <Link
@@ -209,11 +211,11 @@ export default function HomePage() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="glass-card rounded-lg p-4 animate-pulse">
-                  <div className="aspect-square bg-royal-800 rounded mb-4" />
-                  <div className="h-4 bg-royal-800 rounded w-1/4 mb-2" />
-                  <div className="h-6 bg-royal-800 rounded w-3/4 mb-4" />
-                  <div className="h-8 bg-royal-800 rounded w-1/2" />
+                <div key={i} className="glass-card rounded-none p-4 animate-pulse border border-royal-700/50">
+                  <div className="aspect-square bg-royal-800 mb-4" />
+                  <div className="h-4 bg-royal-800 w-1/4 mb-2" />
+                  <div className="h-6 bg-royal-800 w-3/4 mb-4" />
+                  <div className="h-8 bg-royal-800 w-1/2" />
                 </div>
               ))}
             </div>
@@ -235,8 +237,8 @@ export default function HomePage() {
               <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
                 Why Choose Us
               </span>
-              <h2 className="font-heading font-bold text-3xl md:text-5xl text-white mt-4 mb-8">
-                Jamaica's Trusted<br />Infrastructure Partner
+              <h2 className="font-heading font-black text-3xl md:text-5xl text-white mt-4 mb-8">
+                JAMAICA'S TRUSTED<br />INFRASTRUCTURE PARTNER
               </h2>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -249,24 +251,24 @@ export default function HomePage() {
                     viewport={{ once: true }}
                     className="flex items-center gap-3"
                   >
-                    <CheckCircle className="text-gold-400 flex-shrink-0" size={20} />
-                    <span className="text-slate-300">{benefit}</span>
+                    <CheckCircle className="text-gold-500 flex-shrink-0" size={20} />
+                    <span className="text-royal-300">{benefit}</span>
                   </motion.div>
                 ))}
               </div>
 
-              <div className="mt-8 p-6 glass rounded-lg">
-                <p className="text-slate-400 mb-4">Ready to start your project?</p>
+              <div className="mt-8 p-6 glass-card rounded-none border border-gold-500/30">
+                <p className="text-royal-400 mb-4">Ready to start your project?</p>
                 <a
                   href="tel:+18768422916"
                   className="flex items-center gap-3 text-white"
                 >
-                  <div className="p-3 bg-gold-400 rounded-lg">
-                    <Phone className="text-black" size={24} />
+                  <div className="p-3 bg-gold-500 rounded-none">
+                    <Phone className="text-royal-950" size={24} />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Call us now</p>
-                    <p className="font-bold text-xl">+1 (876) 842-2916</p>
+                    <p className="text-sm text-royal-400">Call us now</p>
+                    <p className="font-bold text-xl">+1-876-842-2916</p>
                   </div>
                 </a>
               </div>
@@ -274,9 +276,9 @@ export default function HomePage() {
 
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/7605954/pexels-photo-7605954.jpeg"
-                alt="Solar installation team"
-                className="rounded-xl"
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+                alt="Solar installation work"
+                className="rounded-none border border-royal-700"
               />
             </div>
           </div>
@@ -291,28 +293,28 @@ export default function HomePage() {
               <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
                 Get In Touch
               </span>
-              <h2 className="font-heading font-bold text-3xl md:text-5xl text-white mt-4 mb-6">
-                Contact Us Today
+              <h2 className="font-heading font-black text-3xl md:text-5xl text-white mt-4 mb-6">
+                CONTACT US TODAY
               </h2>
-              <p className="text-slate-400 text-lg mb-8">
+              <p className="text-royal-400 text-lg mb-8">
                 Whether you need a quote, have questions about our services, or want to 
-                discuss your project, we're here to help. Reach out and let's build something great together.
+                discuss your project, we're here to help.
               </p>
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold-400/10 rounded-lg">
+                  <div className="p-3 bg-gold-500/10 rounded-none border border-gold-500/30">
                     <Phone className="text-gold-400" size={24} />
                   </div>
                   <div>
                     <p className="text-white font-medium">Phone</p>
-                    <p className="text-slate-400">+1 (876) 842-2916</p>
+                    <p className="text-royal-400">+1-876-842-2916</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="glass p-8 rounded-xl">
+            <div className="glass-card p-8 rounded-none border border-royal-700/50">
               <ContactForm />
             </div>
           </div>

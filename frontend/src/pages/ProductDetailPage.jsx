@@ -36,7 +36,7 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold-400"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold-500"></div>
       </div>
     );
   }
@@ -59,10 +59,9 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen pt-20" data-testid="product-detail-page">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        {/* Back Link */}
         <Link
           to="/products"
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-royal-400 hover:text-gold-400 mb-8 transition-colors"
           data-testid="back-to-products"
         >
           <ArrowLeft size={20} />
@@ -76,7 +75,7 @@ export default function ProductDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             className="relative"
           >
-            <div className="aspect-square rounded-xl overflow-hidden bg-royal-900">
+            <div className="aspect-square rounded-none overflow-hidden bg-royal-900 border border-royal-700">
               <img
                 src={product.image_url}
                 alt={product.name}
@@ -84,7 +83,7 @@ export default function ProductDetailPage() {
               />
             </div>
             {discount > 0 && (
-              <div className="absolute top-4 left-4 bg-gold-400 text-black px-4 py-2 text-lg font-bold">
+              <div className="absolute top-4 left-4 bg-gold-500 text-royal-950 px-4 py-2 text-lg font-bold">
                 SAVE {discount}%
               </div>
             )}
@@ -108,14 +107,14 @@ export default function ProductDetailPage() {
                 {formatPrice(product.sale_price)}
               </span>
               {product.regular_price > product.sale_price && (
-                <span className="text-slate-500 line-through text-xl">
+                <span className="text-royal-500 line-through text-xl">
                   {formatPrice(product.regular_price)}
                 </span>
               )}
             </div>
 
             {/* Description */}
-            <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+            <p className="text-royal-300 text-lg mb-8 leading-relaxed">
               {product.description}
             </p>
 
@@ -128,13 +127,30 @@ export default function ProductDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(product.specs).map(([key, value]) => (
                     <div key={key} className="flex items-center gap-2">
-                      <CheckCircle className="text-gold-400 flex-shrink-0" size={16} />
-                      <span className="text-slate-400 capitalize">
+                      <CheckCircle className="text-gold-500 flex-shrink-0" size={16} />
+                      <span className="text-royal-400 capitalize">
                         {key.replace(/_/g, " ")}: <span className="text-white">{value}</span>
                       </span>
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Features */}
+            {product.features && (
+              <div className="mb-8">
+                <h3 className="font-heading font-semibold text-white text-lg mb-4">
+                  Features
+                </h3>
+                <ul className="space-y-2">
+                  {product.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2 text-royal-300">
+                      <CheckCircle className="text-gold-500 flex-shrink-0" size={16} />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
@@ -153,7 +169,7 @@ export default function ProductDetailPage() {
             {/* Add to Cart */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                className="snipcart-add-item flex-1 btn-primary py-4 flex items-center justify-center gap-3 text-lg disabled:opacity-50"
+                className="snipcart-add-item flex-1 btn-gold py-4 flex items-center justify-center gap-3 text-lg rounded-none disabled:opacity-50"
                 data-item-id={product.id}
                 data-item-price={product.sale_price}
                 data-item-url={`/products/${product.id}`}
@@ -168,7 +184,7 @@ export default function ProductDetailPage() {
               </button>
               <Link
                 to="/quote"
-                className="flex-1 btn-secondary py-4 text-center text-lg"
+                className="flex-1 btn-outline py-4 text-center text-lg rounded-none"
                 data-testid="request-quote-btn"
               >
                 Request Quote
@@ -176,25 +192,25 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Additional Info */}
-            <div className="mt-8 p-6 glass rounded-lg">
+            <div className="mt-8 p-6 glass-card rounded-none border border-royal-700/50">
               <h4 className="font-heading font-semibold text-white mb-4">
                 Why Buy From Jonesaica?
               </h4>
               <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-slate-400">
-                  <CheckCircle className="text-gold-400" size={16} />
+                <li className="flex items-center gap-2 text-royal-400">
+                  <CheckCircle className="text-gold-500" size={16} />
                   Competitive prices - we beat local competition
                 </li>
-                <li className="flex items-center gap-2 text-slate-400">
-                  <CheckCircle className="text-gold-400" size={16} />
+                <li className="flex items-center gap-2 text-royal-400">
+                  <CheckCircle className="text-gold-500" size={16} />
                   Professional installation available
                 </li>
-                <li className="flex items-center gap-2 text-slate-400">
-                  <CheckCircle className="text-gold-400" size={16} />
+                <li className="flex items-center gap-2 text-royal-400">
+                  <CheckCircle className="text-gold-500" size={16} />
                   Island-wide delivery & service
                 </li>
-                <li className="flex items-center gap-2 text-slate-400">
-                  <CheckCircle className="text-gold-400" size={16} />
+                <li className="flex items-center gap-2 text-royal-400">
+                  <CheckCircle className="text-gold-500" size={16} />
                   Expert support & warranty
                 </li>
               </ul>

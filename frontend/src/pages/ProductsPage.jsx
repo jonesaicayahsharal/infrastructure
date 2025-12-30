@@ -47,10 +47,10 @@ export default function ProductsPage() {
             <span className="text-gold-400 text-sm font-bold uppercase tracking-widest">
               Shop
             </span>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl text-white mt-4 mb-6">
-              Solar Products
+            <h1 className="font-heading font-black text-4xl md:text-6xl text-white mt-4 mb-6">
+              SOLAR PRODUCTS
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-royal-400 text-lg max-w-2xl mx-auto">
               Quality solar equipment at competitive prices. Inverters, batteries, 
               and panels from trusted brands like Deye, BSL, and SunPower.
             </p>
@@ -67,10 +67,10 @@ export default function ProductsPage() {
               <button
                 key={category.value}
                 onClick={() => setActiveCategory(category.value)}
-                className={`px-6 py-3 font-medium transition-all ${
+                className={`px-6 py-3 font-medium transition-all rounded-none ${
                   activeCategory === category.value
-                    ? "bg-gold-400 text-black"
-                    : "bg-white/5 text-slate-300 hover:bg-white/10"
+                    ? "bg-gold-500 text-royal-950"
+                    : "bg-royal-800/50 text-royal-300 hover:bg-royal-700/50 border border-royal-700"
                 }`}
                 data-testid={`filter-${category.value || 'all'}`}
               >
@@ -83,17 +83,17 @@ export default function ProductsPage() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="glass-card rounded-lg p-4 animate-pulse">
-                  <div className="aspect-square bg-royal-800 rounded mb-4" />
-                  <div className="h-4 bg-royal-800 rounded w-1/4 mb-2" />
-                  <div className="h-6 bg-royal-800 rounded w-3/4 mb-4" />
-                  <div className="h-8 bg-royal-800 rounded w-1/2" />
+                <div key={i} className="glass-card rounded-none p-4 animate-pulse border border-royal-700/50">
+                  <div className="aspect-square bg-royal-800 mb-4" />
+                  <div className="h-4 bg-royal-800 w-1/4 mb-2" />
+                  <div className="h-6 bg-royal-800 w-3/4 mb-4" />
+                  <div className="h-8 bg-royal-800 w-1/2" />
                 </div>
               ))}
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-slate-400 text-lg">No products found in this category.</p>
+              <p className="text-royal-400 text-lg">No products found in this category.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -104,17 +104,17 @@ export default function ProductsPage() {
           )}
 
           {/* Info Banner */}
-          <div className="mt-16 glass p-8 rounded-xl text-center">
+          <div className="mt-16 glass-card p-8 rounded-none text-center border border-gold-500/30">
             <h3 className="font-heading font-bold text-2xl text-white mb-4">
               Need Help Choosing?
             </h3>
-            <p className="text-slate-400 mb-6 max-w-2xl mx-auto">
+            <p className="text-royal-400 mb-6 max-w-2xl mx-auto">
               Not sure which products are right for your setup? Contact us for a free 
               consultation and we'll help you design the perfect solar system.
             </p>
             <a
               href="/quote"
-              className="inline-block btn-primary px-8 py-4"
+              className="inline-block btn-gold px-8 py-4 rounded-none"
               data-testid="products-quote-btn"
             >
               Request Free Quote
