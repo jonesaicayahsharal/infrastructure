@@ -243,15 +243,18 @@ frontend:
 
   - task: "Lead capture modal"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/components/LeadCaptureModal.jsx"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Shows on first page load, needs form submission testing"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Lead capture modal appears on first visit with all required fields (Full Name, Email, Phone, Parish, District, Interested In, Message). Form submission works correctly and sets localStorage to prevent re-showing."
 
 metadata:
   created_by: "main_agent"
