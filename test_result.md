@@ -213,15 +213,18 @@ frontend:
 
   - task: "Snipcart cart integration"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/public/index.html, frontend/src/components/ProductCard.jsx"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "Snipcart configured with user's live API key. Getting 500 errors from Snipcart API - likely needs domain whitelisting in Snipcart dashboard. data-item-url updated to use absolute URLs."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL: Snipcart integration failing with 500 errors. Console shows 'Failed to load resource: the server responded with a status of 500' from app.snipcart.com/api/cart and sessions endpoints. Domain whitelisting required in Snipcart dashboard for production URL."
 
   - task: "Product detail page"
     implemented: true
