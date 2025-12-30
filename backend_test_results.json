@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-30T21:36:41.231488",
+  "timestamp": "2025-12-30T22:14:20.659694",
   "total_tests": 10,
   "passed_tests": 10,
   "success_rate": 1.0,
@@ -37,22 +37,22 @@
     {
       "test": "POST Lead",
       "success": true,
-      "details": "Status: 200, Lead ID: d3d9ef18-1529-4002-80ad-2e8bc13df22d"
+      "details": "Status: 200, Lead ID: e1c357ff-c3ec-4a8f-8a15-42e26020fb1a"
     },
     {
       "test": "GET Leads",
       "success": true,
-      "details": "Status: 200, Leads count: 6"
+      "details": "Status: 200, Leads count: 12"
     },
     {
       "test": "POST Quote",
       "success": true,
-      "details": "Status: 200, Quote ID: 0f5daa87-d2ec-48ed-931f-807d9ba5e0be"
+      "details": "Status: 200, Quote ID: 259c6e01-26f2-4ce1-9994-dc35731048f0"
     },
     {
       "test": "GET Quotes",
       "success": true,
-      "details": "Status: 200, Quotes count: 4"
+      "details": "Status: 200, Quotes count: 5"
     }
   ]
 }
