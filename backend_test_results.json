@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-30T17:05:28.843713",
+  "timestamp": "2025-12-30T21:36:41.231488",
   "total_tests": 10,
   "passed_tests": 10,
   "success_rate": 1.0,
@@ -12,12 +12,12 @@
     {
       "test": "POST Seed Products",
       "success": true,
-      "details": "Status: 200, Message: Successfully seeded 15 products"
+      "details": "Status: 200, Message: Successfully seeded 14 products"
     },
     {
       "test": "GET Products",
       "success": true,
-      "details": "Status: 200, Products count: 15, Sample product: Deye 6kW Hybrid Solar Inverter"
+      "details": "Status: 200, Products count: 14, Sample product: Deye SUN-6K-SG01LP1-US 6kW Hybrid Inverter"
     },
     {
       "test": "GET Products - inverters",
@@ -27,32 +27,32 @@
     {
       "test": "GET Products - batteries",
       "success": true,
-      "details": "Status: 200, batteries count: 9"
+      "details": "Status: 200, batteries count: 7"
     },
     {
       "test": "GET Products - panels",
       "success": true,
-      "details": "Status: 200, panels count: 2"
+      "details": "Status: 200, panels count: 3"
     },
     {
       "test": "POST Lead",
       "success": true,
-      "details": "Status: 200, Lead ID: a7038b0b-d9e3-456d-9c95-490e7ccd6669"
+      "details": "Status: 200, Lead ID: d3d9ef18-1529-4002-80ad-2e8bc13df22d"
     },
     {
       "test": "GET Leads",
       "success": true,
-      "details": "Status: 200, Leads count: 4"
+      "details": "Status: 200, Leads count: 6"
     },
     {
       "test": "POST Quote",
       "success": true,
-      "details": "Status: 200, Quote ID: 081a2f66-0724-4d56-8c25-35b660509da8"
+      "details": "Status: 200, Quote ID: 0f5daa87-d2ec-48ed-931f-807d9ba5e0be"
     },
     {
       "test": "GET Quotes",
       "success": true,
-      "details": "Status: 200, Quotes count: 3"
+      "details": "Status: 200, Quotes count: 4"
     }
   ]
 }
