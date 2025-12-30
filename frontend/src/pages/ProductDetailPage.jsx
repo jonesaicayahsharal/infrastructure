@@ -156,31 +156,36 @@ export default function ProductDetailPage() {
 
             {/* Stock Status */}
             <div className="mb-8">
-              {product.in_stock ? (
+              {product.backorder ? (
+                <span className="inline-flex items-center gap-2 text-purple-400">
+                  <CheckCircle size={20} />
+                  Available on Backorder
+                </span>
+              ) : product.in_stock ? (
                 <span className="inline-flex items-center gap-2 text-green-400">
                   <CheckCircle size={20} />
                   In Stock
                 </span>
               ) : (
-                <span className="text-red-400">Out of Stock</span>
+                <span className="text-red-400 font-bold">SOLD OUT</span>
               )}
             </div>
 
             {/* Add to Cart */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                className="snipcart-add-item flex-1 btn-gold py-4 flex items-center justify-center gap-3 text-lg rounded-none disabled:opacity-50"
+                className="snipcart-add-item flex-1 btn-gold py-4 flex items-center justify-center gap-3 text-lg rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
                 data-item-id={product.id}
                 data-item-price={product.sale_price}
                 data-item-url={`/products/${product.id}`}
-                data-item-description={product.description}
+                data-item-description={product.description?.substring(0, 100) || ""}
                 data-item-image={product.image_url}
                 data-item-name={product.name}
-                disabled={!product.in_stock}
+                disabled={!product.in_stock && !product.backorder}
                 data-testid="add-to-cart-btn"
               >
                 <ShoppingCart size={24} />
-                Add to Cart
+                {!product.in_stock && !product.backorder ? "Sold Out" : product.backorder ? "Pre-Order" : "Add to Cart"}
               </button>
               <Link
                 to="/quote"
