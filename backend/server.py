@@ -19,14 +19,10 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-# Create the main app without a prefix
 app = FastAPI()
-
-# Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
 
-# Enums
 class InterestType(str, Enum):
     SOLAR = "solar"
     PLUMBING = "plumbing"
@@ -42,7 +38,6 @@ class ProductCategory(str, Enum):
     PANELS = "panels"
 
 
-# Models
 class Lead(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -52,7 +47,7 @@ class Lead(BaseModel):
     parish: str
     district: str
     interest: InterestType
-    message: Optional[str] = None
+    specific_needs: Optional[str] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -63,7 +58,7 @@ class LeadCreate(BaseModel):
     parish: str
     district: str
     interest: InterestType
-    message: Optional[str] = None
+    specific_needs: Optional[str] = None
 
 
 class Product(BaseModel):
@@ -76,6 +71,7 @@ class Product(BaseModel):
     sale_price: float
     image_url: str
     specs: Optional[dict] = None
+    features: Optional[List[str]] = None
     in_stock: bool = True
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -88,6 +84,7 @@ class ProductCreate(BaseModel):
     sale_price: float
     image_url: str
     specs: Optional[dict] = None
+    features: Optional[List[str]] = None
     in_stock: bool = True
 
 
@@ -100,9 +97,8 @@ class QuoteRequest(BaseModel):
     parish: str
     district: str
     interest: InterestType
-    products: List[str] = []  # Product IDs
-    service_description: Optional[str] = None
-    message: Optional[str] = None
+    products: List[str] = []
+    specific_needs: Optional[str] = None
     status: str = "pending"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -115,24 +111,14 @@ class QuoteRequestCreate(BaseModel):
     district: str
     interest: InterestType
     products: List[str] = []
-    service_description: Optional[str] = None
-    message: Optional[str] = None
+    specific_needs: Optional[str] = None
 
 
-# Helper function for serialization
-def serialize_datetime(obj):
-    if isinstance(obj.get('created_at'), datetime):
-        obj['created_at'] = obj['created_at'].isoformat()
-    return obj
-
-
-# Routes
 @api_router.get("/")
 async def root():
     return {"message": "Jonesaica Infrastructure Solutions API"}
 
 
-# Lead routes
 @api_router.post("/leads", response_model=Lead)
 async def create_lead(input: LeadCreate):
     lead_dict = input.model_dump()
@@ -152,7 +138,6 @@ async def get_leads():
     return leads
 
 
-# Product routes
 @api_router.post("/products", response_model=Product)
 async def create_product(input: ProductCreate):
     product_dict = input.model_dump()
@@ -185,7 +170,6 @@ async def get_product(product_id: str):
     return product
 
 
-# Quote routes
 @api_router.post("/quotes", response_model=QuoteRequest)
 async def create_quote(input: QuoteRequestCreate):
     quote_dict = input.model_dump()
@@ -205,154 +189,168 @@ async def get_quotes():
     return quotes
 
 
-# Seed products endpoint
 @api_router.post("/seed-products")
 async def seed_products():
-    # Check if products already exist
     existing = await db.products.count_documents({})
     if existing > 0:
-        return {"message": f"Products already seeded. {existing} products exist."}
+        await db.products.delete_many({})
     
+    # Products based on your price list with competitive pricing vs Enersave
     products_data = [
-        # Inverters
+        # INVERTERS - Deye (from your price list)
         {
-            "name": "Deye 6kW Hybrid Inverter",
+            "name": "Deye 6kW Hybrid Solar Inverter",
             "category": "inverters",
-            "description": "Deye-SUN-6k-SG01LP1-US hybrid solar inverter. Perfect for residential solar installations with 6kW capacity.",
-            "regular_price": 250000,
-            "sale_price": 245000,
-            "image_url": "https://images.pexels.com/photos/9875409/pexels-photo-9875409.jpeg",
-            "specs": {"power": "6kW", "type": "Hybrid", "model": "SG01LP1-US"}
+            "description": "Deye SUN-6K-SG01LP1-US 6000W Hybrid Inverter. Perfect for residential solar systems with built-in MPPT charge controller. Supports lithium and lead-acid batteries.",
+            "regular_price": 295000,
+            "sale_price": 244000,
+            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+            "specs": {"power": "6000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
+            "features": ["Pure sine wave output", "Built-in MPPT controller", "Wi-Fi monitoring", "Battery priority settings", "Grid-tie capable"]
         },
         {
-            "name": "Deye 8kW Hybrid Inverter",
+            "name": "Deye 8kW Hybrid Solar Inverter",
             "category": "inverters",
-            "description": "Deye-SUN-8k-SG01LP1-US hybrid solar inverter. Ideal for medium-sized homes with higher energy demands.",
-            "regular_price": 265000,
-            "sale_price": 259000,
-            "image_url": "https://images.pexels.com/photos/9875409/pexels-photo-9875409.jpeg",
-            "specs": {"power": "8kW", "type": "Hybrid", "model": "SG01LP1-US"}
+            "description": "Deye SUN-8K-SG01LP1-US 8000W Hybrid Inverter. Mid-range capacity for homes with higher energy demands. Advanced monitoring and smart grid features.",
+            "regular_price": 320000,
+            "sale_price": 258000,
+            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+            "specs": {"power": "8000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
+            "features": ["Pure sine wave output", "Parallel capability", "LCD display", "Multiple working modes", "Remote monitoring"]
         },
         {
-            "name": "Deye 10kW Hybrid Inverter",
+            "name": "Deye 10kW Hybrid Solar Inverter", 
             "category": "inverters",
-            "description": "Deye-SUN-10k-SG01LP1-US hybrid solar inverter. High-capacity solution for larger residential or small commercial use.",
-            "regular_price": 300000,
-            "sale_price": 294000,
-            "image_url": "https://images.pexels.com/photos/9875409/pexels-photo-9875409.jpeg",
-            "specs": {"power": "10kW", "type": "Hybrid", "model": "SG01LP1-US"}
-        },
-        {
-            "name": "Deye 12kW Hybrid Inverter",
-            "category": "inverters",
-            "description": "Deye-SUN-12k-SG01LP1-US hybrid solar inverter. Our most powerful inverter for maximum energy independence.",
-            "regular_price": 325000,
-            "sale_price": 318000,
-            "image_url": "https://images.pexels.com/photos/9875409/pexels-photo-9875409.jpeg",
-            "specs": {"power": "12kW", "type": "Hybrid", "model": "SG01LP1-US"}
-        },
-        # Batteries - BSL
-        {
-            "name": "BSL 5kWh Rack Battery",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-100E 5kWh Rack Mount LiFePO4 Battery. Reliable energy storage with long cycle life.",
-            "regular_price": 165000,
-            "sale_price": 162000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "5kWh", "type": "LiFePO4", "mount": "Rack"}
-        },
-        {
-            "name": "BSL 5kWh Rack Brackets",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-100E 5kWh Rack Brackets. Professional mounting solution for BSL batteries.",
-            "regular_price": 3500,
-            "sale_price": 3400,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"compatibility": "BSL 5kWh", "type": "Mounting Bracket"}
-        },
-        {
-            "name": "BSL 10kWh Rack Battery",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-200E 10kWh Rack Mount LiFePO4 Battery. Double capacity for extended backup power.",
-            "regular_price": 250000,
-            "sale_price": 245000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "10kWh", "type": "LiFePO4", "mount": "Rack"}
-        },
-        {
-            "name": "BSL 10kWh Rack Brackets",
-            "category": "batteries",
-            "description": "BSL-B-LFP48-200E 10kWh Rack Brackets. Secure mounting for larger battery systems.",
-            "regular_price": 4500,
-            "sale_price": 4400,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"compatibility": "BSL 10kWh", "type": "Mounting Bracket"}
-        },
-        {
-            "name": "BSL Li-Pro 10.24kWh Wall Battery",
-            "category": "batteries",
-            "description": "BSL-Li-Pro 10240 10.24kWh Wall Mount Battery. Sleek wall-mounted design for space efficiency.",
-            "regular_price": 275000,
-            "sale_price": 269000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "10.24kWh", "type": "LiFePO4", "mount": "Wall"}
-        },
-        # Batteries - Deye
-        {
-            "name": "Deye 5.12kWh Battery",
-            "category": "batteries",
-            "description": "Deye 5.12kWh LiFePO4 Battery. Compact and efficient energy storage solution.",
-            "regular_price": 135000,
-            "sale_price": 132000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "5.12kWh", "brand": "Deye", "type": "LiFePO4"}
-        },
-        {
-            "name": "Deye 10.24kWh Battery",
-            "category": "batteries",
-            "description": "Deye 10.24kWh LiFePO4 Battery. Mid-range capacity for everyday household needs.",
-            "regular_price": 245000,
-            "sale_price": 240000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "10.24kWh", "brand": "Deye", "type": "LiFePO4"}
-        },
-        {
-            "name": "Deye 12kWh Battery",
-            "category": "batteries",
-            "description": "Deye 12kWh LiFePO4 Battery. Extended capacity for larger homes.",
-            "regular_price": 310000,
-            "sale_price": 304000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "12kWh", "brand": "Deye", "type": "LiFePO4"}
-        },
-        {
-            "name": "Deye 16kWh Battery",
-            "category": "batteries",
-            "description": "Deye 16kWh LiFePO4 Battery. Maximum capacity for complete energy independence.",
+            "description": "Deye SUN-10K-SG01LP1-US 10000W Hybrid Inverter. High-capacity solution for larger homes and small commercial applications.",
             "regular_price": 350000,
-            "sale_price": 343000,
-            "image_url": "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg",
-            "specs": {"capacity": "16kWh", "brand": "Deye", "type": "LiFePO4"}
+            "sale_price": 293000,
+            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+            "specs": {"power": "10000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
+            "features": ["High efficiency >97%", "Wide PV input range", "Smart load management", "Anti-islanding protection", "Expandable system"]
         },
-        # Panels
+        {
+            "name": "Deye 12kW Hybrid Solar Inverter",
+            "category": "inverters",
+            "description": "Deye SUN-12K-SG01LP1-US 12000W Hybrid Inverter. Maximum residential capacity for complete energy independence.",
+            "regular_price": 420000,
+            "sale_price": 318000,
+            "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600",
+            "specs": {"power": "12000W", "voltage": "48V", "type": "Hybrid", "mppt": "2 MPPT"},
+            "features": ["Maximum output power", "Seamless grid switching", "Generator input support", "Advanced BMS compatibility", "IP65 rating"]
+        },
+        # BATTERIES - BSL Series (from your price list)
+        {
+            "name": "BSL 5kWh Rack Mount LiFePO4 Battery",
+            "category": "batteries",
+            "description": "BSL-B-LFP48-100E 5kWh Rack Mount Lithium Iron Phosphate Battery. Safe, reliable energy storage with 6000+ cycle life.",
+            "regular_price": 189000,
+            "sale_price": 162000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "5kWh", "voltage": "48V", "chemistry": "LiFePO4", "cycles": "6000+"},
+            "features": ["Built-in BMS", "Rack mountable", "Expandable design", "10-year warranty", "Safe LFP chemistry"]
+        },
+        {
+            "name": "BSL 5kWh Rack Mounting Brackets",
+            "category": "batteries",
+            "description": "Professional mounting brackets for BSL 5kWh batteries. Secure installation solution.",
+            "regular_price": 4000,
+            "sale_price": 3400,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"compatibility": "BSL 5kWh", "material": "Steel", "type": "Rack Mount"},
+            "features": ["Heavy-duty steel", "Easy installation", "Secure fit", "Corrosion resistant"]
+        },
+        {
+            "name": "BSL 10kWh Rack Mount LiFePO4 Battery",
+            "category": "batteries",
+            "description": "BSL-B-LFP48-200E 10kWh Rack Mount Lithium Battery. Double capacity for extended backup and larger systems.",
+            "regular_price": 280000,
+            "sale_price": 245000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "10kWh", "voltage": "48V", "chemistry": "LiFePO4", "cycles": "6000+"},
+            "features": ["High capacity", "Parallel connection", "Smart BMS", "Temperature protection", "Long lifespan"]
+        },
+        {
+            "name": "BSL 10kWh Rack Mounting Brackets",
+            "category": "batteries",
+            "description": "Heavy-duty mounting brackets for BSL 10kWh battery systems.",
+            "regular_price": 5500,
+            "sale_price": 4400,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"compatibility": "BSL 10kWh", "material": "Steel", "type": "Rack Mount"},
+            "features": ["Reinforced design", "Professional grade", "Quick assembly"]
+        },
+        {
+            "name": "BSL Li-Pro 10.24kWh Wall Mount Battery",
+            "category": "batteries",
+            "description": "BSL-Li-Pro 10240 Wall Mounted LiFePO4 Battery. Space-saving design for residential installations.",
+            "regular_price": 320000,
+            "sale_price": 269000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "10.24kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "mount": "Wall"},
+            "features": ["Sleek wall mount", "IP65 rated", "LCD display", "CAN/RS485 communication", "Expandable to 61kWh"]
+        },
+        # BATTERIES - Deye Series (from your price list)
+        {
+            "name": "Deye 5.12kWh LiFePO4 Battery",
+            "category": "batteries",
+            "description": "Deye 5.12kWh Lithium Iron Phosphate Battery. Compact and efficient storage solution for solar systems.",
+            "regular_price": 160000,
+            "sale_price": 132000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "5.12kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
+            "features": ["Modular design", "Built-in heater", "Smart monitoring", "10-year warranty"]
+        },
+        {
+            "name": "Deye 10.24kWh LiFePO4 Battery",
+            "category": "batteries",
+            "description": "Deye 10.24kWh Lithium Battery. Mid-range capacity for average household energy needs.",
+            "regular_price": 285000,
+            "sale_price": 240000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "10.24kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
+            "features": ["High efficiency", "Fast charging", "Low self-discharge", "Safe operation"]
+        },
+        {
+            "name": "Deye 12kWh LiFePO4 Battery",
+            "category": "batteries",
+            "description": "Deye 12kWh Lithium Battery. Extended capacity for homes with higher energy consumption.",
+            "regular_price": 360000,
+            "sale_price": 304000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "12kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
+            "features": ["Premium cells", "Advanced BMS", "Remote monitoring", "Parallel capable"]
+        },
+        {
+            "name": "Deye 16kWh LiFePO4 Battery",
+            "category": "batteries",
+            "description": "Deye 16kWh Lithium Battery. Maximum capacity for complete energy independence.",
+            "regular_price": 420000,
+            "sale_price": 343000,
+            "image_url": "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=600",
+            "specs": {"capacity": "16kWh", "voltage": "51.2V", "chemistry": "LiFePO4", "brand": "Deye"},
+            "features": ["Highest capacity", "Multi-unit stacking", "Intelligent management", "Long cycle life"]
+        },
+        # SOLAR PANELS (from your price list)
         {
             "name": "450W SunPower Maxeon Bi-Facial Panel",
             "category": "panels",
-            "description": "450w SunPower Maxeon Blk Bi-Facial solar panel. Premium efficiency with bifacial technology for maximum power generation.",
-            "regular_price": 15500,
+            "description": "450W SunPower Maxeon Black Bi-Facial Solar Panel. Premium efficiency with bifacial technology for maximum power generation from both sides.",
+            "regular_price": 18000,
             "sale_price": 15200,
-            "image_url": "https://images.pexels.com/photos/9875423/pexels-photo-9875423.jpeg",
-            "specs": {"power": "450W", "type": "Bi-Facial", "brand": "SunPower Maxeon"}
+            "image_url": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+            "specs": {"power": "450W", "type": "Bi-Facial", "brand": "SunPower Maxeon", "efficiency": "22.8%"},
+            "features": ["Bifacial technology", "All-black aesthetic", "25-year warranty", "Anti-reflective glass", "High wind resistance"]
         },
         {
             "name": "545W SunPower Maxeon Bifacial Panel",
             "category": "panels",
-            "description": "545W SunPower Maxeon Bifacial solar panel. High-output panel for maximum energy harvest.",
-            "regular_price": 16500,
+            "description": "545W SunPower Maxeon Bifacial Solar Panel. High-output panel for maximum energy harvest and commercial applications.",
+            "regular_price": 22000,
             "sale_price": 16200,
-            "image_url": "https://images.pexels.com/photos/9875423/pexels-photo-9875423.jpeg",
-            "specs": {"power": "545W", "type": "Bi-Facial", "brand": "SunPower Maxeon"}
-        }
+            "image_url": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600",
+            "specs": {"power": "545W", "type": "Bi-Facial", "brand": "SunPower Maxeon", "efficiency": "23.5%"},
+            "features": ["Industry-leading efficiency", "Bifacial gain up to 30%", "Robust frame", "Premium performance", "40-year lifespan"]
+        },
     ]
     
     for product_data in products_data:
@@ -364,7 +362,6 @@ async def seed_products():
     return {"message": f"Successfully seeded {len(products_data)} products"}
 
 
-# Include the router in the main app
 app.include_router(api_router)
 
 app.add_middleware(
@@ -375,7 +372,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
