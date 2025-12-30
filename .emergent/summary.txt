@@ -1,0 +1,218 @@
+<analysis>
+🔧 Jonesaica Infrastructure Solutions — Full Project Summary (v3.0)
+🏷️ Business Overview
+
+Name: Jonesaica Infrastructure Solutions
+
+Contact: +1-876-842-2916
+
+Location: Based in Greenwood/Lilliput, St. James; services span all of Jamaica.
+
+🎨 Design Requirements
+
+Color Scheme: Royal blue, royal purple, and gold only. Avoid white-heavy or sterile/minimalist aesthetics.
+
+Logo: Temporary text-based logo permitted. Final logo to be replaced with transparent PNG version created in Canva by user.
+
+Imagery:
+
+All photos must feature Afro-Caribbean individuals or abstract visuals.
+
+Strict Ban: No images of white people.
+
+Language:
+
+Must not say licensed, insured, or certified anywhere.
+
+🛠️ Core Features & Functionality
+🚨 Popup Lead Capture Form (P0)
+
+Display immediately on first page load.
+
+Required Fields: Full Name, Email, Phone, Parish/District, Area of Interest (Solar, Plumbing, etc.), and a message field.
+
+Form must match Contact Page form.
+
+📞 Contact Page (P0)
+
+Same form as popup.
+
+Submit form to backend /api/leads.
+
+🛒 E-Commerce Integration (P0)
+
+Snipcart must be fully functional.
+
+Live API Key: YmMwNjVkZTctODMwZi00NWM5LTliYTctZWQ0Y2U5MjU1ZmU2NjM5MDIxMDgxNTU3NDk1NTk3
+
+Cart not currently working — must be fixed (see debug plan below).
+
+All product buttons must have correct data-item-* attributes.
+
+💰 Product Catalog (P0)
+
+Only individual units sold (no pallets).
+
+Must feature categories:
+
+Solar Panels
+
+Inverters
+
+Batteries
+
+Installation/Accessories (placeholder)
+
+Each product:
+
+Must show:
+
+Name
+
+Image
+
+Key Specs
+
+Dual Pricing: Original (crossed out) and Sale Price (JMD)
+
+Add to Cart (Snipcart)
+
+Status Options:
+
+“Available on Backorder” (for TW 625W panel)
+
+Pricing: Undercut Enersave prices slightly per product.
+
+Deye batteries must have hardcoded sale prices per user instruction.
+
+Product data scraped by agent from URLs provided by user.
+
+🛠️ Services Pages (P1)
+
+Create pages for:
+
+Solar Installations
+
+Electrical (non-solar)
+
+Plumbing
+
+Carpentry
+
+Must reflect Jamaican carpentry (e.g., slab prep, roofing).
+
+Remove mention of patios, gazebos, or decks.
+
+🔁 Status Overview
+🔥 Immediate Bugs (IN PROGRESS)
+❌ Issue 1: Snipcart Cart Not Working (P0)
+
+Checklist:
+
+Confirm Snipcart publicApiKey in public/index.html
+
+Validate data-item-* in ProductCard.jsx
+
+Price must be a valid number
+
+Use browser dev tools for console errors
+
+Fix Priority: Mandatory to enable purchases
+
+Testing: Required both frontend and backend
+
+❌ Issue 2: Product Catalog Incorrect (P0)
+
+Agent has scraped all correct data.
+
+Next Steps:
+
+Move product data to products.json
+
+Use this in server.py seed script
+
+Apply dual pricing logic
+
+Display in updated frontend
+
+TW 625W panel = “Backorder” status
+
+🧱 Architecture
+/app/
+├── README.md
+├── backend/
+│   ├── .env
+│   ├── server.py ← seed logic here
+│   ├── products.json ← [TO CREATE]
+├── frontend/
+│   ├── public/
+│   │   └── index.html ← Snipcart script here
+│   └── src/
+│       ├── App.js
+│       ├── components/
+│       │   ├── ProductCard.jsx ← Fix Snipcart data here
+│       │   ├── LeadCaptureModal.jsx
+│       └── pages/
+│           ├── ProductsPage.jsx ← Show correct products
+│           ├── services/
+│           │   ├── SolarServicePage.jsx
+│           │   ├── ElectricalServicePage.jsx
+│           │   ├── PlumbingServicePage.jsx
+│           │   └── CarpentryServicePage.jsx ← Correct wording
+
+✅ Completed Tasks
+
+Fully built React + FastAPI structure
+
+Routing and pages for products/services/quotes/contact
+
+Created:
+
+README.md
+
+PRD.md
+
+Lead form and modal
+
+First and second full builds
+
+✅ Finished scraping correct product data from provided URLs
+
+🧪 Testing
+
+Agent Testing: Done (incomplete coverage)
+
+User Testing: Not yet
+
+Next Required Tests:
+
+Manual cart check (add-to-cart, pricing)
+
+Product accuracy check (names, prices, specs)
+
+🔜 Upcoming Tasks
+
+Add Accessories/Installation placeholder category
+
+Fix image quality and logo transparency
+
+Test and deploy on Netlify (needs downloadable build folder)
+
+Create full editing guide for:
+
+Color changes (Tailwind config)
+
+Product updates (products.json)
+
+Snipcart tweaks (index.html)
+
+🧩 Final Deliverables Must Include
+
+Live working preview
+
+Downloadable full folder for GitHub/Netlify
+
+Updated and cleaned code with product data refactored out
+
+Updated README.md with edit instructions
+</analysis>
