@@ -176,9 +176,9 @@ export default function ProductDetailPage() {
               <button
                 className="snipcart-add-item flex-1 btn-gold py-4 flex items-center justify-center gap-3 text-lg rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
                 data-item-id={product.id}
-                data-item-price={product.sale_price}
-                data-item-url={`${window.location.origin}/products/${product.id}`}
-                data-item-description={product.description?.substring(0, 100) || ""}
+                data-item-price={Number(product.sale_price)}
+                data-item-url="/"
+                data-item-description={product.description?.substring(0, 100) || product.name}
                 data-item-image={product.image_url}
                 data-item-name={product.name}
                 disabled={!product.in_stock && !product.backorder}
