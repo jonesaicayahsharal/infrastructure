@@ -273,9 +273,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Snipcart cart integration"
+    []
   stuck_tasks:
-    - "Snipcart cart integration"
+    []
   test_all: false
   test_priority: "high_first"
 
