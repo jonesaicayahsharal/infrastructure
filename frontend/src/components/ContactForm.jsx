@@ -11,11 +11,11 @@ const parishes = [
 
 const interests = [
   { value: "solar", label: "Solar Energy" },
-  { value: "electrical", label: "Electrical Services" },
   { value: "plumbing", label: "Plumbing" },
+  { value: "electrical", label: "Electrical Services" },
   { value: "carpentry", label: "Carpentry" },
   { value: "quote", label: "Get a Quote" },
-  { value: "other", label: "Something Else" },
+  { value: "other", label: "Other" },
 ];
 
 export const ContactForm = ({ className = "" }) => {
@@ -26,7 +26,7 @@ export const ContactForm = ({ className = "" }) => {
     parish: "",
     district: "",
     interest: "",
-    message: "",
+    specific_needs: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -49,7 +49,7 @@ export const ContactForm = ({ className = "" }) => {
         parish: "",
         district: "",
         interest: "",
-        message: "",
+        specific_needs: "",
       });
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
@@ -63,8 +63,8 @@ export const ContactForm = ({ className = "" }) => {
     <form onSubmit={handleSubmit} className={`space-y-5 ${className}`} data-testid="contact-form">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
-            Name *
+          <label className="block text-sm font-medium text-royal-300 mb-2">
+            Full Name *
           </label>
           <input
             type="text"
@@ -72,14 +72,14 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+            className="w-full h-12 px-4 input-dark rounded-none"
             placeholder="Your full name"
             data-testid="contact-name-input"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-royal-300 mb-2">
             Email *
           </label>
           <input
@@ -88,7 +88,7 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.email}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+            className="w-full h-12 px-4 input-dark rounded-none"
             placeholder="your@email.com"
             data-testid="contact-email-input"
           />
@@ -97,7 +97,7 @@ export const ContactForm = ({ className = "" }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-royal-300 mb-2">
             Phone *
           </label>
           <input
@@ -106,14 +106,14 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.phone}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+            className="w-full h-12 px-4 input-dark rounded-none"
             placeholder="(876) 000-0000"
             data-testid="contact-phone-input"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-royal-300 mb-2">
             Interested In *
           </label>
           <select
@@ -121,7 +121,7 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.interest}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white appearance-none parish-select"
+            className="w-full h-12 px-4 input-dark rounded-none appearance-none parish-select"
             data-testid="contact-interest-select"
           >
             <option value="" className="bg-royal-900">Select an option</option>
@@ -136,7 +136,7 @@ export const ContactForm = ({ className = "" }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-royal-300 mb-2">
             Parish *
           </label>
           <select
@@ -144,7 +144,7 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.parish}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white appearance-none parish-select"
+            className="w-full h-12 px-4 input-dark rounded-none appearance-none parish-select"
             data-testid="contact-parish-select"
           >
             <option value="" className="bg-royal-900">Select parish</option>
@@ -157,7 +157,7 @@ export const ContactForm = ({ className = "" }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-royal-300 mb-2">
             District *
           </label>
           <input
@@ -166,7 +166,7 @@ export const ContactForm = ({ className = "" }) => {
             required
             value={formData.district}
             onChange={handleChange}
-            className="w-full h-12 px-4 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30"
+            className="w-full h-12 px-4 input-dark rounded-none"
             placeholder="Your district"
             data-testid="contact-district-input"
           />
@@ -174,15 +174,15 @@ export const ContactForm = ({ className = "" }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Message
+        <label className="block text-sm font-medium text-royal-300 mb-2">
+          Describe Your Specific Needs
         </label>
         <textarea
-          name="message"
+          name="specific_needs"
           rows={4}
-          value={formData.message}
+          value={formData.specific_needs}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded bg-royal-950/50 border border-white/10 focus:border-gold-400/50 focus:ring-1 focus:ring-gold-400/50 text-white placeholder:text-white/30 resize-none"
+          className="w-full px-4 py-3 input-dark rounded-none resize-none"
           placeholder="Tell us about your project or inquiry..."
           data-testid="contact-message-input"
         />
@@ -191,7 +191,7 @@ export const ContactForm = ({ className = "" }) => {
       <button
         type="submit"
         disabled={loading}
-        className="w-full md:w-auto btn-primary px-12 py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full md:w-auto btn-gold px-12 py-4 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
         data-testid="contact-submit-btn"
       >
         {loading ? "Sending..." : "Send Message"}

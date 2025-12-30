@@ -20,10 +20,10 @@ export const ProductCard = ({ product, index = 0 }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="product-card glass-card rounded-lg overflow-hidden group"
+      className="product-card glass-card rounded-none overflow-hidden group border border-royal-700/50"
       data-testid={`product-card-${product.id}`}
     >
-      {/* Image Container */}
+      {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-royal-900">
         <img
           src={product.image_url}
@@ -31,12 +31,12 @@ export const ProductCard = ({ product, index = 0 }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         {discount > 0 && (
-          <div className="absolute top-3 left-3 bg-gold-400 text-black px-3 py-1 text-sm font-bold">
+          <div className="absolute top-3 left-3 bg-gold-500 text-royal-950 px-3 py-1 text-sm font-bold">
             SAVE {discount}%
           </div>
         )}
         {!product.in_stock && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+          <div className="absolute inset-0 bg-royal-950/70 flex items-center justify-center">
             <span className="text-white font-bold">Out of Stock</span>
           </div>
         )}
@@ -57,7 +57,7 @@ export const ProductCard = ({ product, index = 0 }) => {
             {formatPrice(product.sale_price)}
           </span>
           {product.regular_price > product.sale_price && (
-            <span className="text-slate-500 line-through text-sm">
+            <span className="text-royal-500 line-through text-sm">
               {formatPrice(product.regular_price)}
             </span>
           )}
@@ -67,13 +67,13 @@ export const ProductCard = ({ product, index = 0 }) => {
         <div className="flex gap-3">
           <Link
             to={`/products/${product.id}`}
-            className="flex-1 btn-secondary py-2 text-center text-sm"
+            className="flex-1 btn-outline py-2 text-center text-sm rounded-none"
             data-testid={`view-product-${product.id}`}
           >
             View Details
           </Link>
           <button
-            className="snipcart-add-item flex-1 btn-primary py-2 text-sm disabled:opacity-50"
+            className="snipcart-add-item flex-1 btn-gold py-2 text-sm rounded-none disabled:opacity-50"
             data-item-id={product.id}
             data-item-price={product.sale_price}
             data-item-url={`/products/${product.id}`}
