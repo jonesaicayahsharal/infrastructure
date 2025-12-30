@@ -206,10 +206,10 @@ class DetailedAPITester:
             deye_6kw = None
             
             for product in products:
-                name = product.get('name', '').lower()
-                if 'sunpower' in name and '450' in name:
+                name = product.get('name', '')
+                if 'SunPower' in name and '450' in name:
                     sunpower_450 = product
-                elif 'deye' in name and '6k' in name:
+                elif 'Deye' in name and '6kW' in name:
                     deye_6kw = product
             
             errors = []
