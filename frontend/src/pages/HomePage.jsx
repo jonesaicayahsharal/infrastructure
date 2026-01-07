@@ -150,7 +150,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="absolute -bottom-6 -left-6 glass-card p-6 rounded-none border border-gold-500/30"
               >
-                <p className="text-gold-400 font-bold text-2xl mb-1">J$132,000</p>
+                <p className="text-gold-400 font-bold text-2xl mb-1">J$185,000</p>
                 <p className="text-white text-sm">Starting - Deye 5.12kWh Battery</p>
               </motion.div>
             </motion.div>
