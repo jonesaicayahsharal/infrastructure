@@ -65,7 +65,7 @@ export default function QuotePage() {
     setLoading(true);
 
     try {
-      await axios.post(`${API}/quotes`, formData);
+      await axios.post(`${API}/api/quotes`, formData);
       toast.success("Quote request submitted! We'll contact you soon.");
       setSubmitted(true);
     } catch (error) {
