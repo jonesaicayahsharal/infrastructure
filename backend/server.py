@@ -209,7 +209,7 @@ async def seed_products():
             "name": "Deye SUN-6K-SG01LP1-US 6kW Hybrid Inverter",
             "category": "inverters",
             "description": "6000W Hybrid Solar Inverter with dual MPPT. Perfect for small to medium homes. Features colorful touch LCD, IP65 protection, and 5-year warranty.",
-            "regular_price": 421500,
+            "regular_price": 415000,
             "sale_price": 289000,
             "image_url": "https://enersavesolutions.com/cdn/shop/files/SUN-6K-SG01LP1_grande.png?v=1763146513",
             "specs": {
@@ -235,8 +235,8 @@ async def seed_products():
             "name": "Deye SUN-8K-SG01LP1-US 8kW Hybrid Inverter",
             "category": "inverters",
             "description": "8000W Hybrid Solar Inverter ideal for medium-sized homes or EV-ready setups. High efficiency with dual MPPT and IP65 weatherproofing.",
-            "regular_price": 540000,
-            "sale_price": 499000,
+            "regular_price": 460000,
+            "sale_price": 324000,
             "image_url": "https://enersavesolutions.com/cdn/shop/products/deye-inverter-1_grande.png?v=1652270688",
             "specs": {
                 "power": "8000W",
@@ -261,8 +261,8 @@ async def seed_products():
             "name": "Deye SUN-10K-SG01LP1-US 10kW Hybrid Inverter",
             "category": "inverters",
             "description": "10000W Hybrid Solar Inverter suited for large homes or light commercial use. 97.6% efficiency with dual MPPT and Wi-Fi monitoring.",
-            "regular_price": 380000,
-            "sale_price": 335000,
+            "regular_price": 530000,
+            "sale_price": 345000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/DeyeInverter.jpg?v=1762354776&width=800",
             "specs": {
                 "power": "10000W",
@@ -287,7 +287,7 @@ async def seed_products():
             "name": "Deye SUN-12K-SG02LP2-US 12kW Hybrid Inverter",
             "category": "inverters",
             "description": "12000W Hybrid Solar Inverter built for high-demand residential and commercial installations. Maximum capacity for complete energy independence.",
-            "regular_price": 618750,
+            "regular_price": 615000,
             "sale_price": 385000,
             "image_url": "https://enersavesolutions.com/cdn/shop/files/DEYE_SUN-12K-SG02LP2_grande.png?v=1721337309",
             "specs": {
@@ -339,8 +339,8 @@ async def seed_products():
             "name": "Deye 10.24kWh LiFePO4 Rack-Mount Battery",
             "category": "batteries",
             "description": "Mid-range 10.24kWh LiFePO4 battery for average household needs. 6000+ cycle life with intelligent BMS protection.",
-            "regular_price": 520000,
-            "sale_price": 340000,
+            "regular_price": 600000,
+            "sale_price": 370000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/WhatsAppImage2025-12-12at09.26.26_e999d824_35f0d8a1-ae03-4ef0-87fa-00890c251552.jpg?v=1765550754&width=800",
             "specs": {
                 "capacity": "10.24kWh",
@@ -363,7 +363,7 @@ async def seed_products():
             "name": "Deye 12kWh LiFePO4 Rack-Mount Battery",
             "category": "batteries",
             "description": "High-capacity 12kWh LiFePO4 battery for larger homes. Scalable modular design with comprehensive BMS protection.",
-            "regular_price": 620000,
+            "regular_price": 680000,
             "sale_price": 420000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/WhatsAppImage2025-12-12at09.25.48_b1764910_07836b49-e61d-4652-92b1-b59e197a1656.jpg?v=1765550754&width=800",
             "specs": {
@@ -387,8 +387,8 @@ async def seed_products():
             "name": "Deye 16kWh LiFePO4 Wall-Mount Battery",
             "category": "batteries",
             "description": "Maximum capacity 16kWh LiFePO4 wall-mounted battery for complete energy independence. Premium storage solution for high-demand systems.",
-            "regular_price": 810000,
-            "sale_price": 550000,
+            "regular_price": 825000,
+            "sale_price": 750000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/Deyebatteryunitonslatwallpanel_ced9114d-9295-4c4d-b415-cf43fd367442.png?v=1765550754&width=800",
             "specs": {
                 "capacity": "16kWh",
@@ -412,8 +412,8 @@ async def seed_products():
             "name": "BSL 5.12kWh LiFePO4 Rack-Mount Battery",
             "category": "batteries",
             "description": "BSL B-LFP48-100E compact rack-mount battery. 6000+ cycle life with advanced BMS. Compatible with most hybrid inverters including Deye.",
-            "regular_price": 240000,
-            "sale_price": 195000,
+            "regular_price": 360000,
+            "sale_price": 220000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL_2.png?v=1762357657&width=800",
             "specs": {
                 "capacity": "5.12kWh",
@@ -436,7 +436,7 @@ async def seed_products():
             "category": "batteries",
             "description": "BSL B-LFP48-200E high-capacity rack-mount battery. Ideal for larger residential or light commercial solar systems.",
             "regular_price": 320000,
-            "sale_price": 275000,
+            "sale_price": 400000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL.png?v=1762358246&width=800",
             "specs": {
                 "capacity": "10.24kWh",
@@ -458,8 +458,8 @@ async def seed_products():
             "name": "BSL Li-Pro 10.24kWh LiFePO4 Wall-Mount Battery",
             "category": "batteries",
             "description": "BSL Li-Pro 10240 sleek wall-mounted battery with IP65 protection. Perfect for indoor or outdoor installation.",
-            "regular_price": 350000,
-            "sale_price": 295000,
+            "regular_price": 650000,
+            "sale_price": 570000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/BSL_Li_3_05174485-c78f-4d37-8c22-6c7621e562ef.png?v=1762373784&width=800",
             "specs": {
                 "capacity": "10.24kWh",
@@ -508,8 +508,8 @@ async def seed_products():
             "name": "SunPower P7 545W BiFacial Solar Panel",
             "category": "panels",
             "description": "SunPower Maxeon Performance 7 series high-output bifacial panel. N-type TOPCon cells for maximum efficiency. 25-year warranty.",
-            "regular_price": 22000,
-            "sale_price": 18000,
+            "regular_price": 25000,
+            "sale_price": 20000,
             "image_url": "https://www.rezyntech.com/cdn/shop/files/ChatGPT_Image_Nov_20_2025_02_23_29_PM.png?v=1763667027&width=800",
             "specs": {
                 "power": "545W",
@@ -533,8 +533,8 @@ async def seed_products():
             "name": "TW Solar 625W BiFacial Panel",
             "category": "panels",
             "description": "TW Solar 625W high-output bifacial panel for maximum power generation. Industry-leading wattage for large installations. Available on backorder.",
-            "regular_price": 28000,
-            "sale_price": 24500,
+            "regular_price": 38000,
+            "sale_price": 28000,
             "image_url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
             "specs": {
                 "power": "625W",
