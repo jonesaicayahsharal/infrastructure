@@ -22,7 +22,7 @@ import PlumbingServicePage from "./pages/services/PlumbingServicePage";
 import QuotePage from "./pages/QuotePage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export const API = "https://infrastructure-production-cc30.up.railway.app";
+export const API = "https://infrastructure-production-cc30.up.railway.app/api";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
