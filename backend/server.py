@@ -10,6 +10,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
+from utils.email import send_email
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
