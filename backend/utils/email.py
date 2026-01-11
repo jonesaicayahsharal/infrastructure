@@ -1,29 +1,26 @@
 import os
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-from pydantic import EmailStr
+import aiosmtplib
+from email.message import EmailMessage
 
-conf = ConnectionConfig(
-    MAIL_USERNAME=os.getenv("EMAIL_USER"),
-    MAIL_PASSWORD=os.getenv("EMAIL_PASS"),
-    MAIL_FROM=os.getenv("EMAIL_FROM"),
-    MAIL_PORT=int(os.getenv("EMAIL_PORT", 587)),
-    MAIL_SERVER=os.getenv("EMAIL_HOST"),
-    MAIL_TLS=True,
-    MAIL_SSL=False,
-    USE_CREDENTIALS=True,
-)
+SMTP_HOST = os.getenv("SMTP_HOST")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER = os.getenv("SMTP_USER")
+SMTP_PASS = os.getenv("SMTP_PASS")
+FROM_EMAIL = os.getenv("FROM_EMAIL")
 
-fm = FastMail(conf)
 
-async def send_email(
-    subject: str,
-    recipients: list[EmailStr],
-    body: str,
-):
-    message = MessageSchema(
-        subject=subject,
-        recipients=recipients,
-        body=body,
-        subtype="html",
+async def send_email(subject: str, recipients: list[str], body: str):
+    message = EmailMessage()
+    message["From"] = FROM_EMAIL
+    message["To"] = ", ".join(recipients)
+    message["Subject"] = subject
+    message.set_content(body, subtype="html")
+
+    await aiosmtplib.send(
+        message,
+        hostname=SMTP_HOST,
+        port=SMTP_PORT,
+        username=SMTP_USER,
+        password=SMTP_PASS,
+        start_tls=True,
     )
-    await fm.send_message(message)
