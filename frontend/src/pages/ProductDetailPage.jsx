@@ -214,10 +214,6 @@ export default function ProductDetailPage() {
                   <CheckCircle className="text-gold-500" size={16} />
                   Island-wide delivery & service
                 </li>
-                <li className="flex items-center gap-2 text-royal-400">
-                  <CheckCircle className="text-gold-500" size={16} />
-                  Expert support & warranty
-                </li>
               </ul>
             </div>
           </motion.div>
