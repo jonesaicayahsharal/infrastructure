@@ -128,14 +128,54 @@ async def root():
     return {"message": "Jonesaica Infrastructure Solutions API"}
 
 
-@api_router.post("/leads", response_model=Lead)
-async def create_lead(input: LeadCreate):
-    lead_dict = input.model_dump()
-    lead_obj = Lead(**lead_dict)
-    doc = lead_obj.model_dump()
-    doc['created_at'] = doc['created_at'].isoformat()
-    await db.leads.insert_one(doc)
-    return lead_obj
+@api_router.post("/quotes", response_model=QuoteRequest)
+async def create_quote(input: QuoteRequestCreate):
+    quote = QuoteRequest(**input.model_dump())
+    doc = quote.model_dump()
+    doc["created_at"] = doc["created_at"].isoformat()
+    await db.quotes.insert_one(doc)
+
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    product_list = "<br>".join(quote.products) if quote.products else "N/A"
+
+    admin_body = f"""
+    <h2>New Quote Request</h2>
+    <p><strong>Name:</strong> {quote.name}</p>
+    <p><strong>Email:</strong> {quote.email}</p>
+    <p><strong>Phone:</strong> {quote.phone}</p>
+    <p><strong>Parish:</strong> {quote.parish}</p>
+    <p><strong>District:</strong> {quote.district}</p>
+    <p><strong>Interest:</strong> {quote.interest}</p>
+    <p><strong>Products:</strong><br>{product_list}</p>
+    <p><strong>Details:</strong><br>{quote.specific_needs or "N/A"}</p>
+    """
+
+    try:
+        await send_email(
+            subject="New Quote Request",
+            recipients=[admin_email],
+            body=admin_body,
+        )
+    except Exception as e:
+        logger.error(f"Admin quote email failed: {e}")
+
+    customer_body = f"""
+    <h2>Quote Request Received</h2>
+    <p>We’ve received your request and will review it shortly.</p>
+    <p><strong>Requested Service:</strong> {quote.interest}</p>
+    """
+
+    try:
+        await send_email(
+            subject="Your Quote Request Has Been Received",
+            recipients=[quote.email],
+            body=customer_body,
+        )
+    except Exception as e:
+        logger.error(f"Customer quote email failed: {e}")
+
+    return quote
 
 
 @api_router.get("/leads", response_model=List[Lead])
@@ -183,9 +223,37 @@ async def get_product(product_id: str):
 async def create_quote(input: QuoteRequestCreate):
     quote_dict = input.model_dump()
     quote_obj = QuoteRequest(**quote_dict)
+
     doc = quote_obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.quotes.insert_one(doc)
+
+    # 🔔 EMAIL NOTIFICATION (ADMIN)
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    product_list = "<br>".join(quote_obj.products) if quote_obj.products else "N/A"
+
+    email_body = f"""
+    <h2>New Quote Request</h2>
+    <p><strong>Name:</strong> {quote_obj.name}</p>
+    <p><strong>Email:</strong> {quote_obj.email}</p>
+    <p><strong>Phone:</strong> {quote_obj.phone}</p>
+    <p><strong>Parish:</strong> {quote_obj.parish}</p>
+    <p><strong>District:</strong> {quote_obj.district}</p>
+    <p><strong>Interest:</strong> {quote_obj.interest}</p>
+    <p><strong>Products:</strong><br>{product_list}</p>
+    <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
+    """
+
+    try:
+    await send_email(
+        subject="New Quote Request",
+        recipients=[admin_email],
+        body=email_body,
+    )
+except Exception as e:
+    logger.error(f"Quote email failed: {e}")
+
     return quote_obj
 
 
@@ -201,6 +269,188 @@ async def get_quotes():
 @api_router.post("/seed-products")
 async def seed_products():
     await db.products.delete_many({})
+
+
+    @api_router.post("/orders")
+async def create_order(order: dict):
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    items_html = "".join(
+        f"<li>{item.get('name')} × {item.get('qty')}</li>"
+        for item in order.get("items", [])
+    ) or "<li>No items listed</li>"
+
+    admin_body = f"""
+    <h2>New Order Submitted</h2>
+    <p><strong>Name:</strong> {order.get('name')}</p>
+    <p><strong>Email:</strong> {order.get('email')}</p>
+    <p><strong>Phone:</strong> {order.get('phone')}</p>
+
+    <h3>Items</h3>
+    <ul>{items_html}</ul>
+    """
+
+    try:
+        await send_email(
+            subject="New Order Submitted",
+            recipients=[admin_email],
+            body=admin_body,
+        )
+    except Exception as e:
+        logger.error(f"Admin order email failed: {e}")
+
+    return {"success": True}
+    
+customer_email = order.get("email")
+
+if customer_email:
+    customer_body = f"""
+    <h2>Order Received</h2>
+    <p>Thank you for contacting Jonesaica Infrastructure Solutions.</p>
+
+    <p>We’ve received your order request and will review it shortly.</p>
+
+    <p><strong>What happens next?</strong></p>
+    <ul>
+        <li>Our team reviews your request</li>
+        <li>We contact you to confirm details</li>
+        <li>We prepare a quote or next steps</li>
+    </ul>
+
+    <p>If you have questions, reply to this email.</p>
+
+    <p>— Jonesaica Infrastructure Solutions</p>
+    """
+
+    try:
+        await send_email(
+            subject="We’ve Received Your Order",
+            recipients=[customer_email],
+            body=customer_body,
+        )
+    except Exception as e:
+        logger.error(f"Customer order confirmation failed: {e}")
+
+    customer_email = quote_obj.email
+
+if customer_email:
+    customer_body = f"""
+    <h2>Quote Request Received</h2>
+
+    <p>Thank you for requesting a quote from Jonesaica Infrastructure Solutions.</p>
+
+    <p>We’ve received your request and will review the details shortly.</p>
+
+    <p><strong>What happens next?</strong></p>
+    <ul>
+        <li>We review your requirements</li>
+        <li>We may contact you for clarification</li>
+        <li>You’ll receive a detailed quote</li>
+    </ul>
+
+    <p><strong>Requested Service:</strong> {quote_obj.interest}</p>
+    <p><strong>Products:</strong><br>{product_list}</p>
+
+    <p>If you have additional information to share, you may reply to this email.</p>
+
+    <p>— Jonesaica Infrastructure Solutions</p>
+    """
+
+    try:
+        await send_email(
+            subject="Your Quote Request Has Been Received",
+            recipients=[customer_email],
+            body=customer_body,
+        )
+    except Exception as e:
+        logger.error(f"Quote confirmation email failed: {e}")
+
+
+@api_router.post("/payments/receipt")
+async def payment_receipt(payment: dict):
+    customer_email = payment.get("email")
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    receipt_body = f"""
+    <h2>Payment Received</h2>
+
+    <p>Thank you for your payment.</p>
+
+    <p><strong>Amount:</strong> {payment.get("amount")}</p>
+    <p><strong>Reference:</strong> {payment.get("reference")}</p>
+    <p><strong>Date:</strong> {payment.get("date")}</p>
+
+    <p>If you have questions regarding this payment, reply to this email.</p>
+
+    <p>— Jonesaica Infrastructure Solutions</p>
+    """
+
+    # Customer receipt
+    if customer_email:
+        try:
+            await send_email(
+                subject="Payment Receipt",
+                recipients=[customer_email],
+                body=receipt_body,
+            )
+        except Exception as e:
+            logger.error(f"Customer receipt email failed: {e}")
+
+    # Admin copy
+    try:
+        await send_email(
+            subject="Payment Received (Admin Copy)",
+            recipients=[admin_email],
+            body=receipt_body,
+        )
+    except Exception as e:
+        logger.error(f"Admin receipt email failed: {e}")
+
+    return {"success": True}
+
+
+    @api_router.post("/invoices/send")
+async def send_invoice(invoice: dict):
+    customer_email = invoice.get("email")
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    invoice_body = f"""
+    <h2>Invoice Issued</h2>
+
+    <p>An invoice has been issued for your project.</p>
+
+    <p><strong>Invoice Number:</strong> {invoice.get("invoice_number")}</p>
+    <p><strong>Amount Due:</strong> {invoice.get("amount_due")}</p>
+    <p><strong>Due Date:</strong> {invoice.get("due_date")}</p>
+
+    <p>Please contact us if you have questions.</p>
+
+    <p>— Jonesaica Infrastructure Solutions</p>
+    """
+
+    # Customer invoice
+    if customer_email:
+        try:
+            await send_email(
+                subject="Your Invoice",
+                recipients=[customer_email],
+                body=invoice_body,
+            )
+        except Exception as e:
+            logger.error(f"Customer invoice email failed: {e}")
+
+    # Admin copy
+    try:
+        await send_email(
+            subject="Invoice Sent (Admin Copy)",
+            recipients=[admin_email],
+            body=invoice_body,
+        )
+    except Exception as e:
+        logger.error(f"Admin invoice email failed: {e}")
+
+    return {"success": True}
+
     
     # PRODUCTS FROM COMPETITOR SITES - PRICES UNDERCUT SLIGHTLY
     products_data = [
