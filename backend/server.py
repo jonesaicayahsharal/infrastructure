@@ -229,11 +229,14 @@ async def create_quote(input: QuoteRequestCreate):
     <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
 
-    await send_email(
-        subject="New Quote Request",
-        recipients=[admin_email],
-        body=email_body,
-    )
+    try:
+        await send_email(
+            subject="New Quote Request",
+            recipients=[admin_email],
+            body=email_body,
+        )
+    except Exception as e:
+        logger.error(f"Quote email failed: {e}")
 
     return quote_obj
  
