@@ -10,7 +10,7 @@ RUN corepack enable
 COPY package.json ./
 
 # Install dependencies
-RUN yarn install
+RUN yarn install --legacy-peer-deps
 
 # Copy source
 COPY . .
