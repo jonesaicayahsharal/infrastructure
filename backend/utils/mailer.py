@@ -9,7 +9,9 @@ SMTP_PASS = os.getenv("SMTP_PASS")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
 
 
-async def send_email(subject: str, recipients: list[str], body: str):
+from typing import List
+
+async def send_email(subject: str, recipients: List[str], body: str):
     message = EmailMessage()
     message["From"] = FROM_EMAIL
     message["To"] = ", ".join(recipients)
