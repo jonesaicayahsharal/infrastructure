@@ -151,13 +151,21 @@ async def create_lead(input: LeadCreate):
     <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
     """
 
-    await send_email(
-        subject="New Website Inquiry",
-        recipients=[admin_email],
-        body=email_body,
-    )
+    @api_router.post("/leads")
+async def create_lead(input: LeadCreate):
+    lead = ...
+    await db.leads.insert_one(doc)
 
-    return lead_obj
+    try:
+        await send_email(
+            subject="New Website Inquiry",
+            recipients=[admin_email],
+            body=email_body,
+        )
+    except Exception as e:
+        logger.error(f"Lead email failed: {e}")
+
+    return lead
 
 
 @api_router.get("/leads", response_model=List[Lead])
@@ -227,15 +235,15 @@ async def create_quote(input: QuoteRequestCreate):
     <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
 
-    try:
-    await send_email(
+  
+   await send_email(
         subject="New Quote Request",
         recipients=[admin_email],
         body=email_body,
-        )
-    except Exception as e:
-        print(f"[EMAIL ERROR] Quote email failed: {e}")
-    
+    )
+
+    return quote_obj
+ 
 
 @api_router.get("/quotes", response_model=List[QuoteRequest])
 async def get_quotes():
