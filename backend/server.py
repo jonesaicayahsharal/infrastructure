@@ -151,16 +151,13 @@ async def create_lead(input: LeadCreate):
     <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
     """
 
-    try:
-        await send_email(
-            subject="New Website Inquiry",
-            recipients=[admin_email],
-            body=email_body,
-        )
-    except Exception as e:
-        logger.error(f"Lead email failed: {e}")
+    await send_email(
+        subject="New Website Inquiry",
+        recipients=[admin_email],
+        body=email_body,
+    )
 
-    return lead
+    return lead_obj
 
 
 @api_router.get("/leads", response_model=List[Lead])
