@@ -3,12 +3,21 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# Enable yarn
 RUN corepack enable
 
+# Copy package file
 COPY package.json ./
+
+# Install deps
 RUN yarn install
 
+# Copy source
 COPY . .
+
+# Build
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 RUN yarn build
 
 # Production stage
