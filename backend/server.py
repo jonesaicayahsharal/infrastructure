@@ -6,49 +6,29 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
+from utils.email import send_email
 from enum import Enum
 
-from utils.email import send_email
-
-# ----------------------------
-# Logging (define early)
-# ----------------------------
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("jonesaica-backend")
-
-# ----------------------------
-# Env
-# ----------------------------
 ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / ".env")
+load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ.get("DB_NAME", "jonesaica_db")]
+db = client[os.environ.get('DB_NAME', 'jonesaica_db')]
 
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
-
-# ----------------------------
-# App
-# ----------------------------
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 
-# ----------------------------
-# Health check
-# ----------------------------
+# Health check endpoint for Railway/deployment
 @api_router.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "jonesaica-backend"}
 
 
-# ----------------------------
-# Enums
-# ----------------------------
 class InterestType(str, Enum):
     SOLAR = "solar"
     PLUMBING = "plumbing"
@@ -65,9 +45,6 @@ class ProductCategory(str, Enum):
     ACCESSORIES = "accessories"
 
 
-# ----------------------------
-# Models
-# ----------------------------
 class Lead(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -146,100 +123,71 @@ class QuoteRequestCreate(BaseModel):
     specific_needs: Optional[str] = None
 
 
-class OrderItem(BaseModel):
-    name: str
-    qty: int
-
-
-class OrderCreate(BaseModel):
-    name: str
-    email: EmailStr
-    phone: Optional[str] = None
-    items: List[OrderItem] = []
-
-
-class PaymentReceiptCreate(BaseModel):
-    email: EmailStr
-    amount: str
-    reference: Optional[str] = None
-    date: Optional[str] = None
-
-
-class InvoiceSendCreate(BaseModel):
-    email: EmailStr
-    invoice_number: str
-    amount_due: str
-    due_date: str
-
-
 @api_router.get("/")
 async def root():
     return {"message": "Jonesaica Infrastructure Solutions API"}
 
 
-# ----------------------------
-# Leads
-# ----------------------------
 @api_router.post("/leads", response_model=Lead)
 async def create_lead(input: LeadCreate):
-    lead_obj = Lead(**input.model_dump())
+    lead_dict = input.model_dump()
+    lead_obj = Lead(**lead_dict)
+
     doc = lead_obj.model_dump()
-    doc["created_at"] = doc["created_at"].isoformat()
+    doc['created_at'] = doc['created_at'].isoformat()
     await db.leads.insert_one(doc)
 
-    if ADMIN_EMAIL:
-        email_body = f"""
-        <h2>New Website Inquiry</h2>
-        <p><strong>Name:</strong> {lead_obj.name}</p>
-        <p><strong>Email:</strong> {lead_obj.email}</p>
-        <p><strong>Phone:</strong> {lead_obj.phone}</p>
-        <p><strong>Parish:</strong> {lead_obj.parish}</p>
-        <p><strong>District:</strong> {lead_obj.district}</p>
-        <p><strong>Interest:</strong> {lead_obj.interest}</p>
-        <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
-        """
-        try:
-            await send_email(
-                subject="New Website Inquiry",
-                recipients=[ADMIN_EMAIL],
-                body=email_body,
-            )
-        except Exception as e:
-            logger.error(f"Lead email failed: {e}")
+    # 🔔 EMAIL NOTIFICATION (ADMIN)
+    admin_email = os.getenv("ADMIN_EMAIL")
 
-    return lead_obj
+    email_body = f"""
+    <h2>New Website Inquiry</h2>
+    <p><strong>Name:</strong> {lead_obj.name}</p>
+    <p><strong>Email:</strong> {lead_obj.email}</p>
+    <p><strong>Phone:</strong> {lead_obj.phone}</p>
+    <p><strong>Parish:</strong> {lead_obj.parish}</p>
+    <p><strong>District:</strong> {lead_obj.district}</p>
+    <p><strong>Interest:</strong> {lead_obj.interest}</p>
+    <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
+    """
 
+    try:
+        await send_email(
+            subject="New Website Inquiry",
+            recipients=[admin_email],
+            body=email_body,
+       )
+   except Exception as e:
+       logger.error(f"Lead email failed: {e}")
 
 @api_router.get("/leads", response_model=List[Lead])
 async def get_leads():
     leads = await db.leads.find({}, {"_id": 0}).to_list(1000)
     for lead in leads:
-        if isinstance(lead.get("created_at"), str):
-            lead["created_at"] = datetime.fromisoformat(lead["created_at"])
+        if isinstance(lead.get('created_at'), str):
+            lead['created_at'] = datetime.fromisoformat(lead['created_at'])
     return leads
 
 
-# ----------------------------
-# Products
-# ----------------------------
 @api_router.post("/products", response_model=Product)
 async def create_product(input: ProductCreate):
-    product_obj = Product(**input.model_dump())
+    product_dict = input.model_dump()
+    product_obj = Product(**product_dict)
     doc = product_obj.model_dump()
-    doc["created_at"] = doc["created_at"].isoformat()
+    doc['created_at'] = doc['created_at'].isoformat()
     await db.products.insert_one(doc)
     return product_obj
 
 
 @api_router.get("/products", response_model=List[Product])
 async def get_products(category: Optional[ProductCategory] = None):
-    query: Dict[str, Any] = {}
+    query = {}
     if category:
         query["category"] = category.value
     products = await db.products.find(query, {"_id": 0}).to_list(1000)
     for product in products:
-        if isinstance(product.get("created_at"), str):
-            product["created_at"] = datetime.fromisoformat(product["created_at"])
+        if isinstance(product.get('created_at'), str):
+            product['created_at'] = datetime.fromisoformat(product['created_at'])
     return products
 
 
@@ -248,213 +196,60 @@ async def get_product(product_id: str):
     product = await db.products.find_one({"id": product_id}, {"_id": 0})
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    if isinstance(product.get("created_at"), str):
-        product["created_at"] = datetime.fromisoformat(product["created_at"])
+    if isinstance(product.get('created_at'), str):
+        product['created_at'] = datetime.fromisoformat(product['created_at'])
     return product
 
 
-# ----------------------------
-# Quotes + Emails
-# ----------------------------
 @api_router.post("/quotes", response_model=QuoteRequest)
 async def create_quote(input: QuoteRequestCreate):
-    quote_obj = QuoteRequest(**input.model_dump())
+    quote_dict = input.model_dump()
+    quote_obj = QuoteRequest(**quote_dict)
+
     doc = quote_obj.model_dump()
-    doc["created_at"] = doc["created_at"].isoformat()
+    doc['created_at'] = doc['created_at'].isoformat()
     await db.quotes.insert_one(doc)
+
+    # 🔔 EMAIL NOTIFICATION (ADMIN)
+    admin_email = os.getenv("ADMIN_EMAIL")
 
     product_list = "<br>".join(quote_obj.products) if quote_obj.products else "N/A"
 
-    # Admin email
-    if ADMIN_EMAIL:
-        admin_body = f"""
-        <h2>New Quote Request</h2>
-        <p><strong>Name:</strong> {quote_obj.name}</p>
-        <p><strong>Email:</strong> {quote_obj.email}</p>
-        <p><strong>Phone:</strong> {quote_obj.phone}</p>
-        <p><strong>Parish:</strong> {quote_obj.parish}</p>
-        <p><strong>District:</strong> {quote_obj.district}</p>
-        <p><strong>Interest:</strong> {quote_obj.interest}</p>
-        <p><strong>Products:</strong><br>{product_list}</p>
-        <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
-        """
-        try:
-            await send_email(
-                subject="New Quote Request",
-                recipients=[ADMIN_EMAIL],
-                body=admin_body,
-            )
-        except Exception as e:
-            logger.error(f"Admin quote email failed: {e}")
-
-    # Customer confirmation
-    customer_body = f"""
-    <h2>Quote Request Received</h2>
-    <p>We’ve received your request and will review it shortly.</p>
-    <p><strong>Requested Service:</strong> {quote_obj.interest}</p>
+    email_body = f"""
+    <h2>New Quote Request</h2>
+    <p><strong>Name:</strong> {quote_obj.name}</p>
+    <p><strong>Email:</strong> {quote_obj.email}</p>
+    <p><strong>Phone:</strong> {quote_obj.phone}</p>
+    <p><strong>Parish:</strong> {quote_obj.parish}</p>
+    <p><strong>District:</strong> {quote_obj.district}</p>
+    <p><strong>Interest:</strong> {quote_obj.interest}</p>
     <p><strong>Products:</strong><br>{product_list}</p>
-    <p>If you have additional information, reply to this email.</p>
-    <p>— Jonesaica Infrastructure Solutions</p>
+    <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
+
     try:
         await send_email(
-            subject="Your Quote Request Has Been Received",
-            recipients=[str(quote_obj.email)],
-            body=customer_body,
-        )
-    except Exception as e:
-        logger.error(f"Customer quote email failed: {e}")
-
-    return quote_obj
+            subject="New Quote Request",
+            recipients=[admin_email],
+            body=email_body,
+       )
+   except Exception as e:
+       logger.error(f"Quote email failed: {e}")
 
 
 @api_router.get("/quotes", response_model=List[QuoteRequest])
 async def get_quotes():
     quotes = await db.quotes.find({}, {"_id": 0}).to_list(1000)
-    for q in quotes:
-        if isinstance(q.get("created_at"), str):
-            q["created_at"] = datetime.fromisoformat(q["created_at"])
+    for quote in quotes:
+        if isinstance(quote.get('created_at'), str):
+            quote['created_at'] = datetime.fromisoformat(quote['created_at'])
     return quotes
 
 
-# ----------------------------
-# Orders + Emails
-# ----------------------------
-@api_router.post("/orders")
-async def create_order(order: OrderCreate):
-    # Store the order
-    order_doc = order.model_dump()
-    order_doc["id"] = str(uuid.uuid4())
-    order_doc["created_at"] = datetime.now(timezone.utc).isoformat()
-    await db.orders.insert_one(order_doc)
-
-    items_html = "".join(
-        f"<li>{item.name} × {item.qty}</li>" for item in order.items
-    ) or "<li>No items listed</li>"
-
-    # Admin email
-    if ADMIN_EMAIL:
-        admin_body = f"""
-        <h2>New Order Submitted</h2>
-        <p><strong>Name:</strong> {order.name}</p>
-        <p><strong>Email:</strong> {order.email}</p>
-        <p><strong>Phone:</strong> {order.phone or ""}</p>
-        <h3>Items</h3>
-        <ul>{items_html}</ul>
-        """
-        try:
-            await send_email(
-                subject="New Order Submitted",
-                recipients=[ADMIN_EMAIL],
-                body=admin_body,
-            )
-        except Exception as e:
-            logger.error(f"Admin order email failed: {e}")
-
-    # Customer email
-    customer_body = f"""
-    <h2>Order Received</h2>
-    <p>We’ve received your order and will review it shortly.</p>
-    <h3>Items</h3>
-    <ul>{items_html}</ul>
-    <p>If you have questions, reply to this email.</p>
-    <p>— Jonesaica Infrastructure Solutions</p>
-    """
-    try:
-        await send_email(
-            subject="We’ve Received Your Order",
-            recipients=[str(order.email)],
-            body=customer_body,
-        )
-    except Exception as e:
-        logger.error(f"Customer order email failed: {e}")
-
-    return {"success": True}
-
-
-# ----------------------------
-# Payment Receipt (manual trigger)
-# ----------------------------
-@api_router.post("/payments/receipt")
-async def payment_receipt(payment: PaymentReceiptCreate):
-    receipt_body = f"""
-    <h2>Payment Received</h2>
-    <p><strong>Amount:</strong> {payment.amount}</p>
-    <p><strong>Reference:</strong> {payment.reference or ""}</p>
-    <p><strong>Date:</strong> {payment.date or ""}</p>
-    <p>If you have questions, reply to this email.</p>
-    <p>— Jonesaica Infrastructure Solutions</p>
-    """
-
-    # Customer
-    try:
-        await send_email(
-            subject="Payment Receipt",
-            recipients=[str(payment.email)],
-            body=receipt_body,
-        )
-    except Exception as e:
-        logger.error(f"Customer receipt email failed: {e}")
-
-    # Admin copy
-    if ADMIN_EMAIL:
-        try:
-            await send_email(
-                subject="Payment Received (Admin Copy)",
-                recipients=[ADMIN_EMAIL],
-                body=receipt_body,
-            )
-        except Exception as e:
-            logger.error(f"Admin receipt email failed: {e}")
-
-    return {"success": True}
-
-
-# ----------------------------
-# Invoice Send (manual trigger)
-# ----------------------------
-@api_router.post("/invoices/send")
-async def send_invoice(invoice: InvoiceSendCreate):
-    invoice_body = f"""
-    <h2>Invoice Issued</h2>
-    <p><strong>Invoice Number:</strong> {invoice.invoice_number}</p>
-    <p><strong>Amount Due:</strong> {invoice.amount_due}</p>
-    <p><strong>Due Date:</strong> {invoice.due_date}</p>
-    <p>If you have questions, reply to this email.</p>
-    <p>— Jonesaica Infrastructure Solutions</p>
-    """
-
-    # Customer
-    try:
-        await send_email(
-            subject="Your Invoice",
-            recipients=[str(invoice.email)],
-            body=invoice_body,
-        )
-    except Exception as e:
-        logger.error(f"Customer invoice email failed: {e}")
-
-    # Admin copy
-    if ADMIN_EMAIL:
-        try:
-            await send_email(
-                subject="Invoice Sent (Admin Copy)",
-                recipients=[ADMIN_EMAIL],
-                body=invoice_body,
-            )
-        except Exception as e:
-            logger.error(f"Admin invoice email failed: {e}")
-
-    return {"success": True}
-
-
-# ----------------------------
-# Seed Products
-# ----------------------------
 @api_router.post("/seed-products")
 async def seed_products():
     await db.products.delete_many({})
-
+    
     # PRODUCTS FROM COMPETITOR SITES - PRICES UNDERCUT SLIGHTLY
     products_data = [
         # ===== INVERTERS =====
@@ -808,27 +603,31 @@ async def seed_products():
         },
     ]
     
-for product_data in products_data:
-        product_obj = Product(**product_data)
-        doc = product_obj.model_dump()
-        doc["created_at"] = doc["created_at"].isoformat()
+    for product_data in products_data:
+        product = Product(**product_data)
+        doc = product.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
         await db.products.insert_one(doc)
-
+    
     return {"message": f"Successfully seeded {len(products_data)} products"}
 
 
-# ----------------------------
-# App wiring
-# ----------------------------
 app.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
+    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
