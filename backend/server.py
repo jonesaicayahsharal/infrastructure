@@ -132,33 +132,11 @@ async def root():
 async def create_lead(input: LeadCreate):
     lead_dict = input.model_dump()
     lead_obj = Lead(**lead_dict)
-
     doc = lead_obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.leads.insert_one(doc)
+    return lead_obj
 
-    # 🔔 EMAIL NOTIFICATION (ADMIN)
-    admin_email = os.getenv("ADMIN_EMAIL")
-
-    email_body = f"""
-    <h2>New Website Inquiry</h2>
-    <p><strong>Name:</strong> {lead_obj.name}</p>
-    <p><strong>Email:</strong> {lead_obj.email}</p>
-    <p><strong>Phone:</strong> {lead_obj.phone}</p>
-    <p><strong>Parish:</strong> {lead_obj.parish}</p>
-    <p><strong>District:</strong> {lead_obj.district}</p>
-    <p><strong>Interest:</strong> {lead_obj.interest}</p>
-    <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
-    """
-
-    try:
-        await send_email(
-            subject="New Website Inquiry",
-            recipients=[admin_email],
-            body=email_body,
-       )
-   except Exception as e:
-       logger.error(f"Lead email failed: {e}")
 
 @api_router.get("/leads", response_model=List[Lead])
 async def get_leads():
@@ -205,36 +183,10 @@ async def get_product(product_id: str):
 async def create_quote(input: QuoteRequestCreate):
     quote_dict = input.model_dump()
     quote_obj = QuoteRequest(**quote_dict)
-
     doc = quote_obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.quotes.insert_one(doc)
-
-    # 🔔 EMAIL NOTIFICATION (ADMIN)
-    admin_email = os.getenv("ADMIN_EMAIL")
-
-    product_list = "<br>".join(quote_obj.products) if quote_obj.products else "N/A"
-
-    email_body = f"""
-    <h2>New Quote Request</h2>
-    <p><strong>Name:</strong> {quote_obj.name}</p>
-    <p><strong>Email:</strong> {quote_obj.email}</p>
-    <p><strong>Phone:</strong> {quote_obj.phone}</p>
-    <p><strong>Parish:</strong> {quote_obj.parish}</p>
-    <p><strong>District:</strong> {quote_obj.district}</p>
-    <p><strong>Interest:</strong> {quote_obj.interest}</p>
-    <p><strong>Products:</strong><br>{product_list}</p>
-    <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
-    """
-
-    try:
-        await send_email(
-            subject="New Quote Request",
-            recipients=[admin_email],
-            body=email_body,
-       )
-   except Exception as e:
-       logger.error(f"Quote email failed: {e}")
+    return quote_obj
 
 
 @api_router.get("/quotes", response_model=List[QuoteRequest])
