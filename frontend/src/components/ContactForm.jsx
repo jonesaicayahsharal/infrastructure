@@ -40,7 +40,10 @@ export const ContactForm = ({ className = "" }) => {
     setLoading(true);
 
     try {
-      await axios.post(`${API}/api/leads`, formData);
+      await axios.post(
+          "https://infrastructure-production-cc30.up.railway.app/api/leads",
+           formData
+      );
       toast.success("Message sent! We'll get back to you soon.");
       setFormData({
         name: "",
