@@ -179,6 +179,8 @@ async def create_lead(input: LeadCreate):
     <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
     """
 
+    logger.info("📩 Lead endpoint hit — attempting email send")
+
     try:
         await send_email(
             subject="New Website Inquiry",
