@@ -39,10 +39,10 @@ export const ContactForm = ({ className = "" }) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
+ try {
       await axios.post(
-          "https://infrastructure-production-cc30.up.railway.app/api/leads",
-           formData
+        "https://infrastructure-production-cc30.up.railway.app/api/leads",
+        formData
       );
       toast.success("Message sent! We'll get back to you soon.");
       setFormData({
