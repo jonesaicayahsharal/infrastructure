@@ -227,13 +227,14 @@ async def create_quote(input: QuoteRequestCreate):
     <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
 
+    try:
     await send_email(
         subject="New Quote Request",
         recipients=[admin_email],
         body=email_body,
-    )
-
-    return quote_obj
+        )
+    except Exception as e:
+        print(f"[EMAIL ERROR] Quote email failed: {e}")
 
 
 @api_router.get("/quotes", response_model=List[QuoteRequest])
