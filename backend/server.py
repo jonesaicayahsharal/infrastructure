@@ -157,7 +157,7 @@ async def root():
     return {"message": "Jonesaica Infrastructure Solutions API"}
 
 
-@api_router.post("/leads", response_model=Lead)
+@api_router.post("/api/leads", response_model=Lead)
 async def create_lead(input: LeadCreate):
     lead_dict = input.model_dump()
     lead_obj = Lead(**lead_dict)
@@ -196,7 +196,7 @@ async def create_lead(input: LeadCreate):
     return lead_obj
 
 
-@api_router.get("/leads", response_model=List[Lead])
+@api_router.get("/api/leads", response_model=List[Lead])
 async def get_leads():
     leads = await db.leads.find({}, {"_id": 0}).to_list(1000)
     for lead in leads:
