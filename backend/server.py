@@ -182,7 +182,7 @@ async def create_lead(input: LeadCreate):
     logger.info("📩 Lead endpoint hit — attempting email send")
 
     if not admin_email:
-        logger.error("ADMIN_EMAIL is not set — skipping quote email send")
+        logger.error("ADMIN_EMAIL is not set — skipping lead email send")
     else:
         try:
             await send_email(
@@ -315,42 +315,37 @@ async def create_order(input: OrderCreate):
     """
 
     if not admin_email:
-        logger.error("ADMIN_EMAIL is not set — skipping quote email send")
+        logger.error("ADMIN_EMAIL is not set — skipping admin order email")
     else:
         try:
             await send_email(
                 subject="New Order Received",
                 recipients=[admin_email],
-                body=email_body,
+                body=admin_body,
             )
         except Exception as e:
             logger.error(f"Admin order email failed: {e}")
 
-    # 📩 CUSTOMER CONFIRMATION EMAIL
+     # 📩 CUSTOMER CONFIRMATION EMAIL
     customer_body = f"""
     <h2>Thank you for your order!</h2>
     <p>Hi {order.customer_name},</p>
-    <p>We’ve received your order and will contact you shortly to confirm details.</p>
+    <p>We’ve received your order and will contact you shortly.</p>
 
     <p><strong>Your Order:</strong></p>
     <ul>{items_html}</ul>
 
     <p><strong>Total:</strong> ${order.total}</p>
-
-    <p>If you have any questions, just reply to this email.</p>
     """
 
-    if not admin_email:
-        logger.error("ADMIN_EMAIL is not set — skipping quote email send")
-    else:
-        try:
-            await send_email(
-                subject="Your Order Confirmation",
-                recipients==[order.customer_email],
+    try:
+        await send_email(
+            subject="Your Order Confirmation",
+            recipients=[order.customer_email],
             body=customer_body,
-            )
-        except Exception as e:
-            logger.error(f"Customer order email failed: {e}")
+        )
+    except Exception as e:
+        logger.error(f"Customer order email failed: {e}")
 
     return order_obj
 
