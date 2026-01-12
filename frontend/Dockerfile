@@ -3,10 +3,13 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
+# Enable Yarn (required for Node 18+)
+RUN corepack enable
+
 # Copy package file only
 COPY package.json ./
 
-# Install dependencies (no lockfile required)
+# Install dependencies
 RUN yarn install
 
 # Copy source
