@@ -151,11 +151,6 @@ async def create_lead(input: LeadCreate):
     <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
     """
 
-    @api_router.post("/leads")
-async def create_lead(input: LeadCreate):
-    lead = ...
-    await db.leads.insert_one(doc)
-
     try:
         await send_email(
             subject="New Website Inquiry",
