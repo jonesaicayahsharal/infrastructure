@@ -183,9 +183,34 @@ async def get_product(product_id: str):
 async def create_quote(input: QuoteRequestCreate):
     quote_dict = input.model_dump()
     quote_obj = QuoteRequest(**quote_dict)
+
     doc = quote_obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.quotes.insert_one(doc)
+
+    # 🔔 EMAIL NOTIFICATION (ADMIN)
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    product_list = "<br>".join(quote_obj.products) if quote_obj.products else "N/A"
+
+    email_body = f"""
+    <h2>New Quote Request</h2>
+    <p><strong>Name:</strong> {quote_obj.name}</p>
+    <p><strong>Email:</strong> {quote_obj.email}</p>
+    <p><strong>Phone:</strong> {quote_obj.phone}</p>
+    <p><strong>Parish:</strong> {quote_obj.parish}</p>
+    <p><strong>District:</strong> {quote_obj.district}</p>
+    <p><strong>Interest:</strong> {quote_obj.interest}</p>
+    <p><strong>Products:</strong><br>{product_list}</p>
+    <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
+    """
+
+    await send_email(
+        subject="New Quote Request",
+        recipients=[admin_email],
+        body=email_body,
+    )
+
     return quote_obj
 
 
