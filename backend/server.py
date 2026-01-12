@@ -235,7 +235,7 @@ async def create_quote(input: QuoteRequestCreate):
         )
     except Exception as e:
         print(f"[EMAIL ERROR] Quote email failed: {e}")
-
+    
 
 @api_router.get("/quotes", response_model=List[QuoteRequest])
 async def get_quotes():
