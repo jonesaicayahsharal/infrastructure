@@ -3,27 +3,27 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json ./
+# Copy package file only
+COPY package.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (no lockfile required)
+RUN yarn install
 
-# Copy source code
+# Copy source
 COPY . .
 
-# Build the app
+# Build (CRACO -> build/)
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
-RUN npm run build
+RUN yarn build
 
 # Production stage
 FROM nginx:alpine
 
-# Copy built files
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy build output
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy nginx config
+# Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
