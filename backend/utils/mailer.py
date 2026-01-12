@@ -26,3 +26,23 @@ async def send_email(subject: str, recipients: List[str], body: str):
         password=SMTP_PASS,
         start_tls=True,
     )
+
+
+import logging
+logger = logging.getLogger("server")
+
+async def send_email(subject: str, recipients: list[str], body: str):
+    logger.info(f"SMTP send_email called. subject={subject} recipients={recipients}")
+
+    # hard fail if missing config (so you SEE it)
+    missing = []
+    if not SMTP_HOST: missing.append("SMTP_HOST")
+    if not SMTP_USER: missing.append("SMTP_USER")
+    if not SMTP_PASS: missing.append("SMTP_PASS")
+    if not FROM_EMAIL: missing.append("FROM_EMAIL")
+    if missing:
+        raise RuntimeError(f"Missing SMTP env vars: {', '.join(missing)}")
+
+    ...
+    await aiosmtplib.send(...)
+    logger.info("SMTP send_email completed")
