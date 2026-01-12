@@ -123,6 +123,35 @@ class QuoteRequestCreate(BaseModel):
     specific_needs: Optional[str] = None
 
 
+class OrderItem(BaseModel):
+    product_id: str
+    name: str
+    quantity: int
+    price: float
+
+
+class OrderCreate(BaseModel):
+    customer_name: str
+    customer_email: EmailStr
+    customer_phone: Optional[str] = None
+    items: List[OrderItem]
+    total: float
+    shipping_parish: Optional[str] = None
+    shipping_district: Optional[str] = None
+
+
+class Order(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    customer_name: str
+    customer_email: EmailStr
+    customer_phone: Optional[str]
+    items: List[OrderItem]
+    total: float
+    shipping_parish: Optional[str]
+    shipping_district: Optional[str]
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 @api_router.get("/")
 async def root():
     return {"message": "Jonesaica Infrastructure Solutions API"}
