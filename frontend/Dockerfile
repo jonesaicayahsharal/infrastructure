@@ -1,21 +1,21 @@
 # Build stage
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Enable Yarn (required for Node 18+)
+# Enable yarn
 RUN corepack enable
 
-# Copy package file only
+# Copy package file
 COPY package.json ./
 
-# Install dependencies
-RUN yarn install --legacy-peer-deps
+# Install deps
+RUN yarn install
 
 # Copy source
 COPY . .
 
-# Build (CRACO -> build/)
+# Build
 ARG REACT_APP_BACKEND_URL
 ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 RUN yarn build
@@ -23,10 +23,7 @@ RUN yarn build
 # Production stage
 FROM nginx:alpine
 
-# Copy build output
 COPY --from=build /app/build /usr/share/nginx/html
-
-# Nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
