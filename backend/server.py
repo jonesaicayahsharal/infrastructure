@@ -181,6 +181,11 @@ async def create_lead(input: LeadCreate):
 
     logger.info("📩 Lead endpoint hit — attempting email send")
 
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+if not admin_email:
+    logger.error("ADMIN_EMAIL is not set — skipping email send")
+else:
     try:
         await send_email(
             subject="New Website Inquiry",
@@ -260,6 +265,11 @@ async def create_quote(input: QuoteRequestCreate):
     <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
 
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+if not admin_email:
+    logger.error("ADMIN_EMAIL is not set — skipping email send")
+else:
     try:
         await send_email(
             subject="New Quote Request",
@@ -331,6 +341,11 @@ async def create_order(input: OrderCreate):
     <p>If you have any questions, just reply to this email.</p>
     """
 
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+if not admin_email:
+    logger.error("ADMIN_EMAIL is not set — skipping email send")
+else:
     try:
         await send_email(
             subject="Your Order Confirmation",
