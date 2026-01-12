@@ -36,26 +36,28 @@ export const ContactForm = ({ className = "" }) => {
   };
 
 const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setLoading(true);
 
-  console.log("🔥 CONTACT FORM SUBMIT FIRED", formData);
-
-  setLoading(true);
-
-  try {
-    await axios.post(
-      "https://infrastructure-production-cc30.up.railway.app/api/leads",
-      formData
-    );
-    console.log("✅ AXIOS POST RESOLVED");
-    toast.success("Message sent! We'll get back to you soon.");
-} catch (error) {
-    console.error("❌ AXIOS ERROR", error);
-    toast.error("Something went wrong. Please try again.");
-} finally {
-    setLoading(false);
-  }
-};
+    try {
+      await axios.post(`${API}/leads`, formData);
+      toast.success("Message sent! We'll get back to you soon.");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        parish: "",
+        district: "",
+        interest: "",
+        specific_needs: "",
+      });
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
