@@ -39,7 +39,7 @@ export const ContactForm = ({ className = "" }) => {
     e.preventDefault();
     setLoading(true);
 
- try {
+  try {
       await axios.post(
         "https://infrastructure-production-cc30.up.railway.app/api/leads",
         formData
