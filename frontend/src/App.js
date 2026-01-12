@@ -24,7 +24,7 @@ import QuotePage from "./pages/QuotePage";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 export const API =
   process.env.REACT_APP_BACKEND_URL ||
-  "https://infrastructure-production-cc30.up.railway.app/api";
+  "https://infrastructure-production-cc30.up.railway.app";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
