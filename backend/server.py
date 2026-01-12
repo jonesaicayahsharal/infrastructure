@@ -132,9 +132,31 @@ async def root():
 async def create_lead(input: LeadCreate):
     lead_dict = input.model_dump()
     lead_obj = Lead(**lead_dict)
+
     doc = lead_obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
     await db.leads.insert_one(doc)
+
+    # 🔔 EMAIL NOTIFICATION (ADMIN)
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    email_body = f"""
+    <h2>New Website Inquiry</h2>
+    <p><strong>Name:</strong> {lead_obj.name}</p>
+    <p><strong>Email:</strong> {lead_obj.email}</p>
+    <p><strong>Phone:</strong> {lead_obj.phone}</p>
+    <p><strong>Parish:</strong> {lead_obj.parish}</p>
+    <p><strong>District:</strong> {lead_obj.district}</p>
+    <p><strong>Interest:</strong> {lead_obj.interest}</p>
+    <p><strong>Details:</strong><br>{lead_obj.specific_needs or "N/A"}</p>
+    """
+
+    await send_email(
+        subject="New Website Inquiry",
+        recipients=[admin_email],
+        body=email_body,
+    )
+
     return lead_obj
 
 
