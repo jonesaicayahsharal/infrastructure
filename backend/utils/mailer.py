@@ -9,6 +9,9 @@ SMTP_PASS = os.getenv("SMTP_PASS")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
 
 
+aiosmtplib>=2.0.2
+
+
 async def send_email(subject: str, recipients: list[str], body: str):
     message = EmailMessage()
     message["From"] = FROM_EMAIL
