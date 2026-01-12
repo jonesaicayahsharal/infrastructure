@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
-from utils.email import send_email
+from utils.mailer import send_email
 from enum import Enum
 
 ROOT_DIR = Path(__file__).parent
