@@ -230,7 +230,6 @@ async def create_quote(input: QuoteRequestCreate):
     <p><strong>Details:</strong><br>{quote_obj.specific_needs or "N/A"}</p>
     """
 
-  
    await send_email(
         subject="New Quote Request",
         recipients=[admin_email],
