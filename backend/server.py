@@ -279,6 +279,68 @@ async def get_quotes():
     return quotes
 
 
+@api_router.post("/orders", response_model=Order)
+async def create_order(input: OrderCreate):
+    order = Order(**input.model_dump())
+
+    doc = order.model_dump()
+    doc["created_at"] = doc["created_at"].isoformat()
+    await db.orders.insert_one(doc)
+
+    admin_email = os.getenv("ADMIN_EMAIL")
+
+    # Build item list
+    items_html = "".join(
+        f"<li>{item.quantity} × {item.name} — ${item.price}</li>"
+        for item in order.items
+    )
+
+    # 🔔 ADMIN EMAIL
+    admin_body = f"""
+    <h2>🛒 New Order Received</h2>
+    <p><strong>Name:</strong> {order.customer_name}</p>
+    <p><strong>Email:</strong> {order.customer_email}</p>
+    <p><strong>Phone:</strong> {order.customer_phone or "N/A"}</p>
+    <p><strong>Items:</strong></p>
+    <ul>{items_html}</ul>
+    <p><strong>Total:</strong> ${order.total}</p>
+    """
+
+    try:
+        await send_email(
+            subject="New Order Received",
+            recipients=[admin_email],
+            body=admin_body,
+        )
+    except Exception as e:
+        logger.error(f"Admin order email failed: {e}")
+
+    # 📩 CUSTOMER CONFIRMATION EMAIL
+    customer_body = f"""
+    <h2>Thank you for your order!</h2>
+    <p>Hi {order.customer_name},</p>
+    <p>We’ve received your order and will contact you shortly to confirm details.</p>
+
+    <p><strong>Your Order:</strong></p>
+    <ul>{items_html}</ul>
+
+    <p><strong>Total:</strong> ${order.total}</p>
+
+    <p>If you have any questions, just reply to this email.</p>
+    """
+
+    try:
+        await send_email(
+            subject="Your Order Confirmation",
+            recipients=[order.customer_email],
+            body=customer_body,
+        )
+    except Exception as e:
+        logger.error(f"Customer order email failed: {e}")
+
+    return order_obj
+
+
 @api_router.post("/seed-products")
 async def seed_products():
     await db.products.delete_many({})
