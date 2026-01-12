@@ -246,10 +246,10 @@ async def create_quote(input: QuoteRequestCreate):
     """
 
     try:
-    await send_email(
-        subject="New Quote Request",
-        recipients=[admin_email],
-        body=email_body,
+        await send_email(
+            subject="New Quote Request",
+            recipients=[admin_email],
+            body=email_body,
     )
 except Exception as e:
     logger.error(f"Quote email failed: {e}")
