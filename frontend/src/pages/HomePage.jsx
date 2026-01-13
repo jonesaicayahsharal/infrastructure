@@ -283,7 +283,7 @@ export default function HomePage() {
                     <Phone className="text-royal-950" size={24} />
                   </div>
                   <div>
-                    <p className="text-sm text-royal-400">Call us now</p>
+                    <p className="text-sm text-royal-400">Call or WhatsApp us now</p>
                     <p className="font-bold text-xl">+1-876-842-2916</p>
                   </div>
                 </a>
@@ -323,7 +323,7 @@ export default function HomePage() {
                     <Phone className="text-gold-400" size={24} />
                   </div>
                   <div>
-                    <p className="text-white font-medium">Phone</p>
+                    <p className="text-white font-medium">Phone/WhatsApp</p>
                     <p className="text-royal-400">+1-876-842-2916</p>
                   </div>
                 </div>
