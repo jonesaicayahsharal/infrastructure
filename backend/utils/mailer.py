@@ -1,46 +1,36 @@
 import os
 import logging
-import aiosmtplib
-from email.message import EmailMessage
+import httpx
 
 logger = logging.getLogger(__name__)
 
-SMTP_HOST = os.getenv("SMTP_HOST")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER = os.getenv("SMTP_USER")
-SMTP_PASS = os.getenv("SMTP_PASS")
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
 
 
 async def send_email(subject: str, recipients: list[str], body: str):
-    logger.info("📨 send_email called")
-    logger.info(f"SMTP_HOST={SMTP_HOST}")
-    logger.info(f"SMTP_PORT={SMTP_PORT}")
-    logger.info(f"SMTP_USER={SMTP_USER}")
-    logger.info(f"FROM_EMAIL={FROM_EMAIL}")
-    logger.info(f"Recipients={recipients}")
+    if not RESEND_API_KEY:
+        raise RuntimeError("RESEND_API_KEY not set")
 
-    if not all([SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, FROM_EMAIL]):
-        raise RuntimeError("SMTP environment variables missing")
+    payload = {
+        "from": FROM_EMAIL,
+        "to": recipients,
+        "subject": subject,
+        "html": body,
+    }
 
-    message = EmailMessage()
-    message["From"] = FROM_EMAIL
-    message["To"] = ", ".join(recipients)
-    message["Subject"] = subject
-    message.set_content(body, subtype="html")
-
-    try:
-        await aiosmtplib.send(
-            message,
-            hostname=SMTP_HOST,
-            port=SMTP_PORT,
-            username=SMTP_USER,
-            password=SMTP_PASS,
-            use_tls=True,   # ← IMPORTANT
-            timeout=30,
+    async with httpx.AsyncClient(timeout=20) as client:
+        response = await client.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json=payload,
         )
-        logger.info("✅ Email sent successfully")
 
-    except Exception as e:
-        logger.exception("❌ Email send failed")
-        raise
+    if response.status_code >= 400:
+        logger.error(f"Resend error: {response.text}")
+        raise RuntimeError("Email send failed")
+
+    logger.info("✅ Email sent via Resend")
