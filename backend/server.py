@@ -28,11 +28,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://unique-charisma-production-ea90.up.railway.app",
+        "https://infrastructure-production-cc30.up.railway.app",
         "http://localhost:3000",
-        "*"
     ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -732,13 +732,6 @@ async def seed_products():
 
 app.include_router(api_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 logging.basicConfig(
     level=logging.INFO,
