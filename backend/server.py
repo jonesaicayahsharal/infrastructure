@@ -13,6 +13,17 @@ from utils.mailer import send_email
 from enum import Enum
 from fastapi.middleware.cors import CORSMiddleware
 
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
+
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+client = AsyncIOMotorClient(mongo_url)
+db = client[os.environ.get('DB_NAME', 'jonesaica_db')]
+
+app = FastAPI()
+api_router = APIRouter(prefix="/api")
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -24,16 +35,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
-
-mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ.get('DB_NAME', 'jonesaica_db')]
-
-app = FastAPI()
-api_router = APIRouter(prefix="/api")
 
 
 # Health check endpoint for Railway/deployment
