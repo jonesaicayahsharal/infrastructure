@@ -37,7 +37,7 @@ export default function QuotePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${API}/api/products`);
+        const response = await axios.get(`${API}/products`);
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -65,7 +65,7 @@ export default function QuotePage() {
     setLoading(true);
 
     try {
-      await axios.post(`${API}/api/quotes`, formData);
+      await axios.post(`${API}/quotes`, formData);
       toast.success("Quote request submitted! We'll contact you soon.");
       setSubmitted(true);
     } catch (error) {
