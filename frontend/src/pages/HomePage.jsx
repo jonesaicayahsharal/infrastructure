@@ -54,13 +54,22 @@ const benefits = [
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
+  const [heroProduct, setHeroProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API}/products`);
-        setProducts(response.data.slice(0, 6));
+        const data = response.data;
+        // pick the Deye 5.12kWh battery explicitly
+        const battery = data.find(p =>
+          p.name.toLowerCase().includes("5.12")
+        );
+
+        setHeroProduct(battery);
+        setProducts(data.slice(0, 6));
+
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -135,25 +144,34 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-[4/3] rounded-none overflow-hidden border border-royal-700">
-                <img
-                  src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800"
-                  alt="Solar panel installation"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-royal-950/60 to-transparent" />
-              </div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="absolute -bottom-6 -left-6 glass-card p-6 rounded-none border border-gold-500/30"
-              >
-                <p className="text-gold-400 font-bold text-2xl mb-1">J$185,000</p>
-                <p className="text-white text-sm">Starting - Deye 5.12kWh Battery</p>
-              </motion.div>
-            </motion.div>
+              {heroProduct && (
+                <>
+                  <div className="relative aspect-[4/3] rounded-none overflow-hidden border border-royal-700">
+                    <img
+                      src={heroProduct.image_url}
+                      alt={heroProduct.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-royal-950/60 to-transparent" />
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="absolute -bottom-6 -left-6 glass-card p-6 rounded-none border border-gold-500/30"
+                  >
+                    <p className="text-gold-400 font-bold text-2xl mb-1">
+                      J${heroProduct.sale_price.toLocaleString()}
+                    </p>
+                    <p className="text-white text-sm">
+                      Starting – {heroProduct.name}
+                    </p>
+                  </motion.div>
+                </>
+             )}
+          </motion.div>
+
           </div>
         </div>
       </section>
@@ -179,8 +197,6 @@ export default function HomePage() {
               <ServiceCard 
                 key={service.slug} 
                 service={service} 
-                index={index}
-                size={index === 0 ? "large" : "normal"}
               />
             ))}
           </div>
