@@ -42,7 +42,7 @@ export const LeadCaptureModal = ({ onClose }) => {
     setLoading(true);
 
     try {
-      await axios.post(`${API}/api/leads`, formData);
+      await axios.post(`${API}/leads`, formData);
       toast.success("Thank you! We'll be in touch soon.");
       onClose(true);
     } catch (error) {
