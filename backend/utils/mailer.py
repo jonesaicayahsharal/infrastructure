@@ -36,7 +36,7 @@ async def send_email(subject: str, recipients: list[str], body: str):
             port=SMTP_PORT,
             username=SMTP_USER,
             password=SMTP_PASS,
-            start_tls=True,
+            use_tls=True,   # ← IMPORTANT
             timeout=30,
         )
         logger.info("✅ Email sent successfully")
