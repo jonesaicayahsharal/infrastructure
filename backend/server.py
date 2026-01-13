@@ -11,6 +11,19 @@ import uuid
 from datetime import datetime, timezone
 from utils.mailer import send_email
 from enum import Enum
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://unique-charisma-production-ea90.up.railway.app",
+        "http://localhost:3000",
+        "*"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
