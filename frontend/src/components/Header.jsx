@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ShoppingCart, Sun, Zap, Wrench, Hammer } from "lucide-react";
+import { Menu, X, ShoppingCart, Sun, Zap, Wrench, Hammer, SolarPanel, HousePlug, HardHat } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Header = () => {
@@ -26,10 +26,11 @@ export const Header = () => {
     {
       name: "Services",
       submenu: [
-        { name: "Solar Installation", path: "/services/solar", icon: Sun },
-        { name: "Electrical", path: "/services/electrical", icon: Zap },
+        { name: "Solar Installation", path: "/services/solar", icon: SolarPanel },
+        { name: "Electrical", path: "/services/electrical", icon: HousePlug },
         { name: "Carpentry", path: "/services/carpentry", icon: Hammer },
         { name: "Plumbing", path: "/services/plumbing", icon: Wrench },
+        { name: "Plumbing", path: "/services/plumbing", icon: HardHat }
       ],
     },
     { name: "About", path: "/about" },
