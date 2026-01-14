@@ -7,6 +7,12 @@ import { API } from "../App";
 import { ProductCard } from "../components/ProductCard";
 import { ServiceCard } from "../components/ServiceCard";
 import { ContactForm } from "../components/ContactForm";
+import { rickyHomeSolar } from "../assets/images/ricky-home-solar.jpg";
+import { rickyElectrical } from "../assets/images/ricky-electrical.jpg";
+import { rickyBoardHouse } from "../assets/images/ricky-board-house.jpg";
+import { rickyPlumbing } from "../assets/images/ricky-plumbing.jpg";
+import { rickyStanction } from "../assets/images/ricky-stanction.jpg";
+
 
 const services = [
   {
@@ -14,7 +20,7 @@ const services = [
     slug: "solar",
     description: "Complete solar energy solutions. Inverters, batteries, panels, and professional installation across Jamaica.",
     icon: Sun,
-    image: {ricky-home-solar.jpg},
+    image: rickyHomeSolar,
     path: "/services/solar",
   },
   {
@@ -22,7 +28,7 @@ const services = [
     slug: "electrical",
     description: "Full electrical work for residential and commercial properties. Wiring, installations, repairs, and upgrades.",
     icon: Zap,
-    image: {ricky-electrical.jpg},
+    image: rickyElectrical,
     path: "/services/electrical",
   },
   {
@@ -30,7 +36,7 @@ const services = [
     slug: "carpentry",
     description: "Roof prep, ceiling beams, slab work, animal pens, door jams, board housing, and structural carpentry.",
     icon: Hammer,
-    image: {ricky-board-house.jpg},
+    image: rickyBoardHouse,
     path: "/services/carpentry",
   },
   {
@@ -38,7 +44,7 @@ const services = [
     slug: "plumbing",
     description: "Comprehensive plumbing from installations to repairs. Water systems, drainage, fixtures, and tanks.",
     icon: Wrench,
-    image: {ricky-plumbing.jpg},
+    image: rickyPlumbing,
     path: "/services/plumbing",
   },
 ];
@@ -292,7 +298,7 @@ export default function HomePage() {
 
             <div className="relative">
               <img
-                src={ricky-stanction.jpg}
+                src=rickyStanction
                 alt="Stanction installation work"
                 className="rounded-none border border-royal-700"
               />
