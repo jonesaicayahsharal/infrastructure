@@ -9,7 +9,7 @@ import { ServiceCard } from "../components/ServiceCard";
 import { ContactForm } from "../components/ContactForm";
 import { rickyHomeSolar } from "../assets/images/ricky-home-solar.jpg";
 import { rickyElectrical } from "../assets/images/ricky-electrical.jpg";
-import { rickyBoardHouse } from "../assets/images/ricky-board-house.jpg";
+import { rickyBoardHouse } from "../assets/images/ricky-board-house.PNG";
 import { rickyPlumbing } from "../assets/images/ricky-plumbing.jpg";
 import { rickyStanction } from "../assets/images/ricky-stanction.jpg";
 
