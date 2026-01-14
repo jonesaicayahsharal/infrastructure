@@ -19,6 +19,7 @@ import SolarServicePage from "./pages/services/SolarServicePage";
 import ElectricalServicePage from "./pages/services/ElectricalServicePage";
 import CarpentryServicePage from "./pages/services/CarpentryServicePage";
 import PlumbingServicePage from "./pages/services/PlumbingServicePage";
+import SteelWorkPage from "./pages/services/SteelWokPage";
 import QuotePage from "./pages/QuotePage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -69,6 +70,7 @@ function App() {
             <Route path="/services/electrical" element={<ElectricalServicePage />} />
             <Route path="/services/carpentry" element={<CarpentryServicePage />} />
             <Route path="/services/plumbing" element={<PlumbingServicePage />} />
+            <Route path="/services/steelwork" element={<SteelWorkPage />} />
           </Routes>
         </main>
         <Footer />
