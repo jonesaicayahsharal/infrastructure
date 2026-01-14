@@ -7,11 +7,12 @@ import { API } from "../App";
 import { ProductCard } from "../components/ProductCard";
 import { ServiceCard } from "../components/ServiceCard";
 import { ContactForm } from "../components/ContactForm";
-import { rickyHomeSolar } from "../assets/images/ricky-home-solar.jpg";
-import { rickyElectrical } from "../assets/images/ricky-electrical.jpg";
-import { rickyBoardHouse } from "../assets/images/ricky-board-house.png";
-import { rickyPlumbing } from "../assets/images/ricky-plumbing.jpg";
-import { rickyStanction } from "../assets/images/ricky-stanction.jpg";
+import rickyHomeSolar from "../assets/images/ricky-home-solar.jpg";
+import rickyElectrical from "../assets/images/ricky-electrical.jpg";
+import rickyBoardHouse from "../assets/images/ricky-board-house.png";
+import rickyPlumbing from "../assets/images/ricky-plumbing.jpg";
+import rickyStanction from "../assets/images/ricky-stanction.jpg";
+import rickySteelWork from "../assets/images/rickysteelwork.jpg";
 
 
 const services = [
@@ -26,7 +27,7 @@ const services = [
   {
     title: "Electrical Services",
     slug: "electrical",
-    description: "Full electrical work for residential and commercial properties. Wiring, installations, repairs, and upgrades.",
+    description: "Full electrical work for residential and commercial properties. Stanchion, Piping, Wiring, installations, repairs, and upgrades, etc.",
     icon: Zap,
     image: rickyElectrical,
     path: "/services/electrical",
@@ -34,7 +35,7 @@ const services = [
   {
     title: "Carpentry",
     slug: "carpentry",
-    description: "Roof prep, ceiling beams, slab work, animal pens, door jams, board housing, and structural carpentry.",
+    description: "Roof prep, ceiling beams, slab work, animal pens, door jams, board housing, and structural carpentry, etc.",
     icon: Hammer,
     image: rickyBoardHouse,
     path: "/services/carpentry",
@@ -42,9 +43,17 @@ const services = [
   {
     title: "Plumbing",
     slug: "plumbing",
-    description: "Comprehensive plumbing from installations to repairs. Water systems, drainage, fixtures, and tanks.",
+    description: "Comprehensive plumbing from installations to repairs. Water systems, drainage, fixtures, and tanks, etc.",
     icon: Wrench,
     image: rickyPlumbing,
+    path: "/services/plumbing",
+  },
+  {
+    title: "Steel Work",
+    slug: "Steel Work",
+    description: "Comprehensive steel work from foundation to going upstairs. Decking, foundation, column, beam, and caging, etc.",
+    icon: Wrench,
+    image: rickySteelWork,
     path: "/services/plumbing",
   },
 ];
@@ -298,8 +307,8 @@ export default function HomePage() {
 
             <div className="relative">
               <img
-                src=rickyStanction
-                alt="Stanction installation work"
+                src={rickyStanction}
+                alt="Stanchion installation work"
                 className="rounded-none border border-royal-700"
               />
             </div>
