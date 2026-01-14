@@ -39,7 +39,7 @@ export default function AboutPage() {
             </h1>
             <p className="text-royal-400 text-lg max-w-3xl mx-auto">
               Building Jamaica's Future. Your trusted partner for 
-              solar energy, electrical, plumbing, and carpentry services across the island.
+              solar energy, electrical, plumbing, steel work, and carpentry services across the island.
             </p>
           </motion.div>
         </div>
@@ -63,7 +63,7 @@ export default function AboutPage() {
                   at competitive prices.
                 </p>
                 <p>
-                  Based in the Greenwood/Lilliput district of St. James, we serve the 
+                  Based in the Greenwood/Lilliput District of St. James, we serve the 
                   Trelawny and St. James borders as our primary service area, while 
                   offering island-wide services depending on the project scope.
                 </p>
@@ -71,7 +71,7 @@ export default function AboutPage() {
                   We specialize in solar energy solutions, providing top-quality inverters, 
                   batteries, and panels at prices that beat the local competition. Beyond 
                   solar, we offer comprehensive building services including electrical work, 
-                  plumbing, and carpentry.
+                  plumbing, steel work, and carpentry.
                 </p>
               </div>
             </motion.div>
@@ -166,6 +166,7 @@ export default function AboutPage() {
                   "Carpentry - Roof Prep, Ceiling Beams, Slab Work",
                   "Animal Pens & Shelters",
                   "Door Jams & Door Installation",
+                  "Steel Work - Column, Beams, Caging and Decking",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-royal-400">
                     <CheckCircle className="text-gold-500 flex-shrink-0" size={18} />
