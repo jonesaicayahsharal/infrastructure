@@ -5,28 +5,25 @@ WORKDIR /app
 
 RUN corepack enable
 
-# Copy BOTH package.json AND yarn.lock (cache correctness)
-COPY package.json yarn.lock ./
+# Copy package.json ONLY (since no yarn.lock exists)
+COPY package.json ./
 
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
-# Copy source AFTER dependencies
+# Copy source files AFTER install to force rebuild
 COPY . .
 
-# Force rebuild when source changes
+# This WILL rerun on every source change
 RUN yarn build
 
 
 # ---------- Production stage ----------
 FROM nginx:alpine
 
-# Remove default nginx config to avoid conflicts
 RUN rm /etc/nginx/conf.d/default.conf
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]
