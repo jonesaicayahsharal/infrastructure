@@ -27,7 +27,7 @@ const services = [
   {
     title: "Electrical Services",
     slug: "electrical",
-    description: "Full electrical work for residential and commercial properties. Stanchion, Piping, Wiring, installations, repairs, and upgrades, etc.",
+    description: "Full electrical work for residential and commercial properties. Stanchion, Security Cameras, Piping, Wiring, installations, repairs, and upgrades, etc.",
     icon: HousePlug,
     image: rickyElectrical,
     path: "/services/electrical",
