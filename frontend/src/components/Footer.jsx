@@ -10,6 +10,7 @@ export const Footer = () => {
     { name: "Electrical", path: "/services/electrical" },
     { name: "Carpentry", path: "/services/carpentry" },
     { name: "Plumbing", path: "/services/plumbing" },
+    { name: "Steel Work", path: "/services/SteelWork" }
   ];
 
   const companyLinks = [
