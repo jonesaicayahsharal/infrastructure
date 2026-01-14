@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone, HardHat,HousePlug, SolarPanel } from "lucide-react";
+import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone, HardHat, HousePlug, SolarPanel } from "lucide-react";
 import axios from "axios";
 import { API } from "../App";
 import { ProductCard } from "../components/ProductCard";
