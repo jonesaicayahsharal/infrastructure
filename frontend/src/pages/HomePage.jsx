@@ -54,7 +54,7 @@ const services = [
     description: "Comprehensive steel work from foundation to going upstairs. Decking, foundation, column, beam, and caging, etc.",
     icon: HardHat,
     image: rickySteelWork,
-    path: "/services/plumbing",
+    path: "/services/steelwork",
   },
 ];
 
