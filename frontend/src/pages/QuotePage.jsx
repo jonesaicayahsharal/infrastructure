@@ -16,6 +16,7 @@ const interests = [
   { value: "electrical", label: "Electrical Services" },
   { value: "plumbing", label: "Plumbing" },
   { value: "carpentry", label: "Carpentry" },
+  { value: "steel", label: "Steel Work" },
   { value: "other", label: "Other / Multiple Services" },
 ];
 
