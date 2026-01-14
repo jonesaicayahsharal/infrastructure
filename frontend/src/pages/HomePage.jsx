@@ -14,7 +14,7 @@ const services = [
     slug: "solar",
     description: "Complete solar energy solutions. Inverters, batteries, panels, and professional installation across Jamaica.",
     icon: Sun,
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800",
+    image: {ricky-home-solar.jpg},
     path: "/services/solar",
   },
   {
@@ -22,7 +22,7 @@ const services = [
     slug: "electrical",
     description: "Full electrical work for residential and commercial properties. Wiring, installations, repairs, and upgrades.",
     icon: Zap,
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800",
+    image: {ricky-electrical.jpg},
     path: "/services/electrical",
   },
   {
@@ -30,7 +30,7 @@ const services = [
     slug: "carpentry",
     description: "Roof prep, ceiling beams, slab work, animal pens, door jams, board housing, and structural carpentry.",
     icon: Hammer,
-    image: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800",
+    image: {ricky-board-house.jpg},
     path: "/services/carpentry",
   },
   {
@@ -38,7 +38,7 @@ const services = [
     slug: "plumbing",
     description: "Comprehensive plumbing from installations to repairs. Water systems, drainage, fixtures, and tanks.",
     icon: Wrench,
-    image: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?w=800",
+    image: {ricky-plumbing.jpg},
     path: "/services/plumbing",
   },
 ];
@@ -292,8 +292,8 @@ export default function HomePage() {
 
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
-                alt="Solar installation work"
+                src={ricky-stanction.jpg}
+                alt="Stanction installation work"
                 className="rounded-none border border-royal-700"
               />
             </div>
