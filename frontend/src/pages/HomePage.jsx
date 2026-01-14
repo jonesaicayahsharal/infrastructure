@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone } from "lucide-react";
+import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone, HardHat } from "lucide-react";
 import axios from "axios";
 import { API } from "../App";
 import { ProductCard } from "../components/ProductCard";
@@ -52,7 +52,7 @@ const services = [
     title: "Steel Work",
     slug: "Steel Work",
     description: "Comprehensive steel work from foundation to going upstairs. Decking, foundation, column, beam, and caging, etc.",
-    icon: Wrench,
+    icon: HardHat,
     image: rickySteelWork,
     path: "/services/plumbing",
   },
