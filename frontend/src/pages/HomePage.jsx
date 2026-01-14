@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone, HardHat } from "lucide-react";
+import { Sun, Zap, Hammer, Wrench, ArrowRight, CheckCircle, Phone, HardHat,HousePlug } from "lucide-react";
 import axios from "axios";
 import { API } from "../App";
 import { ProductCard } from "../components/ProductCard";
@@ -20,7 +20,7 @@ const services = [
     title: "Solar Installation",
     slug: "solar",
     description: "Complete solar energy solutions. Inverters, batteries, panels, and professional installation across Jamaica.",
-    icon: Sun,
+    icon: Zap,
     image: rickyHomeSolar,
     path: "/services/solar",
   },
@@ -28,7 +28,7 @@ const services = [
     title: "Electrical Services",
     slug: "electrical",
     description: "Full electrical work for residential and commercial properties. Stanchion, Piping, Wiring, installations, repairs, and upgrades, etc.",
-    icon: Zap,
+    icon: HousePlug,
     image: rickyElectrical,
     path: "/services/electrical",
   },
