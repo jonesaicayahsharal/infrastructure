@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { CheckCircle, Users, Award, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import rickyMixBoard from "../assets/images/ricky-mix-board.jpg";
+
 
 const values = [
   {
@@ -82,7 +84,7 @@ export default function AboutPage() {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+                src={rickyMixBoard}
                 alt="Jonesaica team at work"
                 className="rounded-none border border-royal-700"
               />
