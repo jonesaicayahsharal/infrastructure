@@ -30,7 +30,7 @@ export const Header = () => {
         { name: "Electrical", path: "/services/electrical", icon: HousePlug },
         { name: "Carpentry", path: "/services/carpentry", icon: Hammer },
         { name: "Plumbing", path: "/services/plumbing", icon: Wrench },
-        { name: "Plumbing", path: "/services/plumbing", icon: HardHat }
+        { name: "Steel Work", path: "/services/SteelWork", icon: HardHat }
       ],
     },
     { name: "About", path: "/about" },
