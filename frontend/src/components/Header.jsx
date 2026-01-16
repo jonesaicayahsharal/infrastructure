@@ -50,11 +50,11 @@ export const Header = () => {
         <nav className="flex items-center justify-between h-20">
       
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-5" data-testid="logo-link">
+          <Link to="/" className="flex items-center gap-7" data-testid="logo-link">
           <img
             src="/dark-logo.png"
             alt="Jonesaica Infrastructure Solutions"
-            className="h-20 md:h-24 w-auto object-contain"
+            className="h-28 md:h-30 w-auto object-contain"
           />
             <div className="hidden sm:block">
               <span className="font-heading font-bold text-lg text-white tracking-tight">
@@ -62,6 +62,11 @@ export const Header = () => {
               </span>
               <span className="block text-gold-400 text-[10px] font-medium tracking-widest uppercase -mt-1">
                 Infrastructure
+              </span>
+            </div>
+          </Link>
+            <span className="block text-gold-400 text-[10px] font-medium tracking-widest uppercase -mt-1">
+                Solutions
               </span>
             </div>
           </Link>
