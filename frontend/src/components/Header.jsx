@@ -50,25 +50,33 @@ export const Header = () => {
         <nav className="flex items-center justify-between h-28">
       
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-7" data-testid="logo-link">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-7 select-none"
+            data-testid="logo-link"
+          >
           <img
             src="/dark-logo.png"
             alt="Jonesaica Infrastructure Solutions"
-            className="h-26 md:h-28 w-auto object-contain"
+            className="h-24 md:h-28 w-auto object-contain"
           />
-            <div className="leading-tight">
-            <span className="block font-heading font-bold text-xl md:text-2xl text-royal-300 tracking-tight">
-              JONESAICA
-            </span>
 
-            <span className="block text-gold-400 text-xs md:text-sm font-semibold tracking-widest uppercase">
-               Infrastructure
-            </span>
+          <div className="leading-tight">
+          <span className="block font-heading font-bold text-xl md:text-2xl text-royal-300 tracking-tight">
+            JONESAICA
+          </span>
 
-            <span className="block text-gold-300 text-[11px] md:text-xs font-medium tracking-widest uppercase">
-              Solutions
-            </span>
-        </div>
+         <span className="block text-gold-400 text-xs md:text-sm font-semibold tracking-widest uppercase">
+            Infrastructure
+         </span>
+
+         <span className="block text-gold-300 text-[11px] md:text-xs font-medium tracking-widest uppercase">
+            Solutions
+         </span>
+       </div>
+     </Link>
+
 
 
           {/* Desktop Navigation */}
