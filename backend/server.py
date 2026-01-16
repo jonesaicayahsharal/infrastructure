@@ -48,6 +48,7 @@ class InterestType(str, Enum):
     PLUMBING = "plumbing"
     ELECTRICAL = "electrical"
     CARPENTRY = "carpentry"
+    STEEL = "steel"
     QUOTE = "quote"
     OTHER = "other"
 
