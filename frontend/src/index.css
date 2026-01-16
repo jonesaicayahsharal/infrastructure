@@ -110,3 +110,31 @@
     background: rgba(212, 175, 55, 0.3);
     color: #f5f0e1;
 }
+
+
+/* Prevent mobile zoom on inputs */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* Force modal to fit small screens */
+.modal-backdrop {
+  overflow-y: auto;
+}
+
+.modal-backdrop > div {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Always keep close button reachable */
+[data-testid="close-modal-btn"] {
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(10, 12, 26, 0.9);
+}
+
