@@ -29,6 +29,8 @@ app.add_middleware(
     allow_origins=[
         "https://unique-charisma-production-ea90.up.railway.app",
         "https://infrastructure-production-cc30.up.railway.app",
+        "https://solutions.yahsharal.info",
+        "http://solutions.yasharal",
         "http://localhost:3000",
     ],
     allow_credentials=True,
