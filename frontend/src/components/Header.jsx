@@ -48,11 +48,14 @@ export const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <nav className="flex items-center justify-between h-20">
-          {/* Logo - Text based */}
-          <Link to="/" className="flex items-center gap-3" data-testid="logo-link">
-            <div className="w-10 h-10 bg-gold-500 flex items-center justify-center">
-              <span className="font-heading font-black text-royal-950 text-xl">J</span>
-            </div>
+      
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-4" data-testid="logo-link">
+          <img
+            src="/dark-logo.png"
+            alt="Jonesaica Infrastructure Solutions"
+            className="h-16 md:h-18 w-auto object-contain"
+          />
             <div className="hidden sm:block">
               <span className="font-heading font-bold text-lg text-white tracking-tight">
                 JONESAICA
