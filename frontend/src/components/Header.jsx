@@ -54,13 +54,13 @@ export const Header = () => {
           <img
             src="/dark-logo.png"
             alt="Jonesaica Infrastructure Solutions"
-            className="h-28 md:h-30 w-auto object-contain"
+            className="h-24 md:h-28 w-auto object-contain"
           />
             <div className="hidden sm:block">
               <span className="font-heading font-bold text-lg text-white tracking-tight">
                 JONESAICA
               </span>
-              <span className="block text-gold-400 text-[10px] font-medium tracking-widest uppercase -mt-1">
+              <span className="block text-royal-400 text-[10px] font-medium tracking-widest uppercase -mt-1">
                 Infrastructure
               </span>
             </div>
