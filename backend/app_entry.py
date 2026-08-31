@@ -30,20 +30,35 @@ app.add_middleware(
 )
 
 
+async def ensure_product_catalog():
+    """Restore the existing catalog only when Mongo has no products at all."""
+    product_count = await db.products.count_documents({})
+    if product_count == 0:
+        logger.warning("Product catalog is empty — restoring existing seeded catalog")
+        await seed_products()
+        restored_count = await db.products.count_documents({})
+        logger.info(f"Restored {restored_count} products to Mongo")
+        return restored_count
+    return product_count
+
+
 @app.on_event("startup")
 async def restore_catalog_if_empty():
-    """Restore the existing catalog only when Mongo has no products at all."""
     try:
-        product_count = await db.products.count_documents({})
-        if product_count == 0:
-            logger.warning("Product catalog is empty — restoring existing seeded catalog")
-            await seed_products()
-            restored_count = await db.products.count_documents({})
-            logger.info(f"Restored {restored_count} products to Mongo")
-        else:
-            logger.info(f"Product catalog already contains {product_count} products — no seed performed")
+        await ensure_product_catalog()
     except Exception as exc:
         logger.error(f"Product catalog startup check failed: {exc}")
+
+
+@app.middleware("http")
+async def restore_catalog_before_product_requests(request, call_next):
+    """Guarantee catalog restoration before product pages receive an empty response."""
+    if request.method == "GET" and request.url.path == "/api/products":
+        try:
+            await ensure_product_catalog()
+        except Exception as exc:
+            logger.error(f"Product catalog request-time restoration failed: {exc}")
+    return await call_next(request)
 
 
 @app.middleware("http")
