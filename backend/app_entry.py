@@ -1,4 +1,4 @@
-from server import app
+from server import app, db, seed_products
 from payments import router as payments_router
 from starlette.middleware.cors import CORSMiddleware
 from utils.mailer import send_email
@@ -28,6 +28,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+async def restore_catalog_if_empty():
+    """Restore the existing catalog only when Mongo has no products at all."""
+    try:
+        product_count = await db.products.count_documents({})
+        if product_count == 0:
+            logger.warning("Product catalog is empty — restoring existing seeded catalog")
+            await seed_products()
+            restored_count = await db.products.count_documents({})
+            logger.info(f"Restored {restored_count} products to Mongo")
+        else:
+            logger.info(f"Product catalog already contains {product_count} products — no seed performed")
+    except Exception as exc:
+        logger.error(f"Product catalog startup check failed: {exc}")
 
 
 @app.middleware("http")
